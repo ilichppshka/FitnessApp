@@ -1,0 +1,122 @@
+included:
+  - FitnesApp
+
+excluded:
+  - FitnesApp/Resources
+  - .build
+  - DerivedData
+
+# ── Отключённые правила ────────────────────────────────────────────────────────
+disabled_rules:
+  - trailing_whitespace         # Xcode сам убирает
+  - todo                        # TODO-комментарии разрешены в разработке
+  - opening_brace               # конфликтует со SwiftUI trailing closures
+
+# ── Opt-in правила ────────────────────────────────────────────────────────────
+opt_in_rules:
+  # Стиль кода
+  - empty_count                 # .isEmpty вместо .count == 0
+  - empty_string                # .isEmpty вместо == ""
+  - explicit_init               # запрещает .init() без имени типа
+  - sorted_imports              # импорты по алфавиту
+  - first_where                 # .first(where:) вместо .filter().first
+  - contains_over_filter_count  # .contains вместо .filter().count > 0
+  - contains_over_first_not_nil # .contains вместо .first(where:) != nil
+  - redundant_nil_coalescing    # убирает ?? nil
+  - flatmap_over_map_reduce     # flatMap вместо map + reduce
+  - last_where                  # .last(where:) вместо .filter().last
+  - toggle_bool                 # x.toggle() вместо x = !x
+
+  # Форматирование
+  - operator_usage_whitespace   # пробелы вокруг операторов
+  - collection_alignment        # выравнивание в коллекциях
+  - literal_expression_end_indentation
+  - multiline_arguments         # аргументы на новых строках если не влезают
+  - multiline_function_chains   # цепочки методов на новых строках
+  - multiline_parameters        # параметры функций на новых строках если много
+
+  # Архитектура / безопасность
+  - discouraged_optional_boolean  # Bool? → используй enum с тремя состояниями
+  - discouraged_optional_collection # [T]? → используй []
+  - implicitly_unwrapped_optional   # запрещает ! кроме IBOutlet
+  - unneeded_synthesized_initializer
+  - weak_delegate               # delegate должен быть weak
+  - private_outlet              # @IBOutlet должен быть private
+  - private_action              # @IBAction должен быть private
+  - anonymous_argument_in_multiline_closure # $0 только в однострочных
+
+  # Производительность
+  - reduce_into               # reduce(into:) вместо reduce для мутабельных
+  - prefer_self_in_static_references
+
+# ── Настройки правил ──────────────────────────────────────────────────────────
+line_length:
+  warning: 140
+  error: 200
+  ignores_comments: true
+  ignores_urls: true
+
+file_length:
+  warning: 500
+  error: 800
+
+function_body_length:
+  warning: 60
+  error: 100
+
+function_parameter_count:
+  warning: 6
+  error: 8
+
+type_body_length:
+  warning: 300
+  error: 500
+
+cyclomatic_complexity:
+  warning: 10
+  error: 20
+
+nesting:
+  type_level:
+    warning: 3
+  function_level:
+    warning: 5
+
+identifier_name:
+  min_length:
+    warning: 2
+    error: 1
+  excluded:
+    - id
+    - x
+    - y
+    - dx
+    - dy
+    - to
+    - vm
+
+type_name:
+  min_length: 3
+  max_length:
+    warning: 50
+    error: 60
+
+# ── Кастомные правила ─────────────────────────────────────────────────────────
+custom_rules:
+  no_print:
+    name: "No print statements"
+    regex: '(\bprint\s*\()'
+    message: "Используй OSLog вместо print()"
+    severity: warning
+
+  no_hardcoded_colors:
+    name: "No hardcoded colors"
+    regex: 'Color\(red:|\.init\(red:'
+    message: "Используй Color.App.* из DesignSystem"
+    severity: warning
+
+  no_magic_numbers:
+    name: "No magic numbers in UI"
+    regex: '\.frame\((width|height):\s*\d{3,}'
+    message: "Выноси большие числа в константы"
+    severity: warning

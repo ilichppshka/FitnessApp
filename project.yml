@@ -1,0 +1,42 @@
+name: FitnesApp
+options:
+  bundleIdPrefix: com.ilich
+  deploymentTarget:
+    iOS: "18.6"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    SWIFT_UPCOMING_FEATURE_ISOLATED_DEFAULT_VALUES: YES
+    DEVELOPMENT_TEAM: ""
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+
+targets:
+  FitnesApp:
+    type: application
+    platform: iOS
+    sources:
+      - path: FitnesApp
+        excludes:
+          - "Tests/**"
+    resources:
+      - FitnesApp/Resources
+    info:
+      path: FitnesApp/Resources/Info.plist
+      properties:
+        UIUserInterfaceStyle: Dark
+        UILaunchScreen: {}
+        NSUserNotificationsUsageDescription: "Уведомление об окончании таймера отдыха"
+        UIAppFonts:
+          - SpaceGrotesk-Bold.ttf
+          - SpaceGrotesk-Medium.ttf
+
+  FitnesAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - FitnesApp/Tests
+    dependencies:
+      - target: FitnesApp
