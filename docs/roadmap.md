@@ -6,14 +6,14 @@
 
 Цель: проект компилируется, есть скелет, работает Dark theme.
 
-- [ ] Установить XcodeGen, SwiftLint
-- [ ] Создать `project.yml` (см. [project-structure.md](project-structure.md#4-xcodegen-projectyml))
-- [ ] Создать структуру каталогов `FitnesApp/{App,Core,Data,Domain,Features,DesignSystem,Resources,Tests}`
-- [ ] `FitnesAppApp.swift` с пустой `RootView`, `.preferredColorScheme(.dark)`
-- [ ] Подключить шрифты Space Grotesk + SF Pro
-- [ ] `DesignSystem/Tokens/Colors.swift` — палитра Kinetic Laboratory
-- [ ] `.swiftlint.yml`, базовые правила
-- [ ] CI-чек: `xcodegen generate && xcodebuild -scheme FitnesApp build`
+- [x] Установить XcodeGen, SwiftLint
+- [x] Создать `project.yml` (см. [project-structure.md](project-structure.md#4-xcodegen-projectyml))
+- [x] Создать структуру каталогов `FitnesApp/{App,Core,Data,Domain,Features,DesignSystem,Resources,Tests}`
+- [x] `FitnesAppApp.swift` с пустой `RootView`, `.preferredColorScheme(.dark)`
+- [x] Подключить шрифты Space Grotesk + SF Pro
+- [x] `DesignSystem/Tokens/Colors.swift` — палитра Kinetic Laboratory
+- [x] `.swiftlint.yml`, базовые правила
+- [x] CI-чек: `xcodegen generate && xcodebuild -scheme FitnesApp build`
 
 **Критерий готовности:** приложение запускается на симуляторе, видна тёмная тема и кастомный шрифт.
 
