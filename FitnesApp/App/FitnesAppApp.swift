@@ -8,8 +8,9 @@ struct FitnesAppApp: App {
     init() {
         do {
             modelContainer = try ModelContainer.makeProduction()
+            try DataSeeder.seedIfNeeded(modelContainer.mainContext)
         } catch {
-            fatalError("Failed to create ModelContainer: \(error)")
+            fatalError("Failed to bootstrap ModelContainer: \(error)")
         }
     }
 
