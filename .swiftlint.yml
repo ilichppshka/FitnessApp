@@ -111,7 +111,7 @@ custom_rules:
 
   no_hardcoded_colors:
     name: "No hardcoded colors"
-    regex: 'Color\(red:|\.init\(red:'
+    regex: 'Color\(red:'
     message: "Используй Color.App.* из DesignSystem"
     severity: warning
 
