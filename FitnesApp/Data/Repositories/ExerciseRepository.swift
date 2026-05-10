@@ -5,6 +5,13 @@ protocol ExerciseRepository {
     func all() async throws -> [Exercise]
     func search(query: String, muscleGroupIDs: [UUID]) async throws -> [Exercise]
     func find(id: UUID) async throws -> Exercise?
+    func bestPersonalRecord(exerciseID: UUID) async throws -> PersonalRecordDTO?
+    func addPersonalRecord(
+        exerciseID: UUID,
+        weight: Double,
+        reps: Int,
+        date: Date
+    ) async throws -> PersonalRecordDTO
 }
 
 final class SwiftDataExerciseRepository: ExerciseRepository {
@@ -40,5 +47,30 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
         )
         descriptor.fetchLimit = 1
         return try context.fetch(descriptor).first
+    }
+
+    func bestPersonalRecord(exerciseID: UUID) async throws -> PersonalRecordDTO? {
+        guard let exercise = try await find(id: exerciseID) else { return nil }
+        return exercise.personalRecords.max(by: { $0.weight < $1.weight })?.toDTO()
+    }
+
+    func addPersonalRecord(
+        exerciseID: UUID,
+        weight: Double,
+        reps: Int,
+        date: Date
+    ) async throws -> PersonalRecordDTO {
+        guard let exercise = try await find(id: exerciseID) else {
+            throw AppError.exerciseNotFound(id: exerciseID)
+        }
+        let record = PersonalRecord(
+            exercise: exercise,
+            date: date,
+            weight: weight,
+            reps: reps
+        )
+        context.insert(record)
+        try context.save()
+        return record.toDTO()
     }
 }
