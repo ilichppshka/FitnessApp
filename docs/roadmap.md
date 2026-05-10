@@ -39,14 +39,14 @@
 
 Цель: бизнес-логика поверх репозиториев.
 
-- [ ] `WorkoutService` (startSession, logSet, finishSession, resumeActiveSession)
-- [ ] `AnalyticsService` (weeklyTonnage, monthlyTonnage, sessionHistory)
-- [ ] `TimerService` (workout + rest timers)
-- [ ] `NotificationService` (UNUserNotifications)
-- [ ] `CSVExporter` (actor)
-- [ ] `TonnageCalculator`, `PersonalRecordCalculator`
-- [ ] `AppError` enum
-- [ ] Юнит-тесты сервисов с моками репозиториев
+- [x] `WorkoutService` (startSession, logSet, finishSession, resumeActiveSession)
+- [x] `AnalyticsService` (weeklyTonnage, monthlyTonnage, sessionHistory)
+- [x] `TimerService` (workout + rest timers)
+- [x] `NotificationService` (UNUserNotifications)
+- [x] `CSVExporter` (actor)
+- [x] `TonnageCalculator`, `PersonalRecordCalculator`
+- [x] `AppError` enum
+- [x] Юнит-тесты сервисов с моками репозиториев
 
 **Критерий готовности:** все сервисы покрыты тестами, нет warnings Swift 6 Concurrency.
 
