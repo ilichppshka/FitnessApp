@@ -105,10 +105,10 @@ Pill-инпут, высота 44, заливка `surfaceContainerHigh`, leading
 
 Собираются из примитивов; имеют собственную семантику.
 
-### 3.1 TopBar ⬜️
+### 3.1 TopBar ✅
 Унифицированная шапка экрана: leading IconChip + опциональный центр-title + trailing (IconChip / TextButton / KineticButton-mini). Sticky, прозрачный фон или blur при скролле.
 
-### 3.2 StatTriple ⬜️
+### 3.2 StatTriple ✅
 Три равные колонки `value / LABEL`. Используется минимум на трёх экранах:
 - Dashboard hero — «6 EXERCISES / 45 MIN / 22 SETS»
 - Workout builder header — «5 / 48 min / 18»
@@ -116,76 +116,76 @@ Pill-инпут, высота 44, заливка `surfaceContainerHigh`, leading
 
 Параметры: список из 1..N пар (`value`, `unit?`, `label`).
 
-### 3.3 StatTile ⬜️
+### 3.3 StatTile ✅
 Карточка-плитка для аналитики (Progress): leading IconChip, label, value (`headlineLg`), delta-chip в углу. Сетка 2 колонки.
 
-### 3.4 DeltaPill ⬜️
+### 3.4 DeltaPill ✅
 Уже есть как Chip variant `.delta`, но обычно живёт рядом с метрикой и принимает `(arrow, percent, comparison: String?)`. Можно сделать convenience-инициализатор.
 
-### 3.5 WeekCalendarStrip ⬜️
+### 3.5 WeekCalendarStrip ✅
 Горизонтальный ряд из 7 DayCell. Активный день — заливка primary, текст onPrimary; прошедший — text dimmed. Snap к текущему дню при появлении.
 
-### 3.6 DayCell ⬜️
+### 3.6 DayCell ✅
 Один день: weekday letter (`labelSm` opaque-50%) + число (`titleLg`). Состояния: `.past`, `.today`, `.future`.
 
-### 3.7 RangeTabs ⬜️
+### 3.7 RangeTabs ✅
 Сегментированный пилл со списком вариантов. Progress: «Week / Month / 3M / Year / All». Активный — outline pill, остальные — текст без фона.
 
-### 3.8 SettingsRow ⬜️
+### 3.8 SettingsRow ✅
 Унифицированная строка списка настроек: leading IconChip + title + trailing slot (text-value / Chip / ToggleSwitch). Высота 56, разделитель — `outlineVariant.opacity(0.2)`.
 
-### 3.9 SettingsGroup ⬜️
+### 3.9 SettingsGroup ✅
 Контейнер вокруг N SettingsRow с общим SectionLabel сверху. Карточный фон `surfaceContainerLow`, радиус `md`.
 
-### 3.10 ExerciseListItem ⬜️
+### 3.10 ExerciseListItem ✅
 Строка библиотеки: leading thumbnail (квадрат `sm`-радиус с play-glyph поверх) + title + subtitle (мышцы) + меta (PR/вес) + trailing «+» IconChip.
 Варианты:
 - recent / list — компакт
 - featured — крупная карточка с анимацией (см. 3.11)
 
-### 3.11 FeaturedExerciseCard ⬜️
+### 3.11 FeaturedExerciseCard ✅
 Большая карточка «Exercise of the day»: leading section label + filename meta-tag, центральный title `headlineLg`, мышцы подзаголовком, trailing большая круглая play-кнопка primary с neon glow.
 
-### 3.12 NextWorkoutCard ⬜️
+### 3.12 NextWorkoutCard ✅
 Hero-карточка Dashboard: subtle-chip («TODAY · WEEK 3»), micro-label («MUSCLE FOCUS»), title `headlineLg` («Back Day»), диагональный beam-эффект, embedded StatTriple, ряд outline Chip с мышцами, primary KineticButton «Start Workout». Радиус `lg`, фон `surfaceContainerHigh`.
 
-### 3.13 WeeklyStatsCard ⬜️
+### 3.13 WeeklyStatsCard ✅
 PerformanceCard со встроенным ProgressRing слева и блоком «TOTAL VOLUME · 18,420 kg» справа.
 
-### 3.14 ChartCard ⬜️
+### 3.14 ChartCard ✅
 PerformanceCard, внутри: top-row (label слева, TextButton-deltatab справа) + текущее значение `displayLg` + Swift Charts area-chart с axis-метками месяцев. Реализуется на `Charts` фреймворке.
 
-### 3.15 SetRow ⬜️
+### 3.15 SetRow ✅
 Строка в таблице сетов Workout builder: index | WEIGHT cell | REPS cell | × remove.
 
-### 3.16 SetCell ⬜️
+### 3.16 SetCell ✅
 Inline-инпут с числом + единицей. Тонкий border `outlineVariant`, при focus переходит в `primary`. Используется в SetRow и SetInputPanel.
 
-### 3.17 ExerciseBuilderCard ⬜️
+### 3.17 ExerciseBuilderCard ✅
 Раскрывающаяся карточка упражнения в Workout builder: header (Badge + title + chevron) + N SetRow + «+ Add set» TextButton + RestRow («REST BETWEEN SETS · 02:00»). В свёрнутом состоянии: header + trailing meta «4 × 10–12».
 
-### 3.18 RestRow ⬜️
+### 3.18 RestRow ✅
 Узкая полоса внутри ExerciseBuilderCard или внизу Active workout: leading timer-glyph + label + trailing time. Тачабельна (открывает picker).
 
-### 3.19 SetInputPanel ⬜️
+### 3.19 SetInputPanel ✅
 Двухколоночная панель Active workout: для каждой колонки — column-label + DeltaPill + value `displayLg` + горизонтальный ряд `Stepper - / + `. На минусе/плюсе haptic.
 
-### 3.20 RestTimerBar ⬜️
+### 3.20 RestTimerBar ✅
 Полоса под Active workout CTA: leading label «REST · NEXT SET IN», trailing крупный таймер `displayLg`. Под ней — ряд subtle Chip «-15s / +15s / Skip».
 
-### 3.21 BottomActionDock ⬜️
+### 3.21 BottomActionDock ✅
 Закреплённая снизу полоса (Workout builder, Active workout): summary-text слева + primary KineticButton справа. Прозрачный gradient-фон поверх контента.
 
-### 3.22 MascotStage ⬜️
+### 3.22 MascotStage ✅
 Главный медиа-блок Active workout: квадрат с заливкой `primary` + Lottie/MOV анимация поверх + статус-Chip в углу `LIVE · TECHNIQUE`, filename meta. Снизу TimelineScrubber. Радиус `lg`, neon glow при `.active`.
 
-### 3.23 TimelineScrubber ⬜️
+### 3.23 TimelineScrubber ✅
 Лента воспроизведения внутри MascotStage: время начала + ползунок + текущее время + speed-Chip («1.0×»). Жесты scrubbing.
 
-### 3.24 ProfileCard ⬜️
+### 3.24 ProfileCard ✅
 Карточка пользователя в Settings: AvatarCircle (с edit-overlay) + name `titleLg` + secondary line (email · member since) + StatTriple. Фон `surfaceContainerLow`, радиус `md`.
 
-### 3.25 MascotCard ⬜️
+### 3.25 MascotCard ✅
 Settings: квадратный preview с neon-glow + label «YOUR MASCOT» + title-bold `Athlete · Default` + caption «Tap to change character» + counter Chip «4 LEFT». Тачабельна → MascotPicker.
 
 ### 3.26 PerformanceCard ✅
