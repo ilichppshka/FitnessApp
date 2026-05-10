@@ -9,14 +9,21 @@ struct KineticButton: View {
     let title: String
     var style: KineticButtonStyle = .primary
     var isEnabled: Bool = true
+    var trailingSystemName: String?
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
-            Text(title)
-                .font(Font.App.titleLg)
-                .frame(maxWidth: .infinity)
-                .frame(height: 56)
+            HStack(spacing: Spacing.sm) {
+                Text(title)
+                    .font(Font.App.titleLg)
+                if let trailingSystemName {
+                    Image(systemName: trailingSystemName)
+                        .font(.system(size: 16, weight: .semibold))
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 56)
         }
         .buttonStyle(KineticPressStyle(style: style, isEnabled: isEnabled))
         .disabled(!isEnabled)
@@ -75,6 +82,18 @@ private struct KineticPressStyle: ButtonStyle {
 #Preview("Kinetic Button") {
     VStack(spacing: Spacing.lg) {
         KineticButton(title: "Quick Start", action: {})
+
+        KineticButton(
+            title: "Save Plan",
+            trailingSystemName: "chevron.right",
+            action: {}
+        )
+
+        KineticButton(
+            title: "Complete Set",
+            trailingSystemName: "checkmark",
+            action: {}
+        )
 
         KineticButton(title: "Создать план", style: .secondary, action: {})
 
