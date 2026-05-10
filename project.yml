@@ -43,8 +43,6 @@ targets:
       - path: FitnesApp/DesignSystemApp
         excludes:
           - "Info.plist"
-    resources:
-      - FitnesApp/Resources/Fonts
     info:
       path: FitnesApp/DesignSystemApp/Info.plist
       properties:
@@ -57,6 +55,18 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.ilich.FitnesAppDS
         SWIFT_ACTIVE_COMPILATION_CONDITIONS: $(inherited) DESIGN_SYSTEM_APP
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
+    preBuildScripts:
+      - name: Copy SpaceGrotesk Fonts
+        script: |
+          cp "${SRCROOT}/FitnesApp/Resources/Fonts/SpaceGrotesk-Bold.ttf" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/SpaceGrotesk-Bold.ttf"
+          cp "${SRCROOT}/FitnesApp/Resources/Fonts/SpaceGrotesk-Medium.ttf" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/SpaceGrotesk-Medium.ttf"
+        inputFiles:
+          - $(SRCROOT)/FitnesApp/Resources/Fonts/SpaceGrotesk-Bold.ttf
+          - $(SRCROOT)/FitnesApp/Resources/Fonts/SpaceGrotesk-Medium.ttf
+        outputFiles:
+          - $(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME).app/SpaceGrotesk-Bold.ttf
+          - $(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME).app/SpaceGrotesk-Medium.ttf
 
   FitnesAppTests:
     type: bundle.unit-test
