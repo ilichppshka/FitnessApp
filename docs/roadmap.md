@@ -23,13 +23,13 @@
 
 Цель: SwiftData-модели, репозитории, сидинг каталога.
 
-- [ ] Реализовать все 8 `@Model`-классов из [data-layer.md](data-layer.md#2-модели)
-- [ ] `ModelContainer.makeProduction()` + `makePreview()`
-- [ ] `SchemaV1` + пустой `AppMigrationPlan`
-- [ ] DTO для всех моделей (`Sendable`)
-- [ ] 4 репозитория: `Exercise`, `Workout`, `Session`, `User`
-- [ ] `DataSeeder` + `ExerciseSeed.makeAll(...)` (30+ упражнений)
-- [ ] Юнит-тесты репозиториев на in-memory контейнере
+- [x] Реализовать все 8 `@Model`-классов из [data-layer.md](data-layer.md#2-модели)
+- [x] `ModelContainer.makeProduction()` + `makePreview()`
+- [x] `SchemaV1` + пустой `AppMigrationPlan`
+- [x] DTO для всех моделей (`Sendable`)
+- [x] 4 репозитория: `Exercise`, `Workout`, `Session`, `User`
+- [x] `DataSeeder` + `ExerciseSeed.makeAll(...)` (30+ упражнений)
+- [x] Юнит-тесты репозиториев на in-memory контейнере
 
 **Критерий готовности:** при первом запуске БД заполняется упражнениями, репозитории возвращают данные, тесты зелёные.
 
