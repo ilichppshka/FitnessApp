@@ -56,13 +56,13 @@
 
 Цель: переиспользуемые компоненты UI.
 
-- [ ] `KineticButton` (primary/secondary, Neon Glow)
-- [ ] `PerformanceCard` (surface-container-high, rounded `md`)
-- [ ] `FloatingNavPill` (glassmorphism таб-бар)
-- [ ] `GhostInputField`
-- [ ] `NeonGlowModifier` (drop-shadow с primary)
-- [ ] `Theme.swift` корневой modifier
-- [ ] Каталог компонентов в `#Preview`
+- [x] `KineticButton` (primary/secondary, Neon Glow)
+- [x] `PerformanceCard` (surface-container-high, rounded `md`)
+- [x] `FloatingNavPill` (glassmorphism таб-бар)
+- [x] `GhostInputField`
+- [x] `NeonGlowModifier` (drop-shadow с primary)
+- [x] `Theme.swift` корневой modifier
+- [x] Каталог компонентов в `#Preview`
 
 **Критерий готовности:** есть «storybook» previews для всех компонентов, визуально соответствуют design-system.md.
 
