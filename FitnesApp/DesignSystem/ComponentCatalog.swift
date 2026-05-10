@@ -1,7 +1,7 @@
-#if DEBUG
+#if DEBUG || DESIGN_SYSTEM_APP
 import SwiftUI
 
-private struct ComponentCatalog: View {
+struct ComponentCatalog: View {
     @State private var nameField: String = ""
     @State private var weightField: String = "80"
     @State private var repsField: String = ""

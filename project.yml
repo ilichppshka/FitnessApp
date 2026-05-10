@@ -22,6 +22,7 @@ targets:
       - path: FitnesApp
         excludes:
           - "Tests/**"
+          - "DesignSystemApp/**"
     resources:
       - FitnesApp/Resources
     info:
@@ -33,6 +34,29 @@ targets:
         UIAppFonts:
           - SpaceGrotesk-Bold.ttf
           - SpaceGrotesk-Medium.ttf
+
+  FitnesAppDS:
+    type: application
+    platform: iOS
+    sources:
+      - path: FitnesApp/DesignSystem
+      - path: FitnesApp/DesignSystemApp
+        excludes:
+          - "Info.plist"
+    resources:
+      - FitnesApp/Resources/Fonts
+    info:
+      path: FitnesApp/DesignSystemApp/Info.plist
+      properties:
+        UIUserInterfaceStyle: Dark
+        UILaunchScreen: {}
+        UIAppFonts:
+          - SpaceGrotesk-Bold.ttf
+          - SpaceGrotesk-Medium.ttf
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ilich.FitnesAppDS
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: $(inherited) DESIGN_SYSTEM_APP
 
   FitnesAppTests:
     type: bundle.unit-test

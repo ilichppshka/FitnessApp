@@ -1,4 +1,4 @@
-#if DEBUG
+#if DEBUG || DESIGN_SYSTEM_APP
 import Foundation
 import SwiftUI
 
@@ -12,7 +12,7 @@ private enum DemoRange: String, CaseIterable, Hashable {
     case all = "All"
 }
 
-private struct CompositeCatalog: View {
+struct CompositeCatalog: View {
     @State private var selected: Date = Calendar.current
         .date(from: DateComponents(year: 2026, month: 4, day: 16))!
     @State private var range: DemoRange = .month
