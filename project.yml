@@ -18,6 +18,9 @@ targets:
   FitnesApp:
     type: application
     platform: iOS
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: KINETIK_logo_v2
     sources:
       - path: FitnesApp
         excludes:
