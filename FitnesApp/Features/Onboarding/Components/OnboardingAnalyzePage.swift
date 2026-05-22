@@ -2,20 +2,14 @@ import Charts
 import SwiftUI
 
 struct OnboardingAnalyzePage: View {
-    let progressIndex: Int
-    let totalSteps: Int
-    let onSkip: () -> Void
     let onContinue: () -> Void
 
     var body: some View {
         OnboardingPageScaffold(
-            progressIndex: progressIndex,
-            totalSteps: totalSteps,
             eyebrow: "onboarding.analyze.eyebrow",
             title: "onboarding.analyze.title",
             bodyText: "onboarding.analyze.body",
             ctaTitle: "onboarding.analyze.cta",
-            onSkip: onSkip,
             onContinue: onContinue
         ) {
             demoCard
@@ -83,7 +77,12 @@ struct OnboardingAnalyzePage: View {
             }
         }
         .chartXAxis(.hidden)
-        .chartYAxis(.hidden)
+        .chartYAxis {
+            AxisMarks(values: .automatic(desiredCount: 3)) { _ in
+                AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [4, 4]))
+                    .foregroundStyle(Color.App.onSurface.opacity(0.12))
+            }
+        }
         .frame(height: 80)
     }
 
@@ -99,11 +98,6 @@ struct OnboardingAnalyzePage: View {
 }
 
 #Preview("Analyze") {
-    OnboardingAnalyzePage(
-        progressIndex: 2,
-        totalSteps: 3,
-        onSkip: {},
-        onContinue: {}
-    )
-    .kineticTheme()
+    OnboardingAnalyzePage(onContinue: {})
+        .kineticTheme()
 }

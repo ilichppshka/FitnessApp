@@ -277,6 +277,57 @@
         }
       }
     },
+    "onboarding.log.demo.delta" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+ 2.5kg vs last"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+ 2.5 кг к прошлому"
+          }
+        }
+      }
+    },
+    "onboarding.log.demo.exercise" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EXERCISE 2 OF 5 · CHEST"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "УПРАЖНЕНИЕ 2 ИЗ 5 · ГРУДЬ"
+          }
+        }
+      }
+    },
+    "onboarding.log.demo.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barbell Bench Press"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жим штанги лёжа"
+          }
+        }
+      }
+    },
     "onboarding.log.demo.reps" : {
       "extractionState" : "manual",
       "localizations" : {

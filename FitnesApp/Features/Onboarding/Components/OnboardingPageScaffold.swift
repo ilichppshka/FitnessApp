@@ -1,19 +1,15 @@
 import SwiftUI
 
 struct OnboardingPageScaffold<Hero: View>: View {
-    let progressIndex: Int
-    let totalSteps: Int
     let eyebrow: LocalizedStringResource
     let title: LocalizedStringResource
     let bodyText: LocalizedStringResource
     let ctaTitle: LocalizedStringResource
-    let onSkip: () -> Void
     let onContinue: () -> Void
     @ViewBuilder let hero: () -> Hero
 
     var body: some View {
         VStack(spacing: 0) {
-            header
             Spacer(minLength: Spacing.lg)
             hero()
                 .frame(maxWidth: .infinity)
@@ -22,22 +18,6 @@ struct OnboardingPageScaffold<Hero: View>: View {
             cta
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-
-    private var header: some View {
-        HStack {
-            ProgressDots(total: totalSteps, completed: progressIndex + 1)
-            Spacer()
-            Button(action: onSkip) {
-                Text("onboarding.skip")
-                    .font(Font.App.labelSm)
-                    .foregroundStyle(Color.App.onSurface.opacity(0.6))
-                    .tracking(0.8)
-            }
-            .buttonStyle(.plain)
-        }
-        .padding(.horizontal, Spacing.lg)
-        .padding(.top, Spacing.md)
     }
 
     private var content: some View {
@@ -64,6 +44,6 @@ struct OnboardingPageScaffold<Hero: View>: View {
         )
         .padding(.horizontal, Spacing.lg)
         .padding(.top, Spacing.lg)
-        .padding(.bottom, Spacing.xl)
+        .padding(.bottom, Spacing.xxl)
     }
 }

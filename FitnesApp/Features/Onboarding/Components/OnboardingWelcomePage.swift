@@ -1,20 +1,14 @@
 import SwiftUI
 
 struct OnboardingWelcomePage: View {
-    let progressIndex: Int
-    let totalSteps: Int
-    let onSkip: () -> Void
     let onContinue: () -> Void
 
     var body: some View {
         OnboardingPageScaffold(
-            progressIndex: progressIndex,
-            totalSteps: totalSteps,
             eyebrow: "onboarding.welcome.eyebrow",
             title: "onboarding.welcome.title",
             bodyText: "onboarding.welcome.body",
             ctaTitle: "onboarding.welcome.cta",
-            onSkip: onSkip,
             onContinue: onContinue
         ) {
             heroCircle
@@ -38,11 +32,6 @@ struct OnboardingWelcomePage: View {
 }
 
 #Preview("Welcome") {
-    OnboardingWelcomePage(
-        progressIndex: 0,
-        totalSteps: 3,
-        onSkip: {},
-        onContinue: {}
-    )
-    .kineticTheme()
+    OnboardingWelcomePage(onContinue: {})
+        .kineticTheme()
 }

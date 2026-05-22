@@ -7,38 +7,29 @@ struct OnboardingFlowView: View {
     let onComplete: @MainActor () -> Void
 
     private var totalSteps: Int { OnboardingFlowViewModel.Step.allCases.count }
+    private var currentIndex: Int { viewModel.currentStep.rawValue }
 
     var body: some View {
         ZStack {
             Color.App.surface.ignoresSafeArea()
 
-            TabView(selection: $viewModel.currentStep) {
-                OnboardingWelcomePage(
-                    progressIndex: 0,
-                    totalSteps: totalSteps,
-                    onSkip: viewModel.skip,
-                    onContinue: viewModel.next
-                )
-                .tag(OnboardingFlowViewModel.Step.welcome)
+            VStack(spacing: 0) {
+                header
 
-                OnboardingLogPage(
-                    progressIndex: 1,
-                    totalSteps: totalSteps,
-                    onSkip: viewModel.skip,
-                    onContinue: viewModel.next
-                )
-                .tag(OnboardingFlowViewModel.Step.log)
+                TabView(selection: $viewModel.currentStep) {
+                    OnboardingWelcomePage(onContinue: viewModel.next)
+                        .tag(OnboardingFlowViewModel.Step.welcome)
 
-                OnboardingAnalyzePage(
-                    progressIndex: 2,
-                    totalSteps: totalSteps,
-                    onSkip: viewModel.skip,
-                    onContinue: viewModel.next
-                )
-                .tag(OnboardingFlowViewModel.Step.analyze)
+                    OnboardingLogPage(onContinue: viewModel.next)
+                        .tag(OnboardingFlowViewModel.Step.log)
+
+                    OnboardingAnalyzePage(onContinue: viewModel.next)
+                        .tag(OnboardingFlowViewModel.Step.analyze)
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .ignoresSafeArea(.container, edges: .bottom)
+                .animation(.easeInOut, value: viewModel.currentStep)
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-            .animation(.easeInOut, value: viewModel.currentStep)
         }
         .fullScreenCover(isPresented: $viewModel.showsProfileSetup) {
             ProfileSetupView(
@@ -47,6 +38,22 @@ struct OnboardingFlowView: View {
                 onComplete: onComplete
             )
         }
+    }
+
+    private var header: some View {
+        HStack {
+            ProgressPillBar(total: totalSteps, currentIndex: currentIndex)
+            Spacer()
+            Button(action: viewModel.skip) {
+                Text("onboarding.skip")
+                    .font(Font.App.labelSm)
+                    .foregroundStyle(Color.App.onSurface.opacity(0.6))
+                    .tracking(0.8)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.horizontal, Spacing.lg)
+        .padding(.top, Spacing.md)
     }
 }
 
