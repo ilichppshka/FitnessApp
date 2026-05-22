@@ -4,6 +4,7 @@ options:
   deploymentTarget:
     iOS: "18.6"
   createIntermediateGroups: true
+  developmentLanguage: en
 
 settings:
   base:
@@ -33,7 +34,7 @@ targets:
       properties:
         UIUserInterfaceStyle: Dark
         UILaunchScreen: {}
-        NSUserNotificationsUsageDescription: "Уведомление об окончании таймера отдыха"
+        NSUserNotificationsUsageDescription: "Notification when the rest timer ends"
         UIAppFonts:
           - SpaceGrotesk-Bold.ttf
           - SpaceGrotesk-Medium.ttf

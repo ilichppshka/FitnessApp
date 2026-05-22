@@ -66,6 +66,33 @@ FitnesApp/
 
 ---
 
+## Локализация
+
+Приложение поддерживает **английский** и **русский** языки через String Catalog
+(Xcode 15+). Базовый язык (фолбэк) — английский.
+
+| Файл                                       | Назначение                              |
+| ------------------------------------------ | --------------------------------------- |
+| `FitnesApp/Resources/Localizable.xcstrings` | UI-строки приложения                    |
+| `FitnesApp/Resources/InfoPlist.xcstrings`   | Строки Info.plist (разрешения и т.п.)   |
+
+Ключи — **семантические** (`tab.home`, `common.finish`), а не естественный текст.
+В коде:
+
+```swift
+Text("placeholder.coming_soon")            // литерал → LocalizedStringKey
+Label("tab.home", systemImage: "house.fill")
+String(localized: "common.finish")         // когда нужен String, не View
+```
+
+Каталоги лежат в `Resources/`, которая подключена как ресурсы в `project.yml`, —
+отдельная настройка XcodeGen не требуется.
+
+Проверить язык без смены языка симулятора: **Edit Scheme → Run → Options →
+App Language → Russian**.
+
+---
+
 ## Документация
 
 | Документ                                     | Содержание                     |

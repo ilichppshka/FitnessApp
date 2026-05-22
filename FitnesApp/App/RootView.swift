@@ -11,19 +11,19 @@ struct RootView: View {
         TabView(selection: $bindableRouter.selectedTab) {
             dashboardTab
                 .tag(AppRouter.Tab.dashboard)
-                .tabItem { Label("Главная", systemImage: "house.fill") }
+                .tabItem { Label("tab.home", systemImage: "house.fill") }
 
             libraryTab
                 .tag(AppRouter.Tab.library)
-                .tabItem { Label("Упражнения", systemImage: "dumbbell.fill") }
+                .tabItem { Label("tab.exercises", systemImage: "dumbbell.fill") }
 
-            placeholderTab(title: "Прогресс", systemImage: "chart.bar.fill")
+            placeholderTab(title: "tab.progress", systemImage: "chart.bar.fill")
                 .tag(AppRouter.Tab.progress)
-                .tabItem { Label("Прогресс", systemImage: "chart.bar.fill") }
+                .tabItem { Label("tab.progress", systemImage: "chart.bar.fill") }
 
-            placeholderTab(title: "Настройки", systemImage: "gearshape.fill")
+            placeholderTab(title: "tab.settings", systemImage: "gearshape.fill")
                 .tag(AppRouter.Tab.settings)
-                .tabItem { Label("Настройки", systemImage: "gearshape.fill") }
+                .tabItem { Label("tab.settings", systemImage: "gearshape.fill") }
         }
         .tint(Color.App.primary)
         .fullScreenCover(
@@ -62,7 +62,7 @@ struct RootView: View {
         )
     }
 
-    private func placeholderTab(title: String, systemImage: String) -> some View {
+    private func placeholderTab(title: LocalizedStringKey, systemImage: String) -> some View {
         ZStack {
             Color.App.surface.ignoresSafeArea()
             VStack(spacing: Spacing.md) {
@@ -72,7 +72,7 @@ struct RootView: View {
                 Text(title)
                     .font(Font.App.headlineLg)
                     .foregroundStyle(Color.App.onSurface)
-                Text("Coming soon")
+                Text("placeholder.coming_soon")
                     .font(Font.App.bodyMd)
                     .foregroundStyle(Color.App.onSurface.opacity(0.5))
             }
@@ -88,14 +88,14 @@ private struct ActiveWorkoutPlaceholderView: View {
         ZStack {
             Color.App.surface.ignoresSafeArea()
             VStack(spacing: Spacing.lg) {
-                SectionLabel(text: "Active Session")
+                SectionLabel(text: String(localized: "workout.active_session"))
                 Text(sessionID.uuidString)
                     .font(Font.App.bodyMd)
                     .foregroundStyle(Color.App.onSurface.opacity(0.6))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, Spacing.xl)
 
-                KineticButton(title: "Finish", action: onFinish)
+                KineticButton(title: String(localized: "common.finish"), action: onFinish)
                     .padding(.horizontal, Spacing.lg)
             }
         }
