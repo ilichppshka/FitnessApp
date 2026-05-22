@@ -1,3 +1,4 @@
+import SwiftData
 import SwiftUI
 
 struct ProfileSetupView: View {
@@ -162,3 +163,22 @@ struct ProfileSetupView: View {
         await viewModel.requestNotificationAuthorization()
     }
 }
+
+#if DEBUG
+private final class PreviewNotificationScheduling: NotificationScheduling, @unchecked Sendable {
+    func requestAuthorizationIfNeeded() async throws -> Bool { true }
+    func scheduleRestEnd(after seconds: TimeInterval, sessionID: UUID) async throws {}
+    func cancelRestEnd(sessionID: UUID) async {}
+}
+
+#Preview("Profile Setup") {
+    let mc = try! ModelContainer.makePreview()
+    ProfileSetupView(
+        users: SwiftDataUserRepository(context: mc.mainContext),
+        notifications: PreviewNotificationScheduling(),
+        onComplete: {}
+    )
+    .modelContainer(mc)
+    .kineticTheme()
+}
+#endif

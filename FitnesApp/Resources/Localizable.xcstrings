@@ -467,9 +467,6 @@
     "PR %@" : {
 
     },
-    "Profile form goes here (next step)" : {
-
-    },
     "profileSetup.body" : {
       "extractionState" : "manual",
       "localizations" : {

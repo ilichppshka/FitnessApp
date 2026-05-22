@@ -28,9 +28,11 @@ struct OnboardingWelcomePage: View {
                 .frame(width: 180, height: 180)
                 .neonGlow(radius: 28, opacity: 0.55)
 
-            Image(systemName: "bolt.fill")
-                .font(.system(size: 84, weight: .bold))
-                .foregroundStyle(Color.App.onPrimary)
+            Image("KineticLogo")
+                .renderingMode(.original)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 110, height: 110)
         }
     }
 }
