@@ -524,13 +524,30 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We use this to personalize your tonnage stats and rest reminders."
+            "value" : "Just a couple of details so we can tune KINETIC to you."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это нужно для расчёта тоннажа и напоминаний об отдыхе."
+            "value" : "Пара деталей — и мы настроим KINETIC под тебя."
+          }
+        }
+      }
+    },
+    "profileSetup.brand" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KINETIC"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KINETIC"
           }
         }
       }
@@ -582,6 +599,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ПОСЛЕДНИЙ ШАГ"
+          }
+        }
+      }
+    },
+    "profileSetup.mascot.hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CHANGE LATER"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "СМЕНИТЬ ПОЗЖЕ"
           }
         }
       }
@@ -650,6 +684,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Йог"
+          }
+        }
+      }
+    },
+    "profileSetup.name.hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TAP TO EDIT"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "НАЖМИТЕ ДЛЯ ВВОДА"
           }
         }
       }

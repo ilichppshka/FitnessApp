@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import UIKit
 
 struct ProfileSetupView: View {
     @AppStorage("notificationPromptShown") private var notificationPromptShown = false
@@ -25,21 +26,23 @@ struct ProfileSetupView: View {
 
             VStack(spacing: 0) {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: Spacing.xl) {
-                        header
-                        avatar
-                        nameSection
-                        weightSection
-                        mascotSection
-                        if let errorMessage = viewModel.errorMessage {
-                            Text(errorMessage)
-                                .font(Font.App.bodyMd)
-                                .foregroundStyle(.red)
+                    VStack(spacing: Spacing.xl) {
+                        hero
+                        introCopy
+                        VStack(alignment: .leading, spacing: Spacing.xl) {
+                            nameSection
+                            weightSection
+                            mascotSection
+                            if let errorMessage = viewModel.errorMessage {
+                                Text(errorMessage)
+                                    .font(Font.App.bodyMd)
+                                    .foregroundStyle(.red)
+                            }
                         }
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(maxWidth: .infinity)
                     .padding(.horizontal, Spacing.lg)
-                    .padding(.top, Spacing.xl)
+                    .padding(.top, Spacing.lg)
                     .padding(.bottom, Spacing.lg)
                 }
 
@@ -51,27 +54,37 @@ struct ProfileSetupView: View {
         }
     }
 
-    private var header: some View {
-        VStack(alignment: .leading, spacing: Spacing.sm) {
-            SectionLabel(text: String(localized: "profileSetup.eyebrow"))
-            Text("profileSetup.title")
-                .font(Font.App.headlineLg)
-                .foregroundStyle(Color.App.onSurface)
-            Text("profileSetup.body")
-                .font(Font.App.bodyMd)
-                .foregroundStyle(Color.App.onSurface.opacity(0.6))
+    private var hero: some View {
+        VStack(spacing: Spacing.lg) {
+            Text("profileSetup.brand")
+                .font(Font.App.labelSm)
+                .tracking(1.6)
+                .foregroundStyle(Color.App.onSurface.opacity(0.55))
+
+            ProfileAvatarHero(
+                initial: avatarInitial,
+                mascotSystemImage: viewModel.selectedMascot.systemImage
+            )
         }
     }
 
-    private var avatar: some View {
-        HStack {
-            Spacer()
-            AvatarCircle(
-                initial: avatarInitial,
-                size: 96,
-                overlayBadge: Image(systemName: viewModel.selectedMascot.systemImage)
-            )
-            Spacer()
+    private var introCopy: some View {
+        VStack(spacing: Spacing.sm) {
+            Text("profileSetup.eyebrow")
+                .font(Font.App.labelSm)
+                .tracking(1.2)
+                .foregroundStyle(Color.App.primary)
+
+            Text("profileSetup.title")
+                .font(Font.App.headlineLg)
+                .foregroundStyle(Color.App.onSurface)
+                .multilineTextAlignment(.center)
+
+            Text("profileSetup.body")
+                .font(Font.App.bodyMd)
+                .foregroundStyle(Color.App.onSurface.opacity(0.6))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, Spacing.md)
         }
     }
 
@@ -79,68 +92,110 @@ struct ProfileSetupView: View {
         if let first = viewModel.trimmedName.first {
             return String(first).uppercased()
         }
-        return "K"
+        return "A"
     }
 
     private var nameSection: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            SectionLabel(text: String(localized: "profileSetup.name.label"))
-            GhostInputField(
-                placeholder: String(localized: "profileSetup.name.placeholder"),
-                text: $viewModel.name
-            )
+            labelRow(label: "profileSetup.name.label", hint: "profileSetup.name.hint")
+            outlinedNameField
         }
+    }
+
+    private var outlinedNameField: some View {
+        OutlinedTextField(
+            placeholder: String(localized: "profileSetup.name.placeholder"),
+            text: $viewModel.name
+        )
     }
 
     private var weightSection: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            SectionLabel(text: String(localized: "profileSetup.weight.label"))
-            HStack(spacing: Spacing.md) {
-                StepperButton(
-                    kind: .minus,
-                    isEnabled: viewModel.canDecrementWeight,
-                    action: viewModel.decrementWeight
-                )
-
-                weightValue
-
-                StepperButton(
-                    kind: .plus,
-                    isEnabled: viewModel.canIncrementWeight,
-                    action: viewModel.incrementWeight
-                )
-            }
+            labelRow(label: "profileSetup.weight.label", hint: nil)
+            weightRow
         }
     }
 
-    private var weightValue: some View {
-        HStack(alignment: .firstTextBaseline, spacing: Spacing.xs) {
-            Text(weightDisplay)
-                .font(Font.App.headlineLg)
-                .foregroundStyle(Color.App.onSurface)
-            Text("profileSetup.weight.unit")
-                .font(Font.App.bodyMd)
-                .foregroundStyle(Color.App.onSurface.opacity(0.5))
+    private var weightRow: some View {
+        HStack(spacing: Spacing.md) {
+            weightDisplay
+            Spacer(minLength: Spacing.md)
+            HStack(spacing: Spacing.sm) {
+                inlineStepper(kind: .minus, isEnabled: viewModel.canDecrementWeight, action: viewModel.decrementWeight)
+                inlineStepper(kind: .plus, isEnabled: viewModel.canIncrementWeight, action: viewModel.incrementWeight)
+            }
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, Spacing.sm)
+        .padding(.horizontal, Spacing.md)
+        .padding(.vertical, Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: Radii.md)
                 .fill(Color.App.surfaceContainerHigh)
         )
     }
 
-    private var weightDisplay: String {
+    private var weightDisplay: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 4) {
+            Text(weightValueText)
+                .font(Font.App.headlineLg)
+                .foregroundStyle(Color.App.onSurface)
+                .contentTransition(.numericText())
+                .animation(.easeInOut(duration: 0.22), value: viewModel.bodyWeightKg)
+            Text("profileSetup.weight.unit")
+                .font(Font.App.bodyMd)
+                .foregroundStyle(Color.App.onSurface.opacity(0.5))
+        }
+    }
+
+    private var weightValueText: String {
         if viewModel.bodyWeightKg.truncatingRemainder(dividingBy: 1) == 0 {
             return String(Int(viewModel.bodyWeightKg))
         }
         return String(format: "%.1f", viewModel.bodyWeightKg)
     }
 
+    private func inlineStepper(
+        kind: StepperKind,
+        isEnabled: Bool,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            action()
+        } label: {
+            Image(systemName: kind.systemName)
+                .font(.system(size: 14, weight: .bold))
+                .foregroundStyle(Color.App.onSurface)
+                .frame(width: 40, height: 32)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.App.surface)
+                )
+        }
+        .buttonStyle(.plain)
+        .disabled(!isEnabled)
+        .opacity(isEnabled ? 1 : 0.35)
+    }
+
     private var mascotSection: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            SectionLabel(text: String(localized: "profileSetup.mascot.label"))
+            labelRow(label: "profileSetup.mascot.label", hint: "profileSetup.mascot.hint")
             MascotPickerGrid(selection: $viewModel.selectedMascot)
+        }
+    }
+
+    private func labelRow(
+        label: LocalizedStringResource,
+        hint: LocalizedStringResource?
+    ) -> some View {
+        HStack {
+            SectionLabel(text: String(localized: label))
+            Spacer()
+            if let hint {
+                Text(hint)
+                    .font(Font.App.labelSm)
+                    .foregroundStyle(Color.App.onSurface.opacity(0.4))
+                    .tracking(0.8)
+            }
         }
     }
 
@@ -161,6 +216,35 @@ struct ProfileSetupView: View {
         guard !notificationPromptShown else { return }
         notificationPromptShown = true
         await viewModel.requestNotificationAuthorization()
+    }
+}
+
+private struct OutlinedTextField: View {
+    let placeholder: String
+    @Binding var text: String
+
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        TextField(placeholder, text: $text)
+            .font(Font.App.titleLg)
+            .foregroundStyle(Color.App.onSurface)
+            .tint(Color.App.primary)
+            .focused($isFocused)
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.md)
+            .background(
+                RoundedRectangle(cornerRadius: Radii.md)
+                    .fill(Color.App.surfaceContainerLow)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: Radii.md)
+                    .strokeBorder(
+                        isFocused ? Color.App.primary : Color.App.outlineVariant.opacity(0.6),
+                        lineWidth: isFocused ? 1.5 : 1
+                    )
+            )
+            .animation(.easeInOut(duration: 0.15), value: isFocused)
     }
 }
 
