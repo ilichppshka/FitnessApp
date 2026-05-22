@@ -5,6 +5,7 @@ import SwiftData
 final class DIContainer {
     let workoutService: any WorkoutServicing
     let analyticsService: any AnalyticsServicing
+    let notificationService: any NotificationScheduling
     let exerciseRepository: any ExerciseRepository
     let sessionRepository: any SessionRepository
     let workoutRepository: any WorkoutRepository
@@ -22,5 +23,6 @@ final class DIContainer {
         self.userRepository = userRepo
         self.workoutService = WorkoutService(sessions: sessionRepo, exercises: exerciseRepo)
         self.analyticsService = AnalyticsService(sessions: sessionRepo, exercises: exerciseRepo)
+        self.notificationService = NotificationService()
     }
 }

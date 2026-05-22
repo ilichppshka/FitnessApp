@@ -2,7 +2,21 @@ import SwiftData
 import SwiftUI
 
 struct RootView: View {
-    @Environment(DIContainer.self) private var container
+    @AppStorage("onboardingCompleted") private var onboardingCompleted = false
+
+    var body: some View {
+        Group {
+            if onboardingCompleted {
+                MainTabsView()
+            } else {
+                OnboardingFlowView(onComplete: { onboardingCompleted = true })
+            }
+        }
+        .animation(.easeInOut, value: onboardingCompleted)
+    }
+}
+
+private struct MainTabsView: View {
     @Environment(AppRouter.self) private var router
 
     var body: some View {
