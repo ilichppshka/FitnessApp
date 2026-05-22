@@ -9,11 +9,11 @@ struct RootView: View {
         @Bindable var bindableRouter = router
 
         TabView(selection: $bindableRouter.selectedTab) {
-            dashboardTab
+            placeholderTab(title: "tab.home", systemImage: "house.fill")
                 .tag(AppRouter.Tab.dashboard)
                 .tabItem { Label("tab.home", systemImage: "house.fill") }
 
-            libraryTab
+            placeholderTab(title: "tab.exercises", systemImage: "dumbbell.fill")
                 .tag(AppRouter.Tab.library)
                 .tabItem { Label("tab.exercises", systemImage: "dumbbell.fill") }
 
@@ -38,28 +38,6 @@ struct RootView: View {
                 }
             }
         }
-    }
-
-    private var dashboardTab: some View {
-        DashboardView(
-            vm: DashboardViewModel(
-                analytics: container.analyticsService,
-                workouts: container.workoutRepository,
-                workoutService: container.workoutService
-            ),
-            onStartSession: { session in
-                router.presentActiveWorkout(sessionID: session.id)
-            }
-        )
-    }
-
-    private var libraryTab: some View {
-        ExerciseLibraryView(
-            vm: ExerciseLibraryViewModel(
-                exercisesRepo: container.exerciseRepository
-            ),
-            exercisesRepo: container.exerciseRepository
-        )
     }
 
     private func placeholderTab(title: LocalizedStringKey, systemImage: String) -> some View {
