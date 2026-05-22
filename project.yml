@@ -22,6 +22,10 @@ targets:
     settings:
       base:
         ASSETCATALOG_COMPILER_APPICON_NAME: KINETIK_logo_v2
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
     sources:
       - path: FitnesApp
         excludes:
@@ -60,6 +64,10 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.ilich.FitnesAppDS
         SWIFT_ACTIVE_COMPILATION_CONDITIONS: $(inherited) DESIGN_SYSTEM_APP
         ENABLE_USER_SCRIPT_SANDBOXING: NO
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
     preBuildScripts:
       - name: Copy SpaceGrotesk Fonts
         script: |
@@ -80,5 +88,8 @@ targets:
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
     dependencies:
       - target: FitnesApp
