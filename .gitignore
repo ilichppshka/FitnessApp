@@ -54,6 +54,9 @@ Thumbs.db
 AuthKey_*.p8
 GoogleService-Info.plist
 
+.preview/
+docs/pptx/
+
 # ── Инструменты ───────────────────────────────────────────────────────────────
 .swiftlint.cache
 fastlane/report.xml
