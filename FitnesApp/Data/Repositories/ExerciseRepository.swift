@@ -6,6 +6,7 @@ protocol ExerciseRepository {
     func search(query: String, muscleGroupIDs: [UUID]) async throws -> [Exercise]
     func find(id: UUID) async throws -> Exercise?
     func bestPersonalRecord(exerciseID: UUID) async throws -> PersonalRecordDTO?
+    func personalRecordHistory(exerciseID: UUID) async throws -> [PersonalRecordDTO]
     func addPersonalRecord(
         exerciseID: UUID,
         weight: Double,
@@ -52,6 +53,13 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
     func bestPersonalRecord(exerciseID: UUID) async throws -> PersonalRecordDTO? {
         guard let exercise = try await find(id: exerciseID) else { return nil }
         return exercise.personalRecords.max(by: { $0.weight < $1.weight })?.toDTO()
+    }
+
+    func personalRecordHistory(exerciseID: UUID) async throws -> [PersonalRecordDTO] {
+        guard let exercise = try await find(id: exerciseID) else { return [] }
+        return exercise.personalRecords
+            .sorted { $0.date > $1.date }
+            .map { $0.toDTO() }
     }
 
     func addPersonalRecord(

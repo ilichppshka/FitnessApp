@@ -5,6 +5,7 @@ struct WeekCalendarStrip: View {
     let week: [Date]
     @Binding var selectedDate: Date
     var today: Date = Date()
+    var activeDates: Set<Date> = []
     var calendar: Calendar = .current
     var locale: Locale = .current
 
@@ -16,6 +17,7 @@ struct WeekCalendarStrip: View {
                     day: calendar.component(.day, from: date),
                     state: state(for: date),
                     isSelected: calendar.isDate(date, inSameDayAs: selectedDate),
+                    isActive: activeDates.contains { calendar.isDate($0, inSameDayAs: date) },
                     action: { selectedDate = date }
                 )
                 .frame(maxWidth: .infinity)

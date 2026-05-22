@@ -11,6 +11,7 @@ struct DayCell: View {
     let day: Int
     let state: DayCellState
     var isSelected: Bool = false
+    var isActive: Bool = false
     var action: (() -> Void)?
 
     var body: some View {
@@ -41,6 +42,17 @@ struct DayCell: View {
             RoundedRectangle(cornerRadius: Radii.sm)
                 .strokeBorder(border, lineWidth: 1)
         )
+        .overlay(alignment: .bottom) {
+            Circle()
+                .fill(dotColor)
+                .frame(width: 4, height: 4)
+                .padding(.bottom, 6)
+                .opacity(isActive ? 1 : 0)
+        }
+    }
+
+    private var dotColor: Color {
+        isSelected ? Color.App.onPrimary : Color.App.primary
     }
 
     private var letterColor: Color {
