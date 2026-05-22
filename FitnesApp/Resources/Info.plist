@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSUserNotificationsUsageDescription</key>
-	<string>Уведомление об окончании таймера отдыха</string>
+	<string>Notification when the rest timer ends</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SpaceGrotesk-Bold.ttf</string>
