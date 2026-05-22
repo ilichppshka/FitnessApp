@@ -21,6 +21,8 @@ final class MockExerciseRepository: ExerciseRepository {
         return bestPRResult
     }
 
+    func personalRecordHistory(exerciseID: UUID) async throws -> [PersonalRecordDTO] { [] }
+
     func addPersonalRecord(
         exerciseID: UUID,
         weight: Double,
