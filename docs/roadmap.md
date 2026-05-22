@@ -68,6 +68,26 @@
 
 ---
 
+## Фаза 3.5 · Onboarding + Profile Setup (2–3 дня)
+
+Точка входа для нового пользователя: 3-шаговый онбординг и первичное создание `UserProfile`. Детали — [onboarding.md](onboarding.md), [profile-setup.md](profile-setup.md).
+
+- [ ] `OnboardingFlowView` + `OnboardingFlowViewModel`
+- [ ] `OnboardingPageScaffold` (общий контейнер: ProgressDots + Skip + CTA)
+- [ ] 3 страницы: `OnboardingWelcomePage` (с `bolt.fill` заглушкой), `OnboardingLogPage`, `OnboardingAnalyzePage`
+- [ ] `ProfileSetupView` + `ProfileSetupViewModel`
+- [ ] Системный prompt `UNUserNotifications` через `NotificationScheduling.requestAuthorizationIfNeeded()` в `.task` у `ProfileSetupView` (одноразово, под флагом `@AppStorage("notificationPromptShown")`)
+- [ ] `MascotPickerGrid` + `MascotOption` (SF Symbol заглушки)
+- [ ] `@AppStorage("onboardingCompleted")` интеграция в `RootView`
+- [ ] Локализация всех ключей `onboarding.*`, `profileSetup.*` (en + ru)
+- [ ] Юнит-тест `ProfileSetupViewModelTests.testSaveCreatesUserProfile`
+- [ ] `#Preview` для всех новых view
+- [ ] Заменить `bolt.fill` на бренд-SVG из `Resources/Assets.xcassets` (когда пользователь его положит)
+
+**Критерий готовности:** на чистом симуляторе при первом запуске видны 3 страницы онбординга → форма профиля → после сохранения попадаем на Dashboard-плейсхолдер. `UserProfile` создан в SwiftData. При повторном запуске онбординг не показывается.
+
+---
+
 ## Фаза 4 · Dashboard (1–2 дня)
 
 - [ ] `DashboardViewModel` + загрузка статистики недели
@@ -177,16 +197,16 @@
 ## Сводная диаграмма зависимостей
 
 ```
-Bootstrap ─► Data ─► Domain ─► Components ─┬─► Dashboard
-                                            ├─► Library ──► Active Workout
-                                            ├─► Builder
-                                            ├─► Progress
-                                            └─► Settings
-                                                │
-                                          Mascot Integration ─► Polish
+Bootstrap ─► Data ─► Domain ─► Components ─► Onboarding + ProfileSetup ─┬─► Dashboard
+                                                                         ├─► Library ──► Active Workout
+                                                                         ├─► Builder
+                                                                         ├─► Progress
+                                                                         └─► Settings
+                                                                             │
+                                                                       Mascot Integration ─► Polish
 ```
 
-Можно вести Library, Builder, Progress, Settings параллельно после Фазы 3.
+Можно вести Library, Builder, Progress, Settings параллельно после Фазы 3.5.
 Active Workout зависит от Library (нужен список упражнений для добавления сетов вне плана).
 
 ## Definition of Done для каждой фазы

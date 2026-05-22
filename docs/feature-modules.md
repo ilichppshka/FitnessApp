@@ -2,6 +2,22 @@
 
 Декомпозиция каждого экрана: View → ViewModel → зависимости → состояние → переходы.
 
+> Точка входа в флоу для нового пользователя — **Onboarding → Profile Setup**. Эти два модуля описаны отдельно в [onboarding.md](onboarding.md) и [profile-setup.md](profile-setup.md), так как у них есть собственные специфические UI-паттерны (paging-TabView, `@AppStorage`-флаг, форма с валидацией). После сохранения профиля управление переходит на `Dashboard` (см. ниже).
+
+## 0. Onboarding + Profile Setup
+
+**Файлы:** `Features/Onboarding/`, `Features/ProfileSetup/`
+**Цель:** Первый запуск — обучение и создание `UserProfile`.
+
+| Модуль | Что делает | Документ |
+| ------ | ---------- | -------- |
+| Onboarding | 3-страничный paging-TabView с обучением (Welcome / Log / Analyze) | [onboarding.md](onboarding.md) |
+| Profile Setup | Форма имя / вес / маскот, сохранение в SwiftData, выставление `@AppStorage("onboardingCompleted") = true` | [profile-setup.md](profile-setup.md) |
+
+Переход на Dashboard происходит автоматически после `onComplete` от `ProfileSetupView` — `RootView` перерисовывается из ветки онбординга в `TabView`.
+
+---
+
 ## 1. Dashboard
 
 **Файлы:** `Features/Dashboard/`
