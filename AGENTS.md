@@ -176,6 +176,92 @@
 
 ---
 
+## User Flow
+
+Полный пользовательский флоу приложения. Является точкой опоры при реализации навигации (`NavigationStack`, `TabView`, sheets) и роутинга.
+
+### 1. Первый запуск
+
+**Onboarding (3 шага)** — знакомство с приложением, без возможности пропуска:
+
+- [OnB_01_Welcome.png](docs/app-design/screens/OnB_01_Welcome.png) — приветствие, ценностное предложение
+- [OnB_02_Log.png](docs/app-design/screens/OnB_02_Log.png) — как логировать подходы
+- [OnB_03_Analyze.png](docs/app-design/screens/OnB_03_Analyze.png) — как читать прогресс
+
+**Profile Setup** → [Profile Setup.png](docs/app-design/screens/Profile%20Setup.png):
+
+- Имя, вес тела, выбор маскота, разрешения (уведомления / хаптика)
+- Создаётся `UserProfile` в SwiftData
+- Флаг «онбординг пройден» сохраняется, при следующих запусках не показываем
+
+### 2. Основная навигация (TabView, 4 вкладки)
+
+#### Таб 1: Dashboard → [Dashboard.png](docs/app-design/screens/Dashboard.png)
+
+Главный хаб действий:
+
+- Горизонтальный календарь недели
+- Виджет «Следующая тренировка»
+- Быстрая статистика (тоннаж, кол-во тренировок, кольцо прогресса)
+- **«Быстрый старт»** → запускает `WorkoutSession` без плана → **Active Workout**
+- **«Создать тренировку»** → открывает **Workout Builder** (создание нового `WorkoutPlan`)
+- **Тап по шаблону тренировки** → запускает сессию по плану → **Active Workout**
+
+#### Таб 2: Exercise Library → [Exercise library.png](docs/app-design/screens/Exercise%20library.png)
+
+Каталог упражнений:
+
+- Поиск + фильтр-чипсы по `MuscleGroup`
+- **Тап по карточке** → **Exercise Detail** (Sheet): описание, техника, ошибки, история `PersonalRecord`, анимация маскота
+
+#### Таб 3: Progress & Analytics → [Progress and analytics.png](docs/app-design/screens/Progress%20and%20analytics.png)
+
+История и аналитика **завершённых сессий** (`WorkoutSession` с `finishedAt != nil`):
+
+- График тоннажа (`SwiftUI.Charts`)
+- Список пройденных сессий (хронологически)
+- **Тап по сессии** → **Session Detail (превью)** — read-only: упражнения, подходы, вес × повторы, итоговый тоннаж, длительность
+
+#### Таб 4: Settings & Profile → [Settings and profile.png](docs/app-design/screens/Settings%20and%20profile.png)
+
+- Профиль, смена маскота, настройки уведомлений / звука / хаптики
+- Экспорт CSV истории тренировок
+
+### 3. Вспомогательные экраны
+
+**Workout Builder** → [Workout builder.png](docs/app-design/screens/Workout%20builder.png)
+
+- Вход: только с Dashboard
+- Drag & Drop список `PlanExercise`, настройка `targetSets` и `restDuration`
+- Сохранение → новый `WorkoutPlan`, возврат на Dashboard
+
+**Active Workout** → [Active workout.png](docs/app-design/screens/Active%20workout.png)
+
+- Вход: с Dashboard (Быстрый старт или тап по шаблону)
+- Ввод веса / повторов, таймер отдыха, нижняя панель таймеров, маскот сверху
+- При закрытии приложения сессия сохраняется (`finishedAt == nil`)
+
+### 4. Восстановление активной сессии
+
+При запуске приложения (после онбординга) проверяется наличие `WorkoutSession` с `finishedAt == nil`:
+
+- Если есть → сразу открываем **Active Workout** поверх Dashboard
+- Если нет → стандартный Dashboard
+
+### Карта переходов
+
+```
+[Onboarding] → [Profile Setup] → [TabView]
+                                    ├── Dashboard ──┬→ Workout Builder
+                                    │               ├→ Active Workout (быстрый старт)
+                                    │               └→ Active Workout (по плану)
+                                    ├── Exercise Library → Exercise Detail (Sheet)
+                                    ├── Progress → Session Detail (превью)
+                                    └── Settings
+```
+
+---
+
 ## 1. Архитектор системы (System Architect Agent)
 
 **Цель:** Проектирование масштабируемой структуры приложения и схемы данных.
