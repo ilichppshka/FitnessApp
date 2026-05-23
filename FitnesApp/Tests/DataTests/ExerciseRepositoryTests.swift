@@ -82,6 +82,20 @@ struct ExerciseRepositoryTests {
         #expect(found == nil)
     }
 
+    @Test
+    func allMuscleGroupsReturnsSeededGroupsSortedByName() async throws {
+        let container = try InMemoryContainer.make()
+        let context = container.mainContext
+        try DataSeeder.seedIfNeeded(context)
+        let repo = SwiftDataExerciseRepository(context: context)
+
+        let groups = try await repo.allMuscleGroups()
+
+        #expect(groups.count == MuscleGroupSeed.all.count)
+        #expect(groups.map(\.name) == groups.map(\.name).sorted())
+        #expect(Set(groups.map(\.name)) == Set(MuscleGroupSeed.all))
+    }
+
     private func chestGroup(in context: ModelContext) async throws -> MuscleGroup? {
         let descriptor = FetchDescriptor<MuscleGroup>(
             predicate: #Predicate { $0.name == "Грудь" }

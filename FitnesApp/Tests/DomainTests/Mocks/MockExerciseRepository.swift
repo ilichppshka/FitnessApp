@@ -16,6 +16,8 @@ final class MockExerciseRepository: ExerciseRepository {
 
     func find(id: UUID) async throws -> Exercise? { nil }
 
+    func allMuscleGroups() async throws -> [MuscleGroup] { [] }
+
     func bestPersonalRecord(exerciseID: UUID) async throws -> PersonalRecordDTO? {
         bestPRCalls.append(exerciseID)
         return bestPRResult
