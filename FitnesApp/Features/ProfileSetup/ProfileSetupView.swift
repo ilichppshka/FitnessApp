@@ -56,7 +56,7 @@ struct ProfileSetupView: View {
 
     private var hero: some View {
         VStack(spacing: Spacing.lg) {
-            Text("profileSetup.brand")
+            Text(LocalizedStringResource("profileSetup.brand", table: "Onboarding"))
                 .font(Font.App.labelSm)
                 .tracking(1.6)
                 .foregroundStyle(Color.App.onSurface.opacity(0.55))
@@ -70,17 +70,17 @@ struct ProfileSetupView: View {
 
     private var introCopy: some View {
         VStack(spacing: Spacing.sm) {
-            Text("profileSetup.eyebrow")
+            Text(LocalizedStringResource("profileSetup.eyebrow", table: "Onboarding"))
                 .font(Font.App.labelSm)
                 .tracking(1.2)
                 .foregroundStyle(Color.App.primary)
 
-            Text("profileSetup.title")
+            Text(LocalizedStringResource("profileSetup.title", table: "Onboarding"))
                 .font(Font.App.headlineLg)
                 .foregroundStyle(Color.App.onSurface)
                 .multilineTextAlignment(.center)
 
-            Text("profileSetup.body")
+            Text(LocalizedStringResource("profileSetup.body", table: "Onboarding"))
                 .font(Font.App.bodyMd)
                 .foregroundStyle(Color.App.onSurface.opacity(0.6))
                 .multilineTextAlignment(.center)
@@ -97,21 +97,21 @@ struct ProfileSetupView: View {
 
     private var nameSection: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            labelRow(label: "profileSetup.name.label", hint: "profileSetup.name.hint")
+            labelRow(label: LocalizedStringResource("profileSetup.name.label", table: "Onboarding"), hint: LocalizedStringResource("profileSetup.name.hint", table: "Onboarding"))
             outlinedNameField
         }
     }
 
     private var outlinedNameField: some View {
         OutlinedTextField(
-            placeholder: String(localized: "profileSetup.name.placeholder"),
+            placeholder: String(localized: "profileSetup.name.placeholder", table: "Onboarding"),
             text: $viewModel.name
         )
     }
 
     private var weightSection: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            labelRow(label: "profileSetup.weight.label", hint: nil)
+            labelRow(label: LocalizedStringResource("profileSetup.weight.label", table: "Onboarding"), hint: nil)
             weightRow
         }
     }
@@ -140,7 +140,7 @@ struct ProfileSetupView: View {
                 .foregroundStyle(Color.App.onSurface)
                 .contentTransition(.numericText())
                 .animation(.easeInOut(duration: 0.22), value: viewModel.bodyWeightKg)
-            Text("profileSetup.weight.unit")
+            Text(LocalizedStringResource("profileSetup.weight.unit", table: "Onboarding"))
                 .font(Font.App.bodyMd)
                 .foregroundStyle(Color.App.onSurface.opacity(0.5))
         }
@@ -178,7 +178,7 @@ struct ProfileSetupView: View {
 
     private var mascotSection: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            labelRow(label: "profileSetup.mascot.label", hint: "profileSetup.mascot.hint")
+            labelRow(label: LocalizedStringResource("profileSetup.mascot.label", table: "Onboarding"), hint: LocalizedStringResource("profileSetup.mascot.hint", table: "Onboarding"))
             MascotPickerGrid(selection: $viewModel.selectedMascot)
         }
     }
@@ -201,7 +201,7 @@ struct ProfileSetupView: View {
 
     private var cta: some View {
         KineticButton(
-            title: String(localized: "profileSetup.cta"),
+            title: String(localized: "profileSetup.cta", table: "Onboarding"),
             isEnabled: viewModel.canSave,
             trailingSystemName: "arrow.right",
             action: { Task { await viewModel.save() } }

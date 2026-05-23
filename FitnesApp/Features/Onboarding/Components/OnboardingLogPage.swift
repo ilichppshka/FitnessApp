@@ -5,10 +5,10 @@ struct OnboardingLogPage: View {
 
     var body: some View {
         OnboardingPageScaffold(
-            eyebrow: "onboarding.log.eyebrow",
-            title: "onboarding.log.title",
-            bodyText: "onboarding.log.body",
-            ctaTitle: "onboarding.log.cta",
+            eyebrow: LocalizedStringResource("onboarding.log.eyebrow", table: "Onboarding"),
+            title: LocalizedStringResource("onboarding.log.title", table: "Onboarding"),
+            bodyText: LocalizedStringResource("onboarding.log.body", table: "Onboarding"),
+            ctaTitle: LocalizedStringResource("onboarding.log.cta", table: "Onboarding"),
             onContinue: onContinue
         ) {
             demoCard
@@ -37,8 +37,8 @@ struct OnboardingLogPage: View {
 
     private var exerciseHeader: some View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
-            SectionLabel(text: String(localized: "onboarding.log.demo.exercise"))
-            Text("onboarding.log.demo.name")
+            SectionLabel(text: String(localized: "onboarding.log.demo.exercise", table: "Onboarding"))
+            Text(LocalizedStringResource("onboarding.log.demo.name", table: "Onboarding"))
                 .font(Font.App.headlineLg)
                 .foregroundStyle(Color.App.onSurface)
                 .multilineTextAlignment(.leading)
@@ -49,7 +49,7 @@ struct OnboardingLogPage: View {
     private var setPill: some View {
         HStack(spacing: Spacing.xs) {
             StatusDot(size: 6)
-            Text("onboarding.log.demo.set")
+            Text(LocalizedStringResource("onboarding.log.demo.set", table: "Onboarding"))
                 .font(Font.App.labelSm)
                 .foregroundStyle(Color.App.onSurface)
                 .tracking(0.8)
@@ -65,7 +65,7 @@ struct OnboardingLogPage: View {
     }
 
     private var deltaPill: some View {
-        Text("onboarding.log.demo.delta")
+        Text(LocalizedStringResource("onboarding.log.demo.delta", table: "Onboarding"))
             .font(Font.App.labelSm)
             .foregroundStyle(Color.App.primary)
             .tracking(0.4)
@@ -81,8 +81,8 @@ struct OnboardingLogPage: View {
 
     private var metricsRow: some View {
         HStack(spacing: Spacing.md) {
-            metricCell(label: "onboarding.log.demo.weight", value: "75", unit: "profileSetup.weight.unit")
-            metricCell(label: "onboarding.log.demo.reps", value: "8", unit: nil)
+            metricCell(label: LocalizedStringResource("onboarding.log.demo.weight", table: "Onboarding"), value: "75", unit: LocalizedStringResource("profileSetup.weight.unit", table: "Onboarding"))
+            metricCell(label: LocalizedStringResource("onboarding.log.demo.reps", table: "Onboarding"), value: "8", unit: nil)
         }
     }
 
@@ -116,7 +116,7 @@ struct OnboardingLogPage: View {
         HStack(spacing: Spacing.sm) {
             Image(systemName: "checkmark")
                 .font(.system(size: 16, weight: .bold))
-            Text("onboarding.log.demo.complete")
+            Text(LocalizedStringResource("onboarding.log.demo.complete", table: "Onboarding"))
                 .font(Font.App.titleLg)
         }
         .foregroundStyle(Color.App.onPrimary)

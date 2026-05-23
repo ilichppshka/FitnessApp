@@ -45,7 +45,7 @@ struct OnboardingFlowView: View {
             ProgressPillBar(total: totalSteps, currentIndex: currentIndex)
             Spacer()
             Button(action: viewModel.skip) {
-                Text("onboarding.skip")
+                Text(LocalizedStringResource("onboarding.skip", table: "Onboarding"))
                     .font(Font.App.labelSm)
                     .foregroundStyle(Color.App.onSurface.opacity(0.6))
                     .tracking(0.8)

@@ -5,10 +5,10 @@ struct OnboardingWelcomePage: View {
 
     var body: some View {
         OnboardingPageScaffold(
-            eyebrow: "onboarding.welcome.eyebrow",
-            title: "onboarding.welcome.title",
-            bodyText: "onboarding.welcome.body",
-            ctaTitle: "onboarding.welcome.cta",
+            eyebrow: LocalizedStringResource("onboarding.welcome.eyebrow", table: "Onboarding"),
+            title: LocalizedStringResource("onboarding.welcome.title", table: "Onboarding"),
+            bodyText: LocalizedStringResource("onboarding.welcome.body", table: "Onboarding"),
+            ctaTitle: LocalizedStringResource("onboarding.welcome.cta", table: "Onboarding"),
             onContinue: onContinue
         ) {
             heroCircle

@@ -6,10 +6,10 @@ struct OnboardingAnalyzePage: View {
 
     var body: some View {
         OnboardingPageScaffold(
-            eyebrow: "onboarding.analyze.eyebrow",
-            title: "onboarding.analyze.title",
-            bodyText: "onboarding.analyze.body",
-            ctaTitle: "onboarding.analyze.cta",
+            eyebrow: LocalizedStringResource("onboarding.analyze.eyebrow", table: "Onboarding"),
+            title: LocalizedStringResource("onboarding.analyze.title", table: "Onboarding"),
+            bodyText: LocalizedStringResource("onboarding.analyze.body", table: "Onboarding"),
+            ctaTitle: LocalizedStringResource("onboarding.analyze.cta", table: "Onboarding"),
             onContinue: onContinue
         ) {
             demoCard
@@ -29,7 +29,7 @@ struct OnboardingAnalyzePage: View {
     }
 
     private var prsBadge: some View {
-        Text("onboarding.analyze.demo.prsBadge")
+        Text(LocalizedStringResource("onboarding.analyze.demo.prsBadge", table: "Onboarding"))
             .font(Font.App.labelSm)
             .foregroundStyle(Color.App.onPrimary)
             .padding(.horizontal, Spacing.md)
@@ -39,12 +39,12 @@ struct OnboardingAnalyzePage: View {
 
     private var volumeBlock: some View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
-            SectionLabel(text: String(localized: "onboarding.analyze.demo.volumeLabel"))
+            SectionLabel(text: String(localized: "onboarding.analyze.demo.volumeLabel", table: "Onboarding"))
             HStack(alignment: .firstTextBaseline, spacing: Spacing.xs) {
                 Text("72,840")
                     .font(Font.App.displayLg)
                     .foregroundStyle(Color.App.primary)
-                Text("profileSetup.weight.unit")
+                Text(LocalizedStringResource("profileSetup.weight.unit", table: "Onboarding"))
                     .font(Font.App.bodyMd)
                     .foregroundStyle(Color.App.onSurface.opacity(0.5))
             }
@@ -88,9 +88,9 @@ struct OnboardingAnalyzePage: View {
 
     private var stats: some View {
         StatTriple(items: [
-            StatItem(value: "14", label: String(localized: "onboarding.analyze.demo.sessionsLabel")),
-            StatItem(value: "21", unit: "d", label: String(localized: "onboarding.analyze.demo.streakLabel")),
-            StatItem(value: "11", unit: "h", label: String(localized: "onboarding.analyze.demo.timeLabel"))
+            StatItem(value: "14", label: String(localized: "onboarding.analyze.demo.sessionsLabel", table: "Onboarding")),
+            StatItem(value: "21", unit: "d", label: String(localized: "onboarding.analyze.demo.streakLabel", table: "Onboarding")),
+            StatItem(value: "11", unit: "h", label: String(localized: "onboarding.analyze.demo.timeLabel", table: "Onboarding"))
         ])
     }
 

@@ -17,9 +17,9 @@ enum MascotOption: String, CaseIterable, Identifiable {
 
     var titleResource: LocalizedStringResource {
         switch self {
-        case .athlete: "profileSetup.mascot.athlete"
-        case .runner:  "profileSetup.mascot.runner"
-        case .yogi:    "profileSetup.mascot.yogi"
+        case .athlete: LocalizedStringResource("profileSetup.mascot.athlete", table: "Onboarding")
+        case .runner:  LocalizedStringResource("profileSetup.mascot.runner", table: "Onboarding")
+        case .yogi:    LocalizedStringResource("profileSetup.mascot.yogi", table: "Onboarding")
         }
     }
 }

@@ -68,7 +68,7 @@ final class ProfileSetupViewModel {
             isSaving = false
             onComplete()
         } catch {
-            errorMessage = String(localized: "profileSetup.error.generic")
+            errorMessage = String(localized: "profileSetup.error.generic", table: "Onboarding")
             isSaving = false
         }
     }
