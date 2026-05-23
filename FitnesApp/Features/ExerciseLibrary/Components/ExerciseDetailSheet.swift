@@ -4,24 +4,24 @@ import SwiftUI
 struct ExerciseDetailSheet: View {
     let exercise: Exercise
 
+    private var sortedSteps: [ExerciseExecutionStep] {
+        exercise.executionSteps.sorted { $0.order < $1.order }
+    }
+
+    private var allMuscleGroups: [MuscleGroup] {
+        exercise.primaryMuscleGroups + exercise.secondaryMuscleGroups
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 title
                 muscleGroupChips
                 animationPlaceholder
-                descriptionSection(
-                    label: String(localized: "library.detail.section.start"),
-                    body: exercise.descriptionStart
-                )
-                descriptionSection(
-                    label: String(localized: "library.detail.section.execution"),
-                    body: exercise.descriptionExecution
-                )
-                descriptionSection(
-                    label: String(localized: "library.detail.section.errors"),
-                    body: exercise.descriptionErrors
-                )
+                executionSteps
+                if !exercise.mistakeKeys.isEmpty {
+                    mistakesSection
+                }
             }
             .padding(.horizontal, Spacing.lg)
             .padding(.top, Spacing.lg)
@@ -33,7 +33,7 @@ struct ExerciseDetailSheet: View {
     }
 
     private var title: some View {
-        Text(exercise.name)
+        Text(NSLocalizedString("exercise.\(exercise.slug).name", tableName: "Exercises", comment: ""))
             .font(Font.App.headlineLg)
             .foregroundStyle(Color.App.onSurface)
     }
@@ -43,8 +43,11 @@ struct ExerciseDetailSheet: View {
             SectionLabel(text: String(localized: "library.detail.section.muscles"))
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.sm) {
-                    ForEach(exercise.muscleGroups, id: \.id) { group in
-                        Chip(title: group.name, style: .subtle)
+                    ForEach(allMuscleGroups, id: \.id) { group in
+                        Chip(
+                            title: NSLocalizedString("muscle.\(group.slug)", tableName: "Exercises", comment: ""),
+                            style: .subtle
+                        )
                     }
                 }
             }
@@ -65,6 +68,28 @@ struct ExerciseDetailSheet: View {
             }
         }
         .aspectRatio(1, contentMode: .fit)
+    }
+
+    private var executionSteps: some View {
+        ForEach(sortedSteps, id: \.id) { step in
+            descriptionSection(
+                label: NSLocalizedString("exercise.\(exercise.slug).step.\(step.key).title", tableName: "Exercises", comment: ""),
+                body: NSLocalizedString("exercise.\(exercise.slug).step.\(step.key).body", tableName: "Exercises", comment: "")
+            )
+        }
+    }
+
+    private var mistakesSection: some View {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            SectionLabel(text: String(localized: "library.detail.section.errors"))
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                ForEach(exercise.mistakeKeys, id: \.self) { key in
+                    Text("• \(NSLocalizedString("exercise.\(exercise.slug).mistake.\(key)", tableName: "Exercises", comment: ""))")
+                        .font(Font.App.bodyMd)
+                        .foregroundStyle(Color.App.onSurface.opacity(0.8))
+                }
+            }
+        }
     }
 
     private func descriptionSection(label: String, body: String) -> some View {

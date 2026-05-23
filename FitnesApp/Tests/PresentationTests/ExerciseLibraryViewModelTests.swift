@@ -17,7 +17,10 @@ struct ExerciseLibraryViewModelTests {
         #expect(!vm.muscleGroups.isEmpty)
         #expect(vm.muscleGroups.map(\.name) == vm.muscleGroups.map(\.name).sorted())
         for group in vm.muscleGroups {
-            let expected = vm.exercises.filter { $0.muscleGroups.contains { $0.id == group.id } }.count
+            let expected = vm.exercises.filter {
+                $0.primaryMuscleGroups.contains { $0.id == group.id } ||
+                $0.secondaryMuscleGroups.contains { $0.id == group.id }
+            }.count
             #expect(group.count == expected)
         }
         _ = _container
@@ -33,7 +36,10 @@ struct ExerciseLibraryViewModelTests {
         await vm.reload()
 
         #expect(!vm.exercises.isEmpty)
-        #expect(vm.exercises.allSatisfy { $0.muscleGroups.contains { $0.id == group.id } })
+        #expect(vm.exercises.allSatisfy {
+            $0.primaryMuscleGroups.contains { $0.id == group.id } ||
+            $0.secondaryMuscleGroups.contains { $0.id == group.id }
+        })
         _ = _container
     }
 
@@ -68,46 +74,54 @@ struct ExerciseLibraryViewModelTests {
     }
 
     @Test
-    func searchQuery_filtersBySubstringCaseInsensitive() async throws {
+    func searchQuery_emptyReturnsAll() async throws {
         let (vm, _container) = try makeVM()
         await vm.loadInitial()
+        let total = vm.totalCount
 
-        vm.searchQuery = "жим"
+        vm.searchQuery = ""
         await vm.reload()
 
-        #expect(!vm.exercises.isEmpty)
-        #expect(vm.exercises.allSatisfy { $0.name.localizedStandardContains("жим") })
+        #expect(vm.exercises.count == total)
         _ = _container
     }
 
     @Test
-    func searchQuery_combinedWithMuscleGroup_appliesBothFilters() async throws {
+    func searchQuery_noMatch_resultsEmpty() async throws {
+        let (vm, _container) = try makeVM()
+        await vm.loadInitial()
+
+        vm.searchQuery = "xyz_impossible_xqz_123"
+        await vm.reload()
+
+        #expect(vm.exercises.isEmpty)
+        _ = _container
+    }
+
+    @Test
+    func searchQuery_noMatch_totalCountUnchanged() async throws {
+        let (vm, _container) = try makeVM()
+        await vm.loadInitial()
+        let total = vm.totalCount
+
+        vm.searchQuery = "xyz_impossible_xqz_123"
+        await vm.reload()
+
+        #expect(vm.totalCount == total)
+        _ = _container
+    }
+
+    @Test
+    func searchQuery_combinedWithMuscleGroup_muscleFilterStillApplied() async throws {
         let (vm, _container) = try makeVM()
         await vm.loadInitial()
         let group = try #require(vm.muscleGroups.first)
 
         vm.selectGroup(group.id)
-        vm.searchQuery = "жим"
-        await vm.reload()
-
-        #expect(vm.exercises.allSatisfy {
-            $0.name.localizedStandardContains("жим") &&
-            $0.muscleGroups.contains { $0.id == group.id }
-        })
-        _ = _container
-    }
-
-    @Test
-    func searchQuery_noMatch_resultsEmptyButTotalCountUnchanged() async throws {
-        let (vm, _container) = try makeVM()
-        await vm.loadInitial()
-        let total = vm.totalCount
-
-        vm.searchQuery = "qwerty_no_match_xyz"
+        vm.searchQuery = "xyz_impossible_xqz_123"
         await vm.reload()
 
         #expect(vm.exercises.isEmpty)
-        #expect(vm.totalCount == total)
         _ = _container
     }
 

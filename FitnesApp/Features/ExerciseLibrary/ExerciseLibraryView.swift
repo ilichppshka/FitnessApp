@@ -117,8 +117,10 @@ struct ExerciseLibraryView: View {
             LazyVStack(spacing: Spacing.sm) {
                 ForEach(viewModel.exercises, id: \.id) { exercise in
                     ExerciseListItem(
-                        title: exercise.name,
-                        subtitle: exercise.muscleGroups.map(\.name).joined(separator: " · "),
+                        title: NSLocalizedString("exercise.\(exercise.slug).name", tableName: "Exercises", comment: ""),
+                        subtitle: (exercise.primaryMuscleGroups + exercise.secondaryMuscleGroups)
+                            .map { NSLocalizedString("muscle.\($0.slug)", tableName: "Exercises", comment: "") }
+                            .joined(separator: " · "),
                         onTap: { router.presentedExerciseDetailID = exercise.id }
                     )
                     .accessibilityHint(Text("library.row.hint.a11y"))

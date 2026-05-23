@@ -36,11 +36,13 @@ final class ExerciseLibraryViewModel {
             totalCount = all.count
             muscleGroups = groups.map { group in
                 let count = all.reduce(into: 0) { acc, exercise in
-                    if exercise.muscleGroups.contains(where: { $0.id == group.id }) {
+                    if exercise.primaryMuscleGroups.contains(where: { $0.id == group.id }) ||
+                        exercise.secondaryMuscleGroups.contains(where: { $0.id == group.id }) {
                         acc += 1
                     }
                 }
-                return MuscleGroupChip(id: group.id, name: group.name, count: count)
+                let name = NSLocalizedString("muscle.\(group.slug)", tableName: "Exercises", comment: "")
+                return MuscleGroupChip(id: group.id, name: name, count: count)
             }
             exercises = all
             isLoading = false

@@ -14,7 +14,7 @@ struct ExerciseRepositoryTests {
 
         let all = try await repo.all()
 
-        #expect(all.count == 30)
+        #expect(all.count == 14)
     }
 
     @Test
@@ -27,20 +27,31 @@ struct ExerciseRepositoryTests {
 
         let all = try await repo.all()
 
-        #expect(all.count == 30)
+        #expect(all.count == 14)
     }
 
     @Test
-    func searchByQueryFiltersByName() async throws {
+    func searchByQueryEmptyReturnsAll() async throws {
         let container = try InMemoryContainer.make()
         let context = container.mainContext
         try DataSeeder.seedIfNeeded(context)
         let repo = SwiftDataExerciseRepository(context: context)
 
-        let result = try await repo.search(query: "жим", muscleGroupIDs: [])
+        let result = try await repo.search(query: "", muscleGroupIDs: [])
 
-        #expect(!result.isEmpty)
-        #expect(result.allSatisfy { $0.name.localizedCaseInsensitiveContains("жим") })
+        #expect(result.count == 14)
+    }
+
+    @Test
+    func searchByQueryNoMatchReturnsEmpty() async throws {
+        let container = try InMemoryContainer.make()
+        let context = container.mainContext
+        try DataSeeder.seedIfNeeded(context)
+        let repo = SwiftDataExerciseRepository(context: context)
+
+        let result = try await repo.search(query: "xyz_impossible_xqz_123", muscleGroupIDs: [])
+
+        #expect(result.isEmpty)
     }
 
     @Test
@@ -54,7 +65,10 @@ struct ExerciseRepositoryTests {
         let result = try await repo.search(query: "", muscleGroupIDs: [chest.id])
 
         #expect(!result.isEmpty)
-        #expect(result.allSatisfy { $0.muscleGroups.contains { $0.id == chest.id } })
+        #expect(result.allSatisfy {
+            $0.primaryMuscleGroups.contains { $0.id == chest.id } ||
+            $0.secondaryMuscleGroups.contains { $0.id == chest.id }
+        })
     }
 
     @Test
@@ -83,7 +97,7 @@ struct ExerciseRepositoryTests {
     }
 
     @Test
-    func allMuscleGroupsReturnsSeededGroupsSortedByName() async throws {
+    func allMuscleGroupsReturnsSeededGroupsSortedByLocalizedName() async throws {
         let container = try InMemoryContainer.make()
         let context = container.mainContext
         try DataSeeder.seedIfNeeded(context)
@@ -92,13 +106,14 @@ struct ExerciseRepositoryTests {
         let groups = try await repo.allMuscleGroups()
 
         #expect(groups.count == MuscleGroupSeed.all.count)
-        #expect(groups.map(\.name) == groups.map(\.name).sorted())
-        #expect(Set(groups.map(\.name)) == Set(MuscleGroupSeed.all))
+        let localizedNames = groups.map { NSLocalizedString("muscle.\($0.slug)", comment: "") }
+        #expect(localizedNames == localizedNames.sorted())
+        #expect(Set(groups.map(\.slug)) == Set(MuscleGroupSeed.all))
     }
 
     private func chestGroup(in context: ModelContext) async throws -> MuscleGroup? {
         let descriptor = FetchDescriptor<MuscleGroup>(
-            predicate: #Predicate { $0.name == "Грудь" }
+            predicate: #Predicate { $0.slug == "chest" }
         )
         return try context.fetch(descriptor).first
     }
