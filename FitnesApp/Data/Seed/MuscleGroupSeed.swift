@@ -2,15 +2,15 @@ import Foundation
 
 enum MuscleGroupSeed {
     static let all: [String] = [
-        "Грудь",
-        "Спина",
-        "Плечи",
-        "Бицепс",
-        "Трицепс",
-        "Квадрицепс",
-        "Бицепс бедра",
-        "Ягодицы",
-        "Пресс",
-        "Икры"
+        "chest",
+        "back",
+        "shoulders",
+        "biceps",
+        "triceps",
+        "quads",
+        "hamstrings",
+        "glutes",
+        "core",
+        "calves"
     ]
 }

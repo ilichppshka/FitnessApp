@@ -24,29 +24,30 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
     }
 
     func all() async throws -> [Exercise] {
-        let descriptor = FetchDescriptor<Exercise>(
-            sortBy: [SortDescriptor(\.name)]
-        )
-        return try context.fetch(descriptor)
+        let exercises = try context.fetch(FetchDescriptor<Exercise>())
+        return exercises.sorted { localizedExerciseName($0) < localizedExerciseName($1) }
     }
 
     func allMuscleGroups() async throws -> [MuscleGroup] {
-        let descriptor = FetchDescriptor<MuscleGroup>(
-            sortBy: [SortDescriptor(\.name)]
-        )
-        return try context.fetch(descriptor)
+        let groups = try context.fetch(FetchDescriptor<MuscleGroup>())
+        return groups.sorted { localizedMuscleName($0) < localizedMuscleName($1) }
     }
 
     func search(query: String, muscleGroupIDs: [UUID]) async throws -> [Exercise] {
-        var descriptor = FetchDescriptor<Exercise>()
-        if !query.isEmpty {
-            descriptor.predicate = #Predicate { $0.name.localizedStandardContains(query) }
+        let all = try context.fetch(FetchDescriptor<Exercise>())
+        let nameFiltered: [Exercise]
+        if query.isEmpty {
+            nameFiltered = all
+        } else {
+            nameFiltered = all.filter {
+                localizedExerciseName($0).localizedStandardContains(query)
+            }
         }
-        descriptor.sortBy = [SortDescriptor(\.name)]
-        let result = try context.fetch(descriptor)
-        guard !muscleGroupIDs.isEmpty else { return result }
-        return result.filter { exercise in
-            exercise.muscleGroups.contains { muscleGroupIDs.contains($0.id) }
+        let sorted = nameFiltered.sorted { localizedExerciseName($0) < localizedExerciseName($1) }
+        guard !muscleGroupIDs.isEmpty else { return sorted }
+        return sorted.filter { exercise in
+            exercise.primaryMuscleGroups.contains { muscleGroupIDs.contains($0.id) } ||
+            exercise.secondaryMuscleGroups.contains { muscleGroupIDs.contains($0.id) }
         }
     }
 
@@ -88,5 +89,13 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
         context.insert(record)
         try context.save()
         return record.toDTO()
+    }
+
+    private func localizedExerciseName(_ exercise: Exercise) -> String {
+        NSLocalizedString("exercise.\(exercise.slug).name", comment: "")
+    }
+
+    private func localizedMuscleName(_ group: MuscleGroup) -> String {
+        NSLocalizedString("muscle.\(group.slug)", comment: "")
     }
 }

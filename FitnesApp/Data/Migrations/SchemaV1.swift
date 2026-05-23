@@ -8,6 +8,7 @@ enum SchemaV1: VersionedSchema {
         [
             MuscleGroup.self,
             Exercise.self,
+            ExerciseExecutionStep.self,
             PersonalRecord.self,
             WorkoutPlan.self,
             PlanExercise.self,

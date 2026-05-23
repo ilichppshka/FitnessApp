@@ -5,7 +5,7 @@ extension WorkoutSet {
         WorkoutSetDTO(
             id: id,
             exerciseID: exercise.id,
-            exerciseName: exercise.name,
+            exerciseName: NSLocalizedString("exercise.\(exercise.slug).name", comment: exercise.slug),
             setNumber: setNumber,
             weight: weight,
             reps: reps,
@@ -20,7 +20,7 @@ extension PersonalRecord {
         PersonalRecordDTO(
             id: id,
             exerciseID: exercise.id,
-            exerciseName: exercise.name,
+            exerciseName: NSLocalizedString("exercise.\(exercise.slug).name", comment: exercise.slug),
             date: date,
             weight: weight,
             reps: reps,
@@ -31,7 +31,7 @@ extension PersonalRecord {
 
 extension MuscleGroup {
     func toDTO() -> MuscleGroupDTO {
-        MuscleGroupDTO(id: id, name: name)
+        MuscleGroupDTO(id: id, slug: slug)
     }
 }
 
@@ -39,14 +39,12 @@ extension Exercise {
     func toDTO() -> ExerciseDTO {
         ExerciseDTO(
             id: id,
-            name: name,
-            descriptionStart: descriptionStart,
-            descriptionExecution: descriptionExecution,
-            descriptionErrors: descriptionErrors,
-            animationAssetName: animationAssetName,
-            muscleGroups: muscleGroups
-                .map(\.name)
-                .sorted()
+            slug: slug,
+            equipment: equipment,
+            difficulty: difficulty,
+            primaryMuscleGroupSlugs: primaryMuscleGroups.map(\.slug),
+            secondaryMuscleGroupSlugs: secondaryMuscleGroups.map(\.slug),
+            animationAssetName: animationAssetName
         )
     }
 }

@@ -1,0 +1,2726 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "difficulty.advanced": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Advanced"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продвинутый"
+          }
+        }
+      }
+    },
+    "difficulty.beginner": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beginner"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Начинающий"
+          }
+        }
+      }
+    },
+    "difficulty.intermediate": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intermediate"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Средний"
+          }
+        }
+      }
+    },
+    "equipment.band": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resistance band"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Резинка"
+          }
+        }
+      }
+    },
+    "equipment.barbell": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barbell"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Штанга"
+          }
+        }
+      }
+    },
+    "equipment.bodyweight": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bodyweight"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Свой вес"
+          }
+        }
+      }
+    },
+    "equipment.cable": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cable"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кроссовер"
+          }
+        }
+      }
+    },
+    "equipment.dumbbell": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dumbbell"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Гантели"
+          }
+        }
+      }
+    },
+    "equipment.kettlebell": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kettlebell"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Гиря"
+          }
+        }
+      }
+    },
+    "equipment.machine": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Machine"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тренажёр"
+          }
+        }
+      }
+    },
+    "exercise.barbell_curl.mistake.body_swing": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swinging the torso uses momentum instead of bicep strength"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Раскачивание корпуса использует инерцию вместо силы бицепса"
+          }
+        }
+      }
+    },
+    "exercise.barbell_curl.mistake.elbow_forward": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moving the elbows forward shortens the range of motion"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выдвижение локтей вперёд уменьшает амплитуду движения"
+          }
+        }
+      }
+    },
+    "exercise.barbell_curl.mistake.partial_range": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not fully extending at the bottom removes tension from the biceps"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неполное разгибание внизу убирает натяжение с бицепса"
+          }
+        }
+      }
+    },
+    "exercise.barbell_curl.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barbell Curl"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём штанги на бицепс"
+          }
+        }
+      }
+    },
+    "exercise.barbell_curl.step.curl.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Curl the bar up toward your shoulders by bending your elbows, keeping them stationary at your sides."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сгибайте руки в локтях, поднимая штангу к плечам. Локти остаются неподвижными у боков."
+          }
+        }
+      }
+    },
+    "exercise.barbell_curl.step.curl.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Curl"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём"
+          }
+        }
+      }
+    },
+    "exercise.barbell_curl.step.return.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lower the bar with control to the starting position, fully extending your arms."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контролируемо опускайте штангу в исходное положение до полного разгибания рук."
+          }
+        }
+      }
+    },
+    "exercise.barbell_curl.step.return.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возврат"
+          }
+        }
+      }
+    },
+    "exercise.barbell_curl.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stand with feet shoulder-width apart, hold the bar with an underhand grip at shoulder-width. Elbows pinned to your sides."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Встаньте, ноги на ширине плеч, возьмите гриф обратным хватом на ширине плеч. Локти прижаты к бокам."
+          }
+        }
+      }
+    },
+    "exercise.barbell_curl.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.bench_press.mistake.bouncing": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bouncing the bar off the chest to gain momentum"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отбивание штанги от груди для набора инерции"
+          }
+        }
+      }
+    },
+    "exercise.bench_press.mistake.flared_elbows": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flaring elbows to 90°, which strains the shoulder joints"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разведение локтей на 90°, перегружающее плечевые суставы"
+          }
+        }
+      }
+    },
+    "exercise.bench_press.mistake.hip_drive": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lifting the hips off the bench to use leg drive"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отрыв бёдер от скамьи для использования силы ног"
+          }
+        }
+      }
+    },
+    "exercise.bench_press.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barbell Bench Press"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Жим штанги лёжа"
+          }
+        }
+      }
+    },
+    "exercise.bench_press.step.descent.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lower the bar with control to your lower chest, keeping elbows at roughly 45–75° from your torso."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контролируемо опускайте штангу к нижней части груди. Локти направлены под углом 45–75° к корпусу."
+          }
+        }
+      }
+    },
+    "exercise.bench_press.step.descent.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descent"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опускание"
+          }
+        }
+      }
+    },
+    "exercise.bench_press.step.press.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drive the bar back up in a slight arc until your arms are fully extended."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выжимайте штангу по слегка дугообразной траектории до полного выпрямления рук."
+          }
+        }
+      }
+    },
+    "exercise.bench_press.step.press.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Жим"
+          }
+        }
+      }
+    },
+    "exercise.bench_press.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lie on the bench with an overhand grip just outside shoulder-width. Retract your shoulder blades and plant both feet flat on the floor."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лягте на скамью, возьмите гриф чуть шире плеч хватом сверху. Сведите лопатки и упритесь обеими стопами в пол."
+          }
+        }
+      }
+    },
+    "exercise.bench_press.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.cable_pushdown.mistake.elbow_flare": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letting the elbows flare out reduces tricep isolation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разведение локтей в стороны снижает изоляцию трицепса"
+          }
+        }
+      }
+    },
+    "exercise.cable_pushdown.mistake.forward_lean": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leaning too far forward turns the movement into a press"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Слишком сильный наклон вперёд превращает движение в жим"
+          }
+        }
+      }
+    },
+    "exercise.cable_pushdown.mistake.jerking": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jerking the weight uses momentum and reduces time under tension"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Рывковое движение использует инерцию и снижает время под нагрузкой"
+          }
+        }
+      }
+    },
+    "exercise.cable_pushdown.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cable Pushdown"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разгибание на блоке"
+          }
+        }
+      }
+    },
+    "exercise.cable_pushdown.step.push.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Push the handle down by extending your elbows until your arms are straight, squeezing the triceps at the bottom."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разгибайте руки в локтях, толкая рукоятку вниз до полного выпрямления, сжимая трицепс в нижней точке."
+          }
+        }
+      }
+    },
+    "exercise.cable_pushdown.step.push.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Push"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разгибание"
+          }
+        }
+      }
+    },
+    "exercise.cable_pushdown.step.return.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow the handle to rise with control, feeling the stretch in your triceps, then begin the next rep."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Позвольте рукоятке подняться контролируемо, ощущая растяжение трицепса, затем начинайте следующее повторение."
+          }
+        }
+      }
+    },
+    "exercise.cable_pushdown.step.return.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возврат"
+          }
+        }
+      }
+    },
+    "exercise.cable_pushdown.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set the pulley to the high position. Grip the bar or rope with an overhand grip, step close to the machine, and pin your elbows at your sides."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установите блок в верхнее положение. Возьмите рукоятку хватом сверху, встаньте близко к тренажёру и прижмите локти к бокам."
+          }
+        }
+      }
+    },
+    "exercise.cable_pushdown.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.crunch.mistake.full_situp": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rising all the way up engages the hip flexors, removing tension from the abs"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Полный подъём туловища включает сгибатели бедра, убирая нагрузку с пресса"
+          }
+        }
+      }
+    },
+    "exercise.crunch.mistake.momentum": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Using momentum to bounce up reduces time under tension in the abs"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использование инерции для отбива снижает время под нагрузкой пресса"
+          }
+        }
+      }
+    },
+    "exercise.crunch.mistake.neck_pull": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulling the neck with your hands strains the cervical spine instead of working the abs"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тяга шеи руками нагружает шейный отдел вместо пресса"
+          }
+        }
+      }
+    },
+    "exercise.crunch.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crunch"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скручивания"
+          }
+        }
+      }
+    },
+    "exercise.crunch.step.crunch.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exhale and curl your upper back off the floor by contracting your abs, lifting your shoulders about 30°. Hold briefly at the top."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выдыхая, сокращайте пресс и поднимайте верхнюю часть спины от пола примерно на 30°. Кратко задержитесь в верхней точке."
+          }
+        }
+      }
+    },
+    "exercise.crunch.step.crunch.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crunch"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скручивание"
+          }
+        }
+      }
+    },
+    "exercise.crunch.step.return.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lower your upper back with control to the starting position, inhaling as you descend."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контролируемо опускайте верхнюю часть спины в исходное положение, вдыхая при опускании."
+          }
+        }
+      }
+    },
+    "exercise.crunch.step.return.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возврат"
+          }
+        }
+      }
+    },
+    "exercise.crunch.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lie on your back with knees bent and feet flat on the floor. Place hands lightly behind your head without interlacing fingers."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лягте на спину, согните колени, стопы на полу. Положите руки за голову, не сцепляя пальцы."
+          }
+        }
+      }
+    },
+    "exercise.crunch.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.deadlift.mistake.bar_away": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letting the bar drift away from the body greatly increases lower-back stress"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отведение штанги от тела значительно увеличивает нагрузку на поясницу"
+          }
+        }
+      }
+    },
+    "exercise.deadlift.mistake.hyperextension": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hyperextending the lower back at lockout stresses the lumbar vertebrae"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переразгибание поясницы в верхней точке перегружает поясничные позвонки"
+          }
+        }
+      }
+    },
+    "exercise.deadlift.mistake.rounded_back": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rounding the lower back places dangerous compressive load on the spine"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Округление поясницы создаёт опасную компрессионную нагрузку на позвоночник"
+          }
+        }
+      }
+    },
+    "exercise.deadlift.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deadlift"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Становая тяга"
+          }
+        }
+      }
+    },
+    "exercise.deadlift.step.drive.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Push the floor away, keeping the bar close to your body. Hips and shoulders rise at the same rate until the bar passes the knees."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Толкайте пол от себя, держа штангу близко к телу. Бёдра и плечи поднимаются с одинаковой скоростью до прохождения коленей."
+          }
+        }
+      }
+    },
+    "exercise.deadlift.step.drive.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drive"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём"
+          }
+        }
+      }
+    },
+    "exercise.deadlift.step.lockout.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drive hips forward to stand tall, squeezing glutes at the top. Lower the bar under control by hinging at the hips."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выведите бёдра вперёд до полного выпрямления, сжав ягодицы наверху. Опускайте штангу контролируемо через наклон бёдер."
+          }
+        }
+      }
+    },
+    "exercise.deadlift.step.lockout.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lockout"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Финальная фаза"
+          }
+        }
+      }
+    },
+    "exercise.deadlift.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stand with feet hip-width apart, bar over mid-foot. Hinge at the hips, grip the bar just outside your legs, and brace your core with a neutral spine."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Встаньте, ноги на ширине бёдер, гриф над серединой стопы. Наклонитесь, возьмите гриф чуть шире ног и зафиксируйте нейтральный позвоночник."
+          }
+        }
+      }
+    },
+    "exercise.deadlift.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.dips.mistake.flared_elbows": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flaring the elbows outward shifts stress to the shoulders"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разведение локтей в стороны переносит нагрузку на плечи"
+          }
+        }
+      }
+    },
+    "exercise.dips.mistake.swinging": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swinging the legs generates momentum and reduces muscle activation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Раскачивание ног создаёт инерцию и снижает активацию мышц"
+          }
+        }
+      }
+    },
+    "exercise.dips.mistake.too_deep": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dropping below 90° at the elbow overstretches the shoulder joint"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опускание ниже 90° в локте чрезмерно растягивает плечевой сустав"
+          }
+        }
+      }
+    },
+    "exercise.dips.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dips"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отжимания на брусьях"
+          }
+        }
+      }
+    },
+    "exercise.dips.step.descent.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bend your elbows and lower yourself until your upper arms are roughly parallel to the floor, feeling a stretch across your chest."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сгибайте локти и опускайтесь до тех пор, пока плечи не станут приблизительно параллельны полу, ощущая растяжение в груди."
+          }
+        }
+      }
+    },
+    "exercise.dips.step.descent.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descent"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опускание"
+          }
+        }
+      }
+    },
+    "exercise.dips.step.press.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drive yourself back up by contracting your chest and triceps until your arms are straight again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выжмитесь обратно, сокращая грудные мышцы и трицепс, до полного разгибания рук."
+          }
+        }
+      }
+    },
+    "exercise.dips.step.press.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Жим"
+          }
+        }
+      }
+    },
+    "exercise.dips.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grip the parallel bars and push up to a straight-arm support. Lean slightly forward to shift more emphasis to the chest."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возьмитесь за брусья и выжмитесь в положение с прямыми руками. Слегка наклонитесь вперёд для переноса нагрузки на грудные мышцы."
+          }
+        }
+      }
+    },
+    "exercise.dips.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.hip_thrust.mistake.bar_pressure": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bar rolling or digging into the hips causes pain and disrupts form — use a pad"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Смещение или давление грифа на бёдра вызывает боль и нарушает технику — используйте мягкую накладку"
+          }
+        }
+      }
+    },
+    "exercise.hip_thrust.mistake.incomplete_extension": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not reaching full hip extension reduces glute activation at the peak"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неполное разгибание бёдер снижает активацию ягодиц в пиковой точке"
+          }
+        }
+      }
+    },
+    "exercise.hip_thrust.mistake.lumbar_hyperextension": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hyperextending the lower back at the top shifts load from glutes to the lumbar spine"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переразгибание поясницы в верхней точке переносит нагрузку с ягодиц на поясничный отдел"
+          }
+        }
+      }
+    },
+    "exercise.hip_thrust.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hip Thrust"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ягодичный мостик со штангой"
+          }
+        }
+      }
+    },
+    "exercise.hip_thrust.step.drive.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drive your hips upward by squeezing your glutes until your body forms a straight line from knees to shoulders."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выталкивайте бёдра вверх, сжимая ягодицы, пока тело не образует прямую от коленей до плеч."
+          }
+        }
+      }
+    },
+    "exercise.hip_thrust.step.drive.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drive"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём"
+          }
+        }
+      }
+    },
+    "exercise.hip_thrust.step.return.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lower your hips with control back toward the floor without fully resting, then drive up for the next rep."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опускайте бёдра контролируемо к полу, не касаясь его полностью, затем поднимайтесь к следующему повторению."
+          }
+        }
+      }
+    },
+    "exercise.hip_thrust.step.return.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возврат"
+          }
+        }
+      }
+    },
+    "exercise.hip_thrust.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sit with your upper back against a bench, bar across your hips. Feet flat and shoulder-width apart, knees bent at about 90°."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Упритесь верхней частью спины в скамью, штанга на бёдрах. Стопы на полу на ширине плеч, колени согнуты примерно на 90°."
+          }
+        }
+      }
+    },
+    "exercise.hip_thrust.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.lateral_raise.mistake.above_shoulders": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raising above shoulder height increases impingement risk without adding benefit"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём выше плеч увеличивает риск импинджмента без дополнительной пользы"
+          }
+        }
+      }
+    },
+    "exercise.lateral_raise.mistake.body_sway": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swaying the torso to help lift the weight reduces deltoid activation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Раскачивание корпуса для подъёма веса снижает активацию дельтовидных мышц"
+          }
+        }
+      }
+    },
+    "exercise.lateral_raise.mistake.locked_elbows": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fully locking the elbows puts excessive stress on the elbow joints"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Полное выпрямление локтей создаёт избыточную нагрузку на локтевые суставы"
+          }
+        }
+      }
+    },
+    "exercise.lateral_raise.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lateral Raise"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём гантелей в стороны"
+          }
+        }
+      }
+    },
+    "exercise.lateral_raise.step.lower.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lower the dumbbells with control back to the starting position without letting them drop."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контролируемо опускайте гантели обратно в исходное положение, не бросая их."
+          }
+        }
+      }
+    },
+    "exercise.lateral_raise.step.lower.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lower"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опускание"
+          }
+        }
+      }
+    },
+    "exercise.lateral_raise.step.raise.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raise both dumbbells out to the sides in an arc until they reach shoulder height, leading with your elbows."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поднимайте гантели дугой в стороны до уровня плеч, ведя движение локтями."
+          }
+        }
+      }
+    },
+    "exercise.lateral_raise.step.raise.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raise"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём"
+          }
+        }
+      }
+    },
+    "exercise.lateral_raise.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stand holding dumbbells at your sides with a slight bend in the elbows. Keep your torso upright and core engaged."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Встаньте, гантели опущены вдоль тела, локти слегка согнуты. Корпус прямой, кор напряжён."
+          }
+        }
+      }
+    },
+    "exercise.lateral_raise.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.leg_press.mistake.hip_lift": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hips lifting off the pad indicates the weight is too heavy or the range of motion is too deep"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отрыв бёдер от спинки означает, что вес слишком велик или амплитуда слишком глубокая"
+          }
+        }
+      }
+    },
+    "exercise.leg_press.mistake.knee_lockout": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Locking out the knees at the top removes tension from the quads and stresses the joint"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Полное выпрямление коленей убирает нагрузку с квадрицепса и перегружает сустав"
+          }
+        }
+      }
+    },
+    "exercise.leg_press.mistake.short_range": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Using a short range of motion limits quad development"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Малая амплитуда движения ограничивает развитие квадрицепса"
+          }
+        }
+      }
+    },
+    "exercise.leg_press.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leg Press"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Жим ногами"
+          }
+        }
+      }
+    },
+    "exercise.leg_press.step.descent.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock the safety bars and lower the platform with control until your knees are at about 90°, keeping your lower back pressed into the pad."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Снимите стопоры и опускайте платформу до угла примерно 90° в коленях, прижимая поясницу к спинке."
+          }
+        }
+      }
+    },
+    "exercise.leg_press.step.descent.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descent"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опускание"
+          }
+        }
+      }
+    },
+    "exercise.leg_press.step.press.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Push the platform away by extending your legs, stopping just short of locking out your knees."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выжимайте платформу разгибанием ног, останавливаясь чуть раньше полного выпрямления коленей."
+          }
+        }
+      }
+    },
+    "exercise.leg_press.step.press.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Жим"
+          }
+        }
+      }
+    },
+    "exercise.leg_press.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sit in the machine with your back flat against the pad. Place feet shoulder-width apart in the middle of the platform."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сядьте в тренажёр, прижав спину к спинке. Поставьте стопы на ширине плеч в середину платформы."
+          }
+        }
+      }
+    },
+    "exercise.leg_press.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.overhead_press.mistake.behind_head": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pressing behind the head puts extreme stress on the shoulder joints"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Жим за голову создаёт экстремальную нагрузку на плечевые суставы"
+          }
+        }
+      }
+    },
+    "exercise.overhead_press.mistake.leg_drive": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Using leg drive turns the movement into a push press, reducing shoulder development"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использование ног превращает упражнение в толчок, снижая развитие плеч"
+          }
+        }
+      }
+    },
+    "exercise.overhead_press.mistake.lower_back_arch": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Excessive lower-back arch shifts the load to the lumbar spine"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чрезмерный прогиб поясницы переносит нагрузку на поясничный отдел"
+          }
+        }
+      }
+    },
+    "exercise.overhead_press.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Overhead Press"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Жим штанги стоя"
+          }
+        }
+      }
+    },
+    "exercise.overhead_press.step.press.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press the bar straight up, moving your head back slightly to let it pass, then push your head through as the bar clears."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Жмите штангу строго вверх, слегка отводя голову назад, затем верните голову под гриф."
+          }
+        }
+      }
+    },
+    "exercise.overhead_press.step.press.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Жим"
+          }
+        }
+      }
+    },
+    "exercise.overhead_press.step.return.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lower the bar with control back to shoulder height, keeping your elbows slightly in front of the bar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контролируемо опускайте штангу на уровень плеч, держа локти чуть впереди грифа."
+          }
+        }
+      }
+    },
+    "exercise.overhead_press.step.return.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возврат"
+          }
+        }
+      }
+    },
+    "exercise.overhead_press.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hold the bar at shoulder height with a grip slightly wider than shoulder-width. Stand with feet hip-width apart, core braced."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возьмите гриф на уровне плеч хватом чуть шире плеч. Встаньте, ноги на ширине бёдер, кор напряжён."
+          }
+        }
+      }
+    },
+    "exercise.overhead_press.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.pull_up.mistake.partial_range": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not fully extending at the bottom reduces the range of motion and lat activation"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неполное выпрямление внизу уменьшает амплитуду и активацию широчайших"
+          }
+        }
+      }
+    },
+    "exercise.pull_up.mistake.shoulder_shrug": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shrugging the shoulders at the top shifts load away from the lats"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём плеч в верхней точке уводит нагрузку с широчайших мышц"
+          }
+        }
+      }
+    },
+    "exercise.pull_up.mistake.swinging": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swinging the body uses momentum instead of back strength"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Раскачивание тела использует инерцию вместо силы спины"
+          }
+        }
+      }
+    },
+    "exercise.pull_up.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pull-Up"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтягивания"
+          }
+        }
+      }
+    },
+    "exercise.pull_up.step.descent.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lower yourself with control until your arms are fully extended, then begin the next rep."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контролируемо опускайтесь до полного выпрямления рук, затем начинайте следующее повторение."
+          }
+        }
+      }
+    },
+    "exercise.pull_up.step.descent.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descent"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опускание"
+          }
+        }
+      }
+    },
+    "exercise.pull_up.step.grip.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hang from the bar with an overhand grip slightly wider than shoulder-width, arms fully extended and shoulders engaged."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повисните на перекладине хватом сверху чуть шире плеч, руки полностью выпрямлены, плечи активированы."
+          }
+        }
+      }
+    },
+    "exercise.pull_up.step.grip.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grip"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Хват"
+          }
+        }
+      }
+    },
+    "exercise.pull_up.step.pull.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drive your elbows down and back to pull your chest up toward the bar until your chin clears it."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тяните локти вниз и назад, поднимая грудь к перекладине, пока подбородок не окажется над ней."
+          }
+        }
+      }
+    },
+    "exercise.pull_up.step.pull.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pull"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём"
+          }
+        }
+      }
+    },
+    "exercise.romanian_deadlift.mistake.bar_away": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letting the bar drift away from the legs increases lower-back strain"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отведение штанги от ног увеличивает нагрузку на поясницу"
+          }
+        }
+      }
+    },
+    "exercise.romanian_deadlift.mistake.knee_bend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bending the knees too much converts the movement into a deadlift, reducing hamstring stretch"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чрезмерное сгибание коленей превращает движение в становую тягу, уменьшая растяжение бицепса бедра"
+          }
+        }
+      }
+    },
+    "exercise.romanian_deadlift.mistake.rounded_back": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rounding the back transfers load from hamstrings to the lumbar spine"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Округление спины переносит нагрузку с бицепса бедра на поясницу"
+          }
+        }
+      }
+    },
+    "exercise.romanian_deadlift.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Romanian Deadlift"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Румынская тяга"
+          }
+        }
+      }
+    },
+    "exercise.romanian_deadlift.step.hinge.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Push your hips back and lower the bar along your legs, feeling a deep stretch in your hamstrings. Maintain a neutral spine throughout."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отведите бёдра назад и опускайте штангу вдоль ног, ощущая глубокое растяжение бицепса бедра. Держите нейтральный позвоночник на всём протяжении."
+          }
+        }
+      }
+    },
+    "exercise.romanian_deadlift.step.hinge.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hinge"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Наклон"
+          }
+        }
+      }
+    },
+    "exercise.romanian_deadlift.step.return.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drive your hips forward to return to standing, squeezing your glutes at the top."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выведите бёдра вперёд, возвращаясь в стойку и сжимая ягодицы в верхней точке."
+          }
+        }
+      }
+    },
+    "exercise.romanian_deadlift.step.return.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возврат"
+          }
+        }
+      }
+    },
+    "exercise.romanian_deadlift.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stand holding the bar at hip height with an overhand grip, feet hip-width apart, knees soft. Shoulders back and chest up."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Встаньте, держа штангу на уровне бёдер хватом сверху, ноги на ширине бёдер, колени слегка согнуты. Плечи отведены, грудь развёрнута."
+          }
+        }
+      }
+    },
+    "exercise.romanian_deadlift.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.squat.mistake.heel_raise": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heels rising off the floor indicates limited ankle mobility and destabilises the lift"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отрыв пяток от пола указывает на ограниченную подвижность голеностопа и дестабилизирует подъём"
+          }
+        }
+      }
+    },
+    "exercise.squat.mistake.knee_cave": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Knees caving inward puts harmful stress on the knee joints"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завал коленей внутрь создаёт вредную нагрузку на коленные суставы"
+          }
+        }
+      }
+    },
+    "exercise.squat.mistake.rounded_back": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rounding the back under load compresses the spine dangerously"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Округление спины под нагрузкой опасно сжимает позвоночник"
+          }
+        }
+      }
+    },
+    "exercise.squat.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barbell Squat"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приседания со штангой"
+          }
+        }
+      }
+    },
+    "exercise.squat.step.ascent.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drive through your heels and push your knees out as you stand up, exhaling at the top."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Толкайтесь пятками и разводите колени, поднимаясь вверх. Выдыхайте в верхней точке."
+          }
+        }
+      }
+    },
+    "exercise.squat.step.ascent.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ascent"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём"
+          }
+        }
+      }
+    },
+    "exercise.squat.step.descent.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Push your knees out in line with your toes as you sit back and down, keeping your chest up until your thighs reach parallel or below."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разводите колени по линии носков, опускаясь назад и вниз. Держите грудь развёрнутой до параллели бёдер с полом или ниже."
+          }
+        }
+      }
+    },
+    "exercise.squat.step.descent.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descent"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опускание"
+          }
+        }
+      }
+    },
+    "exercise.squat.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place the bar on your upper traps. Stand with feet shoulder-width apart and toes turned slightly out. Brace your core and take a deep breath."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Положите штангу на верхние трапеции. Ноги на ширине плеч, носки слегка развёрнуты. Напрягите кор и сделайте глубокий вдох."
+          }
+        }
+      }
+    },
+    "exercise.squat.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "exercise.standing_calf_raise.mistake.jerking": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bouncing at the bottom uses elastic energy instead of calf strength"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отбивание внизу использует упругую энергию вместо силы икроножных мышц"
+          }
+        }
+      }
+    },
+    "exercise.standing_calf_raise.mistake.knee_bend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bending the knees shifts the load from gastrocnemius to soleus"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сгибание коленей смещает нагрузку с икроножной на камбаловидную мышцу"
+          }
+        }
+      }
+    },
+    "exercise.standing_calf_raise.mistake.short_range": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not lowering the heels below the platform removes the stretch and limits calf development"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неопускание пяток ниже платформы убирает растяжение и ограничивает развитие икр"
+          }
+        }
+      }
+    },
+    "exercise.standing_calf_raise.name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standing Calf Raise"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём на носки стоя"
+          }
+        }
+      }
+    },
+    "exercise.standing_calf_raise.step.lower.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lower your heels below the platform level with control to get a full stretch in the calves before the next rep."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опускайте пятки ниже уровня платформы контролируемо, получая полное растяжение икр перед следующим повторением."
+          }
+        }
+      }
+    },
+    "exercise.standing_calf_raise.step.lower.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lower"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опускание"
+          }
+        }
+      }
+    },
+    "exercise.standing_calf_raise.step.raise.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rise up onto the balls of your feet as high as possible, squeezing your calves at the top."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поднимайтесь на носки как можно выше, сжимая икры в верхней точке."
+          }
+        }
+      }
+    },
+    "exercise.standing_calf_raise.step.raise.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raise"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъём"
+          }
+        }
+      }
+    },
+    "exercise.standing_calf_raise.step.setup.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stand on the calf-raise machine with the balls of your feet on the platform and heels hanging off the edge. Place the pad on your shoulders."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Встаньте на тренажёр, разместив подушечки стоп на платформе, пятки свешиваются. Подушка тренажёра на плечах."
+          }
+        }
+      }
+    },
+    "exercise.standing_calf_raise.step.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setup"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходное положение"
+          }
+        }
+      }
+    },
+    "muscle.back": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Спина"
+          }
+        }
+      }
+    },
+    "muscle.biceps": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Biceps"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бицепс"
+          }
+        }
+      }
+    },
+    "muscle.calves": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calves"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Икры"
+          }
+        }
+      }
+    },
+    "muscle.chest": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chest"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Грудь"
+          }
+        }
+      }
+    },
+    "muscle.core": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Core"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пресс"
+          }
+        }
+      }
+    },
+    "muscle.glutes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glutes"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ягодицы"
+          }
+        }
+      }
+    },
+    "muscle.hamstrings": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hamstrings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бицепс бедра"
+          }
+        }
+      }
+    },
+    "muscle.quads": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quads"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Квадрицепс"
+          }
+        }
+      }
+    },
+    "muscle.shoulders": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shoulders"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Плечи"
+          }
+        }
+      }
+    },
+    "muscle.triceps": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Triceps"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Трицепс"
+          }
+        }
+      }
+    }
+  }
+}

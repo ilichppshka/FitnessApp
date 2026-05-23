@@ -4,13 +4,10 @@ import SwiftData
 @Model
 final class MuscleGroup {
     @Attribute(.unique) var id: UUID
-    var name: String
+    @Attribute(.unique) var slug: String
 
-    @Relationship(inverse: \Exercise.muscleGroups)
-    var exercises: [Exercise] = []
-
-    init(id: UUID = UUID(), name: String) {
+    init(id: UUID = UUID(), slug: String) {
         self.id = id
-        self.name = name
+        self.slug = slug
     }
 }
