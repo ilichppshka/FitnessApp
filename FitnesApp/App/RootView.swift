@@ -18,6 +18,7 @@ struct RootView: View {
 
 private struct MainTabsView: View {
     @Environment(AppRouter.self) private var router
+    @Environment(DIContainer.self) private var container
 
     var body: some View {
         @Bindable var bindableRouter = router
@@ -27,7 +28,7 @@ private struct MainTabsView: View {
                 .tag(AppRouter.Tab.dashboard)
                 .tabItem { Label("tab.home", systemImage: "house.fill") }
 
-            placeholderTab(title: "tab.exercises", systemImage: "dumbbell.fill")
+            ExerciseLibraryView(repository: container.exerciseRepository)
                 .tag(AppRouter.Tab.library)
                 .tabItem { Label("tab.exercises", systemImage: "dumbbell.fill") }
 

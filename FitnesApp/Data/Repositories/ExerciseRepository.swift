@@ -3,6 +3,7 @@ import SwiftData
 
 protocol ExerciseRepository {
     func all() async throws -> [Exercise]
+    func allMuscleGroups() async throws -> [MuscleGroup]
     func search(query: String, muscleGroupIDs: [UUID]) async throws -> [Exercise]
     func find(id: UUID) async throws -> Exercise?
     func bestPersonalRecord(exerciseID: UUID) async throws -> PersonalRecordDTO?
@@ -24,6 +25,13 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
 
     func all() async throws -> [Exercise] {
         let descriptor = FetchDescriptor<Exercise>(
+            sortBy: [SortDescriptor(\.name)]
+        )
+        return try context.fetch(descriptor)
+    }
+
+    func allMuscleGroups() async throws -> [MuscleGroup] {
+        let descriptor = FetchDescriptor<MuscleGroup>(
             sortBy: [SortDescriptor(\.name)]
         )
         return try context.fetch(descriptor)

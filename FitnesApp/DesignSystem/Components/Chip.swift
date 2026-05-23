@@ -36,6 +36,7 @@ struct Chip: View {
         .padding(.vertical, Spacing.sm)
         .background(Capsule().fill(background))
         .overlay(Capsule().strokeBorder(border, lineWidth: 1))
+        .neonGlow(radius: 4, opacity: 0.5, isActive: style == .selected)
     }
 
     private var foreground: Color {
