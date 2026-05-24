@@ -4,6 +4,7 @@ import Testing
 
 @MainActor
 struct WorkoutServiceTests {
+    // swiftlint:disable:next large_tuple
     private func makeService() -> (
         WorkoutService,
         MockSessionRepository,

@@ -8,7 +8,14 @@ final class MockExerciseRepository: ExerciseRepository {
     var addPRError: Error?
 
     private(set) var bestPRCalls: [UUID] = []
-    private(set) var addPRCalls: [(exerciseID: UUID, weight: Double, reps: Int, date: Date)] = []
+    struct AddPRCall {
+        let exerciseID: UUID
+        let weight: Double
+        let reps: Int
+        let date: Date
+    }
+
+    private(set) var addPRCalls: [AddPRCall] = []
 
     func all() async throws -> [Exercise] { [] }
 
@@ -37,7 +44,7 @@ final class MockExerciseRepository: ExerciseRepository {
         reps: Int,
         date: Date
     ) async throws -> PersonalRecordDTO {
-        addPRCalls.append((exerciseID, weight, reps, date))
+        addPRCalls.append(AddPRCall(exerciseID: exerciseID, weight: weight, reps: reps, date: date))
         if let addPRError { throw addPRError }
         if let addPRResult { return addPRResult }
         return PersonalRecordDTO(

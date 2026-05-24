@@ -154,6 +154,7 @@ struct ExerciseLibraryView: View {
 
 #if DEBUG
 #Preview("Exercise Library") {
+    // swiftlint:disable:next force_try
     let mc = try! ModelContainer.makePreview()
     try? DataSeeder.seedIfNeeded(mc.mainContext)
     return ExerciseLibraryView(

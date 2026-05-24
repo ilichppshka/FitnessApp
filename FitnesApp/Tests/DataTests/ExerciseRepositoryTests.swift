@@ -65,9 +65,9 @@ struct ExerciseRepositoryTests {
         let result = try await repo.search(query: "", muscleGroupIDs: [chest.id])
 
         #expect(!result.isEmpty)
-        #expect(result.allSatisfy {
-            $0.primaryMuscleGroups.contains { $0.id == chest.id } ||
-            $0.secondaryMuscleGroups.contains { $0.id == chest.id }
+        #expect(result.allSatisfy { exercise in
+            exercise.primaryMuscleGroups.contains { $0.id == chest.id } ||
+            exercise.secondaryMuscleGroups.contains { $0.id == chest.id }
         })
     }
 

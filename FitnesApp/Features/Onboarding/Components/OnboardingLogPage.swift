@@ -81,7 +81,11 @@ struct OnboardingLogPage: View {
 
     private var metricsRow: some View {
         HStack(spacing: Spacing.md) {
-            metricCell(label: LocalizedStringResource("onboarding.log.demo.weight", table: "Onboarding"), value: "75", unit: LocalizedStringResource("profileSetup.weight.unit", table: "Onboarding"))
+            metricCell(
+                label: LocalizedStringResource("onboarding.log.demo.weight", table: "Onboarding"),
+                value: "75",
+                unit: LocalizedStringResource("profileSetup.weight.unit", table: "Onboarding")
+            )
             metricCell(label: LocalizedStringResource("onboarding.log.demo.reps", table: "Onboarding"), value: "8", unit: nil)
         }
     }

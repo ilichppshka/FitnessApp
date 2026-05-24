@@ -29,7 +29,6 @@ enum ExerciseSeed {
         let mistakeKeys: [String]
     }
 
-    // swiftlint:disable function_body_length
     private static let seeds: [Seed] = [
         // MARK: Chest
         Seed(
@@ -169,5 +168,4 @@ enum ExerciseSeed {
             mistakeKeys: ["short_range", "jerking", "knee_bend"]
         )
     ]
-    // swiftlint:enable function_body_length
 }

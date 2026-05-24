@@ -10,7 +10,15 @@ final class MockSessionRepository: SessionRepository {
 
     private(set) var activeSessionCalls = 0
     private(set) var createCalls: [UUID?] = []
-    private(set) var addSetCalls: [(sessionID: UUID, exerciseID: UUID, weight: Double, reps: Int, tonnage: Double)] = []
+    struct AddSetCall {
+        let sessionID: UUID
+        let exerciseID: UUID
+        let weight: Double
+        let reps: Int
+        let tonnage: Double
+    }
+
+    private(set) var addSetCalls: [AddSetCall] = []
     private(set) var bumpCalls: [(sessionID: UUID, delta: Double)] = []
     private(set) var finishCalls: [(sessionID: UUID, date: Date)] = []
     private(set) var deleteCalls: [UUID] = []
@@ -45,7 +53,7 @@ final class MockSessionRepository: SessionRepository {
         reps: Int,
         tonnage: Double
     ) async throws -> WorkoutSetDTO {
-        addSetCalls.append((sessionID, exerciseID, weight, reps, tonnage))
+        addSetCalls.append(AddSetCall(sessionID: sessionID, exerciseID: exerciseID, weight: weight, reps: reps, tonnage: tonnage))
         if let addSetError { throw addSetError }
         if let addSetResult { return addSetResult }
         return WorkoutSetDTO(

@@ -97,7 +97,10 @@ struct ProfileSetupView: View {
 
     private var nameSection: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            labelRow(label: LocalizedStringResource("profileSetup.name.label", table: "Onboarding"), hint: LocalizedStringResource("profileSetup.name.hint", table: "Onboarding"))
+            labelRow(
+                label: LocalizedStringResource("profileSetup.name.label", table: "Onboarding"),
+                hint: LocalizedStringResource("profileSetup.name.hint", table: "Onboarding")
+            )
             outlinedNameField
         }
     }
@@ -178,7 +181,10 @@ struct ProfileSetupView: View {
 
     private var mascotSection: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            labelRow(label: LocalizedStringResource("profileSetup.mascot.label", table: "Onboarding"), hint: LocalizedStringResource("profileSetup.mascot.hint", table: "Onboarding"))
+            labelRow(
+                label: LocalizedStringResource("profileSetup.mascot.label", table: "Onboarding"),
+                hint: LocalizedStringResource("profileSetup.mascot.hint", table: "Onboarding")
+            )
             MascotPickerGrid(selection: $viewModel.selectedMascot)
         }
     }
@@ -256,6 +262,7 @@ private final class PreviewNotificationScheduling: NotificationScheduling, @unch
 }
 
 #Preview("Profile Setup") {
+    // swiftlint:disable:next force_try
     let mc = try! ModelContainer.makePreview()
     ProfileSetupView(
         users: SwiftDataUserRepository(context: mc.mainContext),

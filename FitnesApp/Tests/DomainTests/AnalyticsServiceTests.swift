@@ -4,6 +4,7 @@ import Testing
 
 @MainActor
 struct AnalyticsServiceTests {
+    // swiftlint:disable:next large_tuple
     private func makeService() -> (
         AnalyticsService,
         MockSessionRepository,

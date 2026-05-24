@@ -129,8 +129,16 @@ struct ExerciseDetailView: View {
                     ForEach(Array(execSteps.enumerated()), id: \.element.id) { idx, step in
                         ExecutionStepRow(
                             number: idx + 1,
-                            title: NSLocalizedString("exercise.\(exercise.slug).step.\(step.key).title", tableName: "Exercises", comment: ""),
-                            text: NSLocalizedString("exercise.\(exercise.slug).step.\(step.key).body", tableName: "Exercises", comment: "")
+                            title: NSLocalizedString(
+                                "exercise.\(exercise.slug).step.\(step.key).title",
+                                tableName: "Exercises",
+                                comment: ""
+                            ),
+                            text: NSLocalizedString(
+                                "exercise.\(exercise.slug).step.\(step.key).body",
+                                tableName: "Exercises",
+                                comment: ""
+                            )
                         )
                         .padding(.horizontal, Spacing.md)
                     }
@@ -239,6 +247,7 @@ extension ExerciseDifficulty {
 
 #if DEBUG
 #Preview("Exercise Detail View") {
+    // swiftlint:disable:next force_try
     let mc = try! ModelContainer.makePreview()
     try? DataSeeder.seedIfNeeded(mc.mainContext)
     let exercises = (try? mc.mainContext.fetch(FetchDescriptor<Exercise>())) ?? []

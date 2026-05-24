@@ -49,6 +49,7 @@ struct DayCell: View {
                 .padding(.bottom, 6)
                 .opacity(isActive ? 1 : 0)
         }
+        .neonGlow(radius: 10, opacity: 0.5, isActive: isSelected)
     }
 
     private var dotColor: Color {
@@ -56,10 +57,11 @@ struct DayCell: View {
     }
 
     private var letterColor: Color {
+        if isSelected { return Color.App.onPrimary.opacity(0.7) }
         switch state {
-        case .past:   Color.App.onSurface.opacity(0.3)
-        case .today:  isSelected ? Color.App.onPrimary.opacity(0.7) : Color.App.primary
-        case .future: Color.App.onSurface.opacity(0.5)
+        case .past:   return Color.App.onSurface.opacity(0.3)
+        case .today:  return Color.App.primary
+        case .future: return Color.App.onSurface.opacity(0.5)
         }
     }
 

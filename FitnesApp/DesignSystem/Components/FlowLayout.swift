@@ -54,9 +54,10 @@ struct FlowLayout: Layout {
     }
 
     private func totalSize(for rows: [[Item]]) -> CGSize {
-        let width = rows.map { row in
+        let rowWidths = rows.map { row in
             row.reduce(0) { $0 + $1.size.width } + CGFloat(max(row.count - 1, 0)) * spacing
-        }.max() ?? 0
+        }
+        let width = rowWidths.max() ?? 0
         let height = rows.reduce(0) { $0 + ($1.map(\.size.height).max() ?? 0) }
             + CGFloat(max(rows.count - 1, 0)) * lineSpacing
         return CGSize(width: width, height: height)

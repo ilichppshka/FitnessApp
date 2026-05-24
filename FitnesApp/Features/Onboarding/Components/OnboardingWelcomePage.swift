@@ -16,17 +16,19 @@ struct OnboardingWelcomePage: View {
     }
 
     private var heroCircle: some View {
-        ZStack {
+        let circleDiameter: CGFloat = 180
+        let logoDiameter: CGFloat = 110
+        return ZStack {
             Circle()
                 .fill(Color.App.primary)
-                .frame(width: 180, height: 180)
+                .frame(width: circleDiameter, height: circleDiameter)
                 .neonGlow(radius: 28, opacity: 0.55)
 
             Image("KineticLogo")
                 .renderingMode(.original)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 110, height: 110)
+                .frame(width: logoDiameter, height: logoDiameter)
         }
     }
 }

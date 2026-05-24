@@ -11,6 +11,7 @@ struct Chip: View {
     let title: String
     var style: ChipStyle = .subtle
     var leadingSystemName: String?
+    var leadingColor: Color?
     var action: (() -> Void)?
 
     var body: some View {
@@ -27,6 +28,7 @@ struct Chip: View {
             if let leadingSystemName {
                 Image(systemName: leadingSystemName)
                     .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(leadingColor ?? foreground)
             }
             Text(title)
                 .font(Font.App.labelSm)

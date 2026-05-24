@@ -12,30 +12,33 @@ struct NextWorkoutCard: View {
     var onStart: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.lg) {
+        VStack(alignment: .leading, spacing: 0) {
             heroBlock
-            statsBlock
-            muscleChips
-            KineticButton(
-                title: ctaTitle,
-                trailingSystemName: "chevron.right",
-                action: onStart
-            )
+            VStack(alignment: .leading, spacing: Spacing.lg) {
+                statsBlock
+                muscleChips
+                KineticButton(
+                    title: ctaTitle,
+                    trailingSystemName: "chevron.right",
+                    action: onStart
+                )
+            }
+            .padding(Spacing.lg)
         }
-        .padding(Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: Radii.lg)
                 .fill(Color.App.surfaceContainerHigh)
         )
+        .clipShape(RoundedRectangle(cornerRadius: Radii.lg))
     }
 
     private var heroBlock: some View {
         ZStack(alignment: .bottomLeading) {
             beam
-                .clipShape(RoundedRectangle(cornerRadius: Radii.md))
 
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                Chip(title: scheduleTag, style: .subtle, leadingSystemName: "circle.fill")
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                Chip(title: scheduleTag, style: .subtle, leadingSystemName: "circle.fill", leadingColor: Color.App.primary)
+                Spacer()
                 Text(focusLabel.uppercased())
                     .font(Font.App.labelSm)
                     .foregroundStyle(Color.App.onSurface.opacity(0.6))
@@ -75,11 +78,10 @@ struct NextWorkoutCard: View {
     }
 
     private var muscleChips: some View {
-        HStack(spacing: Spacing.xs) {
+        FlowLayout(spacing: Spacing.xs, lineSpacing: Spacing.xs) {
             ForEach(muscleGroups, id: \.self) { group in
                 Chip(title: group, style: .outline)
             }
-            Spacer(minLength: 0)
         }
     }
 }

@@ -8,7 +8,7 @@ import Testing
 struct ExerciseLibraryViewModelTests {
     @Test
     func loadInitial_populatesExercisesAndMuscleGroupsAndTotalCount() async throws {
-        let (vm, _container) = try makeVM()
+        let (vm, container) = try makeVM()
 
         await vm.loadInitial()
 
@@ -17,18 +17,18 @@ struct ExerciseLibraryViewModelTests {
         #expect(!vm.muscleGroups.isEmpty)
         #expect(vm.muscleGroups.map(\.name) == vm.muscleGroups.map(\.name).sorted())
         for group in vm.muscleGroups {
-            let expected = vm.exercises.filter {
-                $0.primaryMuscleGroups.contains { $0.id == group.id } ||
-                $0.secondaryMuscleGroups.contains { $0.id == group.id }
+            let expected = vm.exercises.filter { exercise in
+                exercise.primaryMuscleGroups.contains { $0.id == group.id } ||
+                exercise.secondaryMuscleGroups.contains { $0.id == group.id }
             }.count
             #expect(group.count == expected)
         }
-        _ = _container
+        _ = container
     }
 
     @Test
     func selectGroup_filtersExercisesToThatGroup() async throws {
-        let (vm, _container) = try makeVM()
+        let (vm, container) = try makeVM()
         await vm.loadInitial()
         let group = try #require(vm.muscleGroups.first)
 
@@ -36,16 +36,16 @@ struct ExerciseLibraryViewModelTests {
         await vm.reload()
 
         #expect(!vm.exercises.isEmpty)
-        #expect(vm.exercises.allSatisfy {
-            $0.primaryMuscleGroups.contains { $0.id == group.id } ||
-            $0.secondaryMuscleGroups.contains { $0.id == group.id }
+        #expect(vm.exercises.allSatisfy { exercise in
+            exercise.primaryMuscleGroups.contains { $0.id == group.id } ||
+            exercise.secondaryMuscleGroups.contains { $0.id == group.id }
         })
-        _ = _container
+        _ = container
     }
 
     @Test
     func selectGroup_nil_clearsFilter() async throws {
-        let (vm, _container) = try makeVM()
+        let (vm, container) = try makeVM()
         await vm.loadInitial()
         let total = vm.exercises.count
         let group = try #require(vm.muscleGroups.first)
@@ -57,12 +57,12 @@ struct ExerciseLibraryViewModelTests {
 
         #expect(vm.exercises.count == total)
         #expect(vm.selectedMuscleGroupID == nil)
-        _ = _container
+        _ = container
     }
 
     @Test
     func selectGroup_tapSameGroup_clearsSelection() async throws {
-        let (vm, _container) = try makeVM()
+        let (vm, container) = try makeVM()
         await vm.loadInitial()
         let group = try #require(vm.muscleGroups.first)
 
@@ -70,12 +70,12 @@ struct ExerciseLibraryViewModelTests {
         vm.selectGroup(group.id)
 
         #expect(vm.selectedMuscleGroupID == nil)
-        _ = _container
+        _ = container
     }
 
     @Test
     func searchQuery_emptyReturnsAll() async throws {
-        let (vm, _container) = try makeVM()
+        let (vm, container) = try makeVM()
         await vm.loadInitial()
         let total = vm.totalCount
 
@@ -83,24 +83,24 @@ struct ExerciseLibraryViewModelTests {
         await vm.reload()
 
         #expect(vm.exercises.count == total)
-        _ = _container
+        _ = container
     }
 
     @Test
     func searchQuery_noMatch_resultsEmpty() async throws {
-        let (vm, _container) = try makeVM()
+        let (vm, container) = try makeVM()
         await vm.loadInitial()
 
         vm.searchQuery = "xyz_impossible_xqz_123"
         await vm.reload()
 
         #expect(vm.exercises.isEmpty)
-        _ = _container
+        _ = container
     }
 
     @Test
     func searchQuery_noMatch_totalCountUnchanged() async throws {
-        let (vm, _container) = try makeVM()
+        let (vm, container) = try makeVM()
         await vm.loadInitial()
         let total = vm.totalCount
 
@@ -108,12 +108,12 @@ struct ExerciseLibraryViewModelTests {
         await vm.reload()
 
         #expect(vm.totalCount == total)
-        _ = _container
+        _ = container
     }
 
     @Test
     func searchQuery_combinedWithMuscleGroup_muscleFilterStillApplied() async throws {
-        let (vm, _container) = try makeVM()
+        let (vm, container) = try makeVM()
         await vm.loadInitial()
         let group = try #require(vm.muscleGroups.first)
 
@@ -122,18 +122,18 @@ struct ExerciseLibraryViewModelTests {
         await vm.reload()
 
         #expect(vm.exercises.isEmpty)
-        _ = _container
+        _ = container
     }
 
     @Test
     func exerciseLookup_returnsLoadedExerciseOrNil() async throws {
-        let (vm, _container) = try makeVM()
+        let (vm, container) = try makeVM()
         await vm.loadInitial()
         let known = try #require(vm.exercises.first)
 
         #expect(vm.exercise(id: known.id)?.id == known.id)
         #expect(vm.exercise(id: UUID()) == nil)
-        _ = _container
+        _ = container
     }
 
     // MARK: - Helpers

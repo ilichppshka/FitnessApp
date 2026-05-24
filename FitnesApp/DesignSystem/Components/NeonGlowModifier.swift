@@ -38,6 +38,8 @@ extension View {
 }
 
 #Preview("Neon Glow") {
+    let previewCardWidth: CGFloat = 200
+    let previewCardHeight: CGFloat = 56
     VStack(spacing: Spacing.xl) {
         Circle()
             .fill(Color.App.primary)
@@ -46,7 +48,7 @@ extension View {
 
         RoundedRectangle(cornerRadius: Radii.md)
             .fill(Color.App.surfaceContainerHigh)
-            .frame(width: 200, height: 56)
+            .frame(width: previewCardWidth, height: previewCardHeight)
             .overlay(
                 Text("ACTIVE")
                     .font(.App.labelSm)
@@ -56,7 +58,7 @@ extension View {
 
         RoundedRectangle(cornerRadius: Radii.md)
             .fill(Color.App.surfaceContainerHigh)
-            .frame(width: 200, height: 56)
+            .frame(width: previewCardWidth, height: previewCardHeight)
             .overlay(
                 Text("INACTIVE")
                     .font(.App.labelSm)

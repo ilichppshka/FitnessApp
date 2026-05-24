@@ -58,6 +58,7 @@ struct OnboardingFlowView: View {
 }
 
 #Preview("Onboarding flow") {
+    // swiftlint:disable:next force_try
     let mc = try! ModelContainer.makePreview()
     OnboardingFlowView(onComplete: {})
         .environment(DIContainer(modelContext: mc.mainContext))

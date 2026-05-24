@@ -1,6 +1,7 @@
 #if DEBUG || DESIGN_SYSTEM_APP
 import SwiftUI
 
+// swiftlint:disable:next type_body_length
 struct ComponentCatalog: View {
     @State private var nameField: String = ""
     @State private var weightField: String = "80"
@@ -335,7 +336,7 @@ struct ComponentCatalog: View {
                             .foregroundStyle(Color.App.primary)
                     }
                 }
-                PerformanceCard(action: {}) {
+                PerformanceCard(action: {}, content: {
                     HStack {
                         VStack(alignment: .leading, spacing: Spacing.xs) {
                             Text("Push Day").font(Font.App.titleLg)
@@ -347,7 +348,7 @@ struct ComponentCatalog: View {
                         Image(systemName: "chevron.right")
                             .foregroundStyle(Color.App.onSurface.opacity(0.4))
                     }
-                }
+                })
             }
         }
     }

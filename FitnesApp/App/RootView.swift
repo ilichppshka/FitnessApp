@@ -24,7 +24,7 @@ private struct MainTabsView: View {
         @Bindable var bindableRouter = router
 
         TabView(selection: $bindableRouter.selectedTab) {
-            placeholderTab(title: "tab.home", systemImage: "house.fill")
+            DashboardView(userRepository: container.userRepository)
                 .tag(AppRouter.Tab.dashboard)
                 .tabItem { Label("tab.home", systemImage: "house.fill") }
 
@@ -96,6 +96,7 @@ private struct ActiveWorkoutPlaceholderView: View {
 }
 
 #Preview {
+    // swiftlint:disable:next force_try
     let mc = try! ModelContainer.makePreview()
     RootView()
         .environment(DIContainer(modelContext: mc.mainContext))

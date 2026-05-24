@@ -12,6 +12,7 @@ private enum DemoRange: String, CaseIterable, Hashable {
     case all = "All"
 }
 
+// swiftlint:disable:next type_body_length
 struct CompositeCatalog: View {
     @State private var selected: Date = Calendar.current
         .date(from: DateComponents(year: 2026, month: 4, day: 16))!

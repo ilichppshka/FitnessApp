@@ -19,7 +19,7 @@ struct PerformanceCard<Content: View>: View {
     private var cardBody: some View {
         content()
             .padding(padding)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .background(
                 RoundedRectangle(cornerRadius: Radii.md)
                     .fill(Color.App.surfaceContainerHigh)
@@ -53,7 +53,7 @@ private struct PerformanceCardPressStyle: ButtonStyle {
                 }
             }
 
-            PerformanceCard(action: {}) {
+            PerformanceCard(action: {}, content: {
                 HStack {
                     VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text("Push Day")
@@ -67,7 +67,7 @@ private struct PerformanceCardPressStyle: ButtonStyle {
                     Image(systemName: "chevron.right")
                         .foregroundStyle(Color.App.onSurface.opacity(0.4))
                 }
-            }
+            })
 
             PerformanceCard(padding: Spacing.md) {
                 HStack(spacing: Spacing.md) {

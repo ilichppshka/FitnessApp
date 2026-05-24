@@ -40,8 +40,8 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
         if query.isEmpty {
             nameFiltered = all
         } else {
-            nameFiltered = all.filter {
-                localizedExerciseName($0).localizedStandardContains(query)
+            nameFiltered = all.filter { exercise in
+                localizedExerciseName(exercise).localizedStandardContains(query)
             }
         }
         let sorted = nameFiltered.sorted { localizedExerciseName($0) < localizedExerciseName($1) }
