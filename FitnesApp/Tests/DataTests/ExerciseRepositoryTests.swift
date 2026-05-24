@@ -111,6 +111,37 @@ struct ExerciseRepositoryTests {
         #expect(Set(groups.map(\.slug)) == Set(MuscleGroupSeed.all))
     }
 
+    @Test
+    func setFavoriteTogglesAndPersists() async throws {
+        let container = try InMemoryContainer.make()
+        let context = container.mainContext
+        try DataSeeder.seedIfNeeded(context)
+        let repo = SwiftDataExerciseRepository(context: context)
+        let exercise = try #require(try await repo.all().first)
+        let id = exercise.id
+
+        try await repo.setFavorite(id: id, isFavorite: true)
+        let after = try #require(try await repo.find(id: id))
+        #expect(after.isFavorite == true)
+
+        try await repo.setFavorite(id: id, isFavorite: false)
+        let reverted = try #require(try await repo.find(id: id))
+        #expect(reverted.isFavorite == false)
+    }
+
+    @Test
+    func setFavoriteThrowsForUnknownID() async throws {
+        let container = try InMemoryContainer.make()
+        let context = container.mainContext
+        try DataSeeder.seedIfNeeded(context)
+        let repo = SwiftDataExerciseRepository(context: context)
+        let unknownID = UUID()
+
+        await #expect(throws: AppError.exerciseNotFound(id: unknownID)) {
+            try await repo.setFavorite(id: unknownID, isFavorite: true)
+        }
+    }
+
     private func chestGroup(in context: ModelContext) async throws -> MuscleGroup? {
         let descriptor = FetchDescriptor<MuscleGroup>(
             predicate: #Predicate { $0.slug == "chest" }

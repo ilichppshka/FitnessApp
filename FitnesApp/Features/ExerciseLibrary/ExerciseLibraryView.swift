@@ -5,8 +5,10 @@ import UIKit
 struct ExerciseLibraryView: View {
     @Environment(AppRouter.self) private var router
     @State private var viewModel: ExerciseLibraryViewModel
+    private let repository: any ExerciseRepository
 
     init(repository: any ExerciseRepository) {
+        self.repository = repository
         _viewModel = State(initialValue: ExerciseLibraryViewModel(repository: repository))
     }
 
@@ -43,10 +45,8 @@ struct ExerciseLibraryView: View {
                 set: { if !$0 { bindableRouter.presentedExerciseDetailID = nil } }
             )
         ) {
-            if let id = router.presentedExerciseDetailID,
-                let exercise = viewModel.exercise(id: id)
-            {
-                ExerciseDetailSheet(exercise: exercise)
+            if let id = router.presentedExerciseDetailID {
+                ExerciseDetailView(exerciseID: id, repository: repository)
             }
         }
     }

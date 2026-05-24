@@ -14,6 +14,7 @@ protocol ExerciseRepository {
         reps: Int,
         date: Date
     ) async throws -> PersonalRecordDTO
+    func setFavorite(id: UUID, isFavorite: Bool) async throws
 }
 
 final class SwiftDataExerciseRepository: ExerciseRepository {
@@ -89,6 +90,14 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
         context.insert(record)
         try context.save()
         return record.toDTO()
+    }
+
+    func setFavorite(id: UUID, isFavorite: Bool) async throws {
+        guard let exercise = try await find(id: id) else {
+            throw AppError.exerciseNotFound(id: id)
+        }
+        exercise.isFavorite = isFavorite
+        try context.save()
     }
 
     private func localizedExerciseName(_ exercise: Exercise) -> String {

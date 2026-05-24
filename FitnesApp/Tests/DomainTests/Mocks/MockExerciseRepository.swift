@@ -25,6 +25,12 @@ final class MockExerciseRepository: ExerciseRepository {
 
     func personalRecordHistory(exerciseID: UUID) async throws -> [PersonalRecordDTO] { [] }
 
+    private(set) var setFavoriteCalls: [(id: UUID, isFavorite: Bool)] = []
+
+    func setFavorite(id: UUID, isFavorite: Bool) async throws {
+        setFavoriteCalls.append((id, isFavorite))
+    }
+
     func addPersonalRecord(
         exerciseID: UUID,
         weight: Double,
