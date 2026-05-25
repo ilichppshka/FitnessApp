@@ -58,6 +58,8 @@ GoogleService-Info.plist
 docs/pptx/
 docs/docx/
 docs/diagrams/
+docs/logo/
+
 
 # ── Инструменты ───────────────────────────────────────────────────────────────
 .swiftlint.cache
