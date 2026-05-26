@@ -1,0 +1,8 @@
+{
+  "enabledMcpjsonServers": ["XcodeBuildMCP"],
+  "permissions": {
+    "allow": [
+      "mcp__XcodeBuildMCP__*"
+    ]
+  }
+}
