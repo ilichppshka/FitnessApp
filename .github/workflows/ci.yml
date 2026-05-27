@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: SwiftLint
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install SwiftLint
+        run: brew install swiftlint
+
+      - name: Run SwiftLint
+        run: swiftlint lint --strict --quiet --reporter github-actions-logging
+
+  build:
+    name: Build
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+
+      - name: Build FitnesApp
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project FitnesApp.xcodeproj \
+            -scheme FitnesApp \
+            -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            build \
+            | xcbeautify --renderer github-actions
+
+  test:
+    name: Test
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+
+      - name: Run unit tests
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project FitnesApp.xcodeproj \
+            -scheme FitnesApp \
+            -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            test \
+            | xcbeautify --renderer github-actions
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestResults.xcresult
+          path: TestResults.xcresult
+          retention-days: 7
