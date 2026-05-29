@@ -19,19 +19,25 @@
 
 ---
 
-## Фаза 1 · Data Layer (2–3 дня)
+## Фаза 1 · Data Layer (3–4 дня)
 
-Цель: SwiftData-модели, репозитории, сидинг каталога.
+Цель: SwiftData-схема по [models.md](models.md) (10 моделей + 4 enum), репозитории, сидинг каталога с мышечными связями.
 
-- [x] Реализовать все 8 `@Model`-классов из [data-layer.md](data-layer.md#2-модели)
-- [x] `ModelContainer.makeProduction()` + `makePreview()`
-- [x] `SchemaV1` + пустой `AppMigrationPlan`
-- [x] DTO для всех моделей (`Sendable`)
-- [x] 4 репозитория: `Exercise`, `Workout`, `Session`, `User`
-- [x] `DataSeeder` + `ExerciseSeed.makeAll(...)` (30+ упражнений)
-- [x] Юнит-тесты репозиториев на in-memory контейнере
+> Схема пересмотрена относительно первоначального наброска из 8 моделей: добавлены join `ExerciseMuscle` (роль мышцы), `PlanSet` (план по сетам), enum'ы и новые поля. Канон — [models.md](models.md).
 
-**Критерий готовности:** при первом запуске БД заполняется упражнениями, репозитории возвращают данные, тесты зелёные.
+- [ ] 4 enum (`Codable`): `WeightUnit`, `Difficulty`, `Equipment`, `MuscleRole`
+- [ ] 10 `@Model`-классов из [models.md · §2](models.md#2-модели): `UserProfile`, `MuscleGroup`, `ExerciseMuscle`, `Exercise`, `PersonalRecord`, `WorkoutPlan`, `PlanExercise`, `PlanSet`, `WorkoutSession`, `WorkoutSet`
+- [ ] Связи и delete-rules по таблице из [models.md · §3](models.md#3-связи-и-правила-удаления): cascade-владение, nullify-ссылки, явные `inverse`
+- [ ] Derived-свойства: `Exercise.primary/secondaryMuscles`, `WorkoutPlan.totalSets/targetMuscleGroups`, `PlanExercise.targetSets`, `WorkoutSession.isActive/duration/containsPR`
+- [ ] `ModelContainer.makeProduction()` + `makePreview()` (in-memory), `Schema` из 10 моделей
+- [ ] `SchemaV1` (10 моделей) + пустой `AppMigrationPlan`
+- [ ] DTO (`Sendable`): `ExerciseDTO` (+`difficulty`/`equipment`/`isFavorite`/мышцы), `WorkoutPlanDTO`/`PlanExerciseDTO`/`PlanSetDTO`, `WorkoutSessionDTO` (+`title`/`containsPR`), `WorkoutSetDTO` (+`isPersonalRecord`)
+- [ ] 4 репозитория: `ExerciseRepository` (search по `muscleLinks`, favorites-тоггл), `WorkoutRepository` (CRUD планов, `reorder`, `planSets`, draft), `SessionRepository` (active/create/addSet/finish/history), `UserRepository` (current/update)
+- [ ] `DataSeeder` + `MuscleGroupSeed` (Chest/Back/Legs/Shoulders/Arms/Core) + `ExerciseSeed.all` — 30+ упражнений с `ExerciseMuscle` (primary/secondary), `difficulty`, `equipment`
+- [ ] Дефолтный `UserProfile` при первом запуске (`weightUnit = .kg`, маскот `"duck"`)
+- [ ] Юнит-тесты репозиториев и сидинга на in-memory контейнере
+
+**Критерий готовности:** при первом запуске БД заполняется упражнениями с мышечными связями, сложностью и оборудованием; репозитории фильтруют по группе мышц и отдают favorites; план с `PlanSet` сохраняется и переупорядочивается; сессия создаётся/финализируется с корректным `totalTonnage`; тесты зелёные; нет warnings Swift 6 Concurrency.
 
 ---
 
