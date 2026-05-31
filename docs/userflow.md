@@ -14,7 +14,7 @@
 | Surface | `#0e0f0c` · low `#131410` · high `#1f201c` · highest `#2a2b26` |
 | Primary (акцент) | **Lime** `#d3f670`, on-primary `#131a00` |
 | Text | on-surface `#f5f4ee` · muted `#8a8a82` |
-| Шрифты | **Space Grotesk** (display/цифры) · **Inter** (UI) · `ui-monospace` (тех-метки) |
+| Шрифты | **Space Grotesk** (display/цифры) · **SF Pro** (UI) · **SF Mono** (тех-метки). Сторонних шрифтов нет — только Grotesk + системный SF |
 | Визуальные коды | «лабораторный» стиль: точечные сетки, scan-lines, glow на акценте, mono-теги вида `[mascot · bench_press.lottie]`, пульсирующие точки статуса |
 | Навигация | Плавающий **floating pill** таб-бар (blur + saturate), радиус 999, у нижнего края |
 | Углы карточек | 16–32, крупные tap-зоны, цифры — tabular-nums |

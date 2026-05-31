@@ -188,7 +188,7 @@ enum WeightUnit: String, Codable { case kg, lb }   // переключается
 
 ## User Flow
 
-Полный пользовательский флоу по финальному дизайну **KINETIC** (Kinetic Laboratory). Детальный поэкранный разбор и карта переходов — в [docs/userflow.md](docs/userflow.md); исходные макеты — [docs/app-design/design-claude-code/](docs/app-design/design-claude-code/). Дизайн: **Dark Mode Only**, акцент lime `#d3f670`, шрифты Space Grotesk + Inter, плавающий (floating pill) таб-бар.
+Полный пользовательский флоу по финальному дизайну **KINETIC** (Kinetic Laboratory). Детальный поэкранный разбор и карта переходов — в [docs/userflow.md](docs/userflow.md); исходные макеты — [docs/app-design/design-claude-code/](docs/app-design/design-claude-code/). Дизайн: **Dark Mode Only**, акцент lime `#d3f670`, шрифты Space Grotesk + системный SF (SF Pro / SF Mono), плавающий (floating pill) таб-бар.
 
 ### 1. Первый запуск
 
@@ -309,7 +309,7 @@ enum WeightUnit: String, Codable { case kg, lb }   // переключается
   - **Progress:** range-табы (Week/Month/3M/Year/All), hero-метрика с дельтой, график тоннажа (`SwiftUI.Charts`), stats grid (Sessions/Time/New PRs/Streak), список сессий.
   - **Settings:** профиль, выбор маскота, единица веса `kg / lb`, дефолтный таймер отдыха, авто-старт отдыха, уведомления/хаптика, экспорт CSV, секция Account (Telegram OAuth — позже).
 - **Ключевые инструкции:**
-  - **Dark Mode Only**; токены Kinetic Laboratory (lime `#d3f670`, Space Grotesk + Inter) — см. [docs/userflow.md](docs/userflow.md) § Design System.
+  - **Dark Mode Only**; токены Kinetic Laboratory (lime `#d3f670`, Space Grotesk + системный SF) — см. [docs/userflow.md](docs/userflow.md) § Design System.
   - Плавающий (floating pill) таб-бар, 4 таба; Workout Builder / Active Workout — полноэкранные (не табы).
   - Крупные кнопки и поля ввода — управление одной рукой на экране Active Workout.
   - SF Symbols 6 с анимацией для таб-бара.
