@@ -79,7 +79,7 @@ jobs:
           xcodebuild \
             -project FitnesApp.xcodeproj \
             -scheme FitnesApp \
-            -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
+            -destination "platform=iOS Simulator,name=iPhone 16,OS=18.6" \
             -resultBundlePath TestResults.xcresult \
             CODE_SIGNING_ALLOWED=NO \
             test \

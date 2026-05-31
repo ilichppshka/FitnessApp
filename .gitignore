@@ -55,6 +55,7 @@ AuthKey_*.p8
 GoogleService-Info.plist
 
 .preview/
+docs/app-design/design-claude-code/
 docs/pptx/
 docs/docx/
 docs/diagrams/

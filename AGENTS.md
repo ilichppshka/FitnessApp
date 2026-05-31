@@ -19,7 +19,7 @@
 | **Exercise Library** | Каталог упражнений, мышечные группы, личные рекорды |
 | **Workout Planning** | Конструктор тренировок, шаблоны планов              |
 | **Active Workout**   | Состояние сессии, таймеры, ввод подходов            |
-| **Analytics**        | Тоннаж, история, графики прогресса                  |
+| **Analytics**        | Тоннаж, история, графики, серии (streak), новые PR, дельты периодов |
 | **User Profile**     | Профиль, настройки, маскот, экспорт                 |
 | **Notifications**    | Локальные уведомления по окончании таймера отдыха   |
 
@@ -47,10 +47,13 @@
     var descriptionErrors: String    // Типичные ошибки
     var muscleGroups: [MuscleGroup]  // many-to-many
     var animationAssetName: String?  // имя Lottie JSON или .mov
+    var isFavorite: Bool             // ⭐ избранное (тоггл в Exercise Detail)
     @Relationship(deleteRule: .cascade)
     var personalRecords: [PersonalRecord]
 }
 ```
+
+> `Est. 1RM` и `Attempts` в Exercise Detail — производные от `personalRecords`, вычисляются в `AnalyticsService` (не хранятся).
 
 ### `PersonalRecord` — личный рекорд по упражнению
 
@@ -122,13 +125,20 @@
 ### `UserProfile` — профиль пользователя
 
 ```swift
+enum WeightUnit: String, Codable { case kg, lb }   // переключается в Settings
+
 @Model class UserProfile {
     var id: UUID
     var name: String
-    var bodyWeight: Double     // для упражнений с собственным весом
-    var selectedMascotId: String
-    var restSoundEnabled: Bool
-    var restHapticEnabled: Bool
+    var bodyWeight: Double                // для упражнений с собственным весом
+    var weightUnit: WeightUnit            // kg / lb — переключатель в Settings
+    var selectedMascotId: String          // пока 2 маскота: "duck" (утка) и "baklazha"
+    var defaultRestDuration: TimeInterval // дефолтный таймер отдыха (Settings)
+    var autoStartRestTimer: Bool          // авто-старт отдыха после "Complete Set"
+    var restSoundEnabled: Bool            // Rest timer alerts (локальные уведомления)
+    var restHapticEnabled: Bool           // Haptic feedback
+    // Авторизация пока НЕ реализуется. План — вход по Telegram ID (OAuth),
+    // тогда сюда добавится telegramUserId / email. См. User Flow · Settings.
 }
 ```
 
@@ -178,86 +188,91 @@
 
 ## User Flow
 
-Полный пользовательский флоу приложения. Является точкой опоры при реализации навигации (`NavigationStack`, `TabView`, sheets) и роутинга.
+Полный пользовательский флоу по финальному дизайну **KINETIC** (Kinetic Laboratory). Детальный поэкранный разбор и карта переходов — в [docs/userflow.md](docs/userflow.md); исходные макеты — [docs/app-design/design-claude-code/](docs/app-design/design-claude-code/). Дизайн: **Dark Mode Only**, акцент lime `#d3f670`, шрифты Space Grotesk + системный SF (SF Pro / SF Mono), плавающий (floating pill) таб-бар.
 
 ### 1. Первый запуск
 
-**Onboarding (3 шага)** — знакомство с приложением, без возможности пропуска:
+**Onboarding (3 шага)** — приветствие. **Есть кнопка `Skip`** (можно пропустить к Profile Setup):
 
-- [OnB_01_Welcome.png](docs/app-design/screens/OnB_01_Welcome.png) — приветствие, ценностное предложение
-- [OnB_02_Log.png](docs/app-design/screens/OnB_02_Log.png) — как логировать подходы
-- [OnB_03_Analyze.png](docs/app-design/screens/OnB_03_Analyze.png) — как читать прогресс
+1. **Welcome** — «Train like a laboratory», ценностное предложение.
+2. **Log** — как логировать подходы (one-tap, авто-таймеры отдыха, PR-алерты).
+3. **Analyze** — как читать прогресс (тоннаж, серии, рекорды).
 
-**Profile Setup** → [Profile Setup.png](docs/app-design/screens/Profile%20Setup.png):
+**Profile Setup** (после онбординга):
 
-- Имя, вес тела, выбор маскота, разрешения (уведомления / хаптика)
-- Создаётся `UserProfile` в SwiftData
-- Флаг «онбординг пройден» сохраняется, при следующих запусках не показываем
+- Поля: **имя**, **вес тела** (с переключателем `kg / lb`), **выбор маскота**.
+- **Разрешения:** на этом экране показываем **только системный запрос на отправку уведомлений** (push permission). Тумблеры звука / хаптики / алертов — в **Settings**.
+- Создаётся `UserProfile`; флаг «онбординг пройден» сохраняется, при следующих запусках экран не показываем.
 
-### 2. Основная навигация (TabView, 4 вкладки)
+### 2. Основная навигация (TabView, 4 таба)
 
-#### Таб 1: Dashboard → [Dashboard.png](docs/app-design/screens/Dashboard.png)
+Табы: **Home (Dashboard)**, **Library**, **Progress**, **Profile (Settings)**. Запуск тренировки (`Train`) и конструктор — **не табы**, а полноэкранные экраны, открываемые из Home.
+
+#### Таб 1: Home / Dashboard
 
 Главный хаб действий:
 
-- Горизонтальный календарь недели
-- Виджет «Следующая тренировка»
-- Быстрая статистика (тоннаж, кол-во тренировок, кольцо прогресса)
-- **«Быстрый старт»** → запускает `WorkoutSession` без плана → **Active Workout**
-- **«Создать тренировку»** → открывает **Workout Builder** (создание нового `WorkoutPlan`)
-- **Тап по шаблону тренировки** → запускает сессию по плану → **Active Workout**
+- Горизонтальный календарь недели (состояния дней: done / today / planned / rest).
+- Hero-виджет «Следующая тренировка» с CTA **`Start Workout`** → сессия по плану → **Active Workout**.
+- Быстрая статистика недели (тоннаж, кольцо прогресса сессий, дельта vs прошлая неделя).
+- **`Quick Start`** → `WorkoutSession` без плана → **Active Workout**.
+- Виджет «Latest PR».
+- Вход в **Workout Builder** (создание / редактирование `WorkoutPlan`).
 
-#### Таб 2: Exercise Library → [Exercise library.png](docs/app-design/screens/Exercise%20library.png)
+#### Таб 2: Exercise Library
 
 Каталог упражнений:
 
-- Поиск + фильтр-чипсы по `MuscleGroup`
-- **Тап по карточке** → **Exercise Detail** (Sheet): описание, техника, ошибки, история `PersonalRecord`, анимация маскота
+- Поиск + фильтр-чипсы по `MuscleGroup`, блоки «Exercise of the Day» и «Recent».
+- **Тап по карточке** → **Exercise Detail** (Sheet).
 
-#### Таб 3: Progress & Analytics → [Progress and analytics.png](docs/app-design/screens/Progress%20and%20analytics.png)
+#### Таб 3: Progress & Analytics
 
 История и аналитика **завершённых сессий** (`WorkoutSession` с `finishedAt != nil`):
 
-- График тоннажа (`SwiftUI.Charts`)
-- Список пройденных сессий (хронологически)
-- **Тап по сессии** → **Session Detail (превью)** — read-only: упражнения, подходы, вес × повторы, итоговый тоннаж, длительность
+- Range-табы: **Week / Month / 3M / Year / All**.
+- Hero-метрика тоннажа + дельта vs предыдущий период.
+- График тоннажа (`SwiftUI.Charts`).
+- Stats grid: **Sessions · Time · New PRs · Streak** (с дельтами к прошлому периоду).
+- Список пройденных сессий → **Session Detail** (read-only: упражнения, подходы, вес × повторы, тоннаж, длительность).
 
-#### Таб 4: Settings & Profile → [Settings and profile.png](docs/app-design/screens/Settings%20and%20profile.png)
+#### Таб 4: Settings & Profile
 
-- Профиль, смена маскота, настройки уведомлений / звука / хаптики
-- Экспорт CSV истории тренировок
+- Профиль (имя, вес, рост, уровень), смена маскота.
+- **TRAINING:** дефолтный таймер отдыха, **единица веса `kg / lb`**, авто-старт таймера отдыха.
+- **NOTIFICATIONS & FEEDBACK:** алерты таймера отдыха, хаптика.
+- **DATA:** экспорт CSV, (Apple Health — позже), очистка истории.
+- **ACCOUNT:** авторизация пока **не реализуется**. План — вход через **Telegram ID (OAuth)**.
 
-### 3. Вспомогательные экраны
+### 3. Вспомогательные (полноэкранные) экраны
 
-**Workout Builder** → [Workout builder.png](docs/app-design/screens/Workout%20builder.png)
+**Workout Builder** — вход из Home; Drag & Drop список `PlanExercise`, настройка `targetSets` и `restDuration`, авто-сохранение черновика; сохранение → `WorkoutPlan`, возврат на Home.
 
-- Вход: только с Dashboard
-- Drag & Drop список `PlanExercise`, настройка `targetSets` и `restDuration`
-- Сохранение → новый `WorkoutPlan`, возврат на Dashboard
+**Active Workout** — fullscreen-модал из Home (быстрый старт или по плану):
 
-**Active Workout** → [Active workout.png](docs/app-design/screens/Active%20workout.png)
+- Маскот сверху, блок ввода Вес / Повторы, кнопка **`Complete Set`**, общий таймер сессии.
+- Таймер отдыха с кнопками **`−15s` / `+15s` / `Skip`**.
+- **Подсказка прогрессии:** рекомендуемый вес следующего подхода + ссылка на прошлый результат (`Last set: 70kg × 10`).
+- При закрытии приложения сессия сохраняется (`finishedAt == nil`).
 
-- Вход: с Dashboard (Быстрый старт или тап по шаблону)
-- Ввод веса / повторов, таймер отдыха, нижняя панель таймеров, маскот сверху
-- При закрытии приложения сессия сохраняется (`finishedAt == nil`)
+**Exercise Detail (Sheet над Library)** — описание, техника, ошибки, маскот-демо; **вкладки `Technique / PRs / History`**; карточка PR с **Est. 1RM** и **Attempts**; **избранное (⭐)**; **share / export**; кнопка `Add to Workout`.
 
 ### 4. Восстановление активной сессии
 
-При запуске приложения (после онбординга) проверяется наличие `WorkoutSession` с `finishedAt == nil`:
+При запуске (после онбординга) проверяется наличие `WorkoutSession` с `finishedAt == nil`:
 
-- Если есть → сразу открываем **Active Workout** поверх Dashboard
-- Если нет → стандартный Dashboard
+- Если есть → сразу открываем **Active Workout** поверх Home.
+- Если нет → стандартный Home.
 
 ### Карта переходов
 
 ```
-[Onboarding] → [Profile Setup] → [TabView]
-                                    ├── Dashboard ──┬→ Workout Builder
-                                    │               ├→ Active Workout (быстрый старт)
-                                    │               └→ Active Workout (по плану)
-                                    ├── Exercise Library → Exercise Detail (Sheet)
-                                    ├── Progress → Session Detail (превью)
-                                    └── Settings
+[Onboarding ×3 · Skip] → [Profile Setup] → [TabView · 4 таба]
+                                              ├── Home ──┬→ Active Workout (быстрый старт / по плану)
+                                              │          └→ Workout Builder
+                                              ├── Library → Exercise Detail (Sheet)
+                                              ├── Progress → Session Detail (read-only)
+                                              └── Profile / Settings
 ```
 
 ---
@@ -270,7 +285,8 @@
   - Реализация SwiftData-моделей из раздела «Ключевые сущности».
   - Настройка Swift 6 Strict Concurrency и безопасности данных.
   - Реализация `ExerciseRepository`, `WorkoutRepository`, `SessionRepository`.
-  - Реализация `WorkoutService` (startSession / logSet / finishSession) и `AnalyticsService`.
+  - Реализация `WorkoutService` (startSession / logSet / finishSession).
+  - Реализация `AnalyticsService`: тоннаж за период с дельтой к предыдущему, фильтрация по диапазону (Week/Month/3M/Year/All), серия (streak), число новых PR, `Est. 1RM` и `Attempts` (производные от `PersonalRecord`).
 - **Ключевые инструкции:**
   - Использовать макросы `@Model` и `@Relationship(deleteRule: .cascade)`.
   - Обеспечить связь «один ко многим» (`WorkoutSession` → `WorkoutSet`).
@@ -284,16 +300,19 @@
 **Цель:** Создание интерфейса в соответствии с Apple HIG и спецификой тренировочного процесса.
 
 - **Зоны ответственности:**
-  - **Dashboard:** горизонтальный календарь-скролл недели, виджет «Следующая тренировка», блок быстрой статистики (тоннаж, кол-во тренировок, кольцо прогресса), кнопка «Быстрый старт».
-  - **Exercise Library:** поиск + фильтр-чипсы по `MuscleGroup`, список карточек, Sheet с деталями и историей `PersonalRecord`.
-  - **Workout Builder:** Drag & Drop список `PlanExercise`, настройка `targetSets` и `restDuration`.
-  - **Active Workout:** блок ввода (Вес + Повторения), кнопка «Выполнено», нижняя панель таймеров.
-  - **Progress:** линейный график тоннажа (`SwiftUI.Charts`), список сессий с детальным отчётом.
-  - **Settings:** профиль, выбор маскота, настройки уведомлений, кнопка экспорта CSV.
+  - **Onboarding:** 3 слайда + кнопка `Skip`; индикатор страниц.
+  - **Dashboard:** горизонтальный календарь-скролл недели (done/today/planned/rest), hero «Следующая тренировка» с CTA `Start Workout`, блок быстрой статистики (тоннаж, кольцо прогресса), `Quick Start`, виджет Latest PR.
+  - **Exercise Library:** поиск + фильтр-чипсы по `MuscleGroup`, «Exercise of the Day», «Recent», список карточек.
+  - **Exercise Detail (Sheet):** вкладки `Technique / PRs / History`, карточка PR с `Est. 1RM` и `Attempts`, избранное (⭐), share/export, `Add to Workout`.
+  - **Workout Builder:** Drag & Drop список `PlanExercise`, настройка `targetSets` и `restDuration`, авто-сохранение черновика.
+  - **Active Workout:** блок ввода (Вес + Повторения) с подсказкой прогрессии, кнопка `Complete Set`, нижняя панель таймера отдыха (`−15s / +15s / Skip`).
+  - **Progress:** range-табы (Week/Month/3M/Year/All), hero-метрика с дельтой, график тоннажа (`SwiftUI.Charts`), stats grid (Sessions/Time/New PRs/Streak), список сессий.
+  - **Settings:** профиль, выбор маскота, единица веса `kg / lb`, дефолтный таймер отдыха, авто-старт отдыха, уведомления/хаптика, экспорт CSV, секция Account (Telegram OAuth — позже).
 - **Ключевые инструкции:**
-  - Dark Mode Only.
+  - **Dark Mode Only**; токены Kinetic Laboratory (lime `#d3f670`, Space Grotesk + системный SF) — см. [docs/userflow.md](docs/userflow.md) § Design System.
+  - Плавающий (floating pill) таб-бар, 4 таба; Workout Builder / Active Workout — полноэкранные (не табы).
   - Крупные кнопки и поля ввода — управление одной рукой на экране Active Workout.
-  - SF Symbols 6 с анимацией для таббара.
+  - SF Symbols 6 с анимацией для таб-бара.
   - Haptic Feedback при логировании подхода и окончании таймера.
 
 ## 3. Специалист по анимации и ассетам (Visual & Animation Agent)
@@ -307,6 +326,7 @@
   - Плавное «схлопывание» маскота при скролле или переходе на другой экран.
   - Настройки выбора маскота через `UserProfile.selectedMascotId`.
 - **Ключевые инструкции:**
+  - **Маскотов пока 2:** «утка» (`duck`) и «бакляха» (`baklazha`). Сами ассеты будут сгенерированы позже — пока используем плейсхолдеры, но архитектуру выбора маскота закладываем на расширяемый список.
   - Маскот занимает верхнюю треть экрана Active Workout.
   - На экране Exercise Library — маскот в Sheet демонстрирует технику конкретного упражнения.
   - Анимация зациклена и плавна, оптимизирована по CPU/GPU.
@@ -318,7 +338,8 @@
 - **Зоны ответственности:**
   - `ActiveWorkoutViewModel`: хранит текущую `WorkoutSession`, текущий `PlanExercise`, номер сета.
   - Общий таймер тренировки (`startedAt` → now).
-  - Таймер отдыха: запускается после нажатия «Выполнено», поддерживает «+15 сек».
+  - Таймер отдыха: запускается после `Complete Set` (или авто-старт по `UserProfile.autoStartRestTimer`), поддерживает `−15s / +15s / Skip`.
+  - **Логика прогрессии:** рекомендация веса следующего подхода и подтяжка прошлого результата (`Last set: …`) на основе истории `WorkoutSet` / `PersonalRecord`.
   - Автоматический переход к следующему сету / упражнению.
   - `UserNotifications`: локальное уведомление по истечении таймера отдыха.
   - Фильтрация каталога упражнений по `MuscleGroup`.
