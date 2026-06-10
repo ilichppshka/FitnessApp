@@ -4,5 +4,50 @@
     "allow": [
       "mcp__XcodeBuildMCP__*"
     ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "file=$(jq -r '.tool_input.file_path // empty'); [[ \"$file\" == *.swift ]] && cd /Users/ilia/Code/swift/FitnesApp && /opt/homebrew/bin/swiftlint --fix --quiet \"$file\" 2>&1 || true",
+            "timeout": 30,
+            "statusMessage": "SwiftLint --fix..."
+          },
+          {
+            "type": "command",
+            "command": "input=$(cat); file=$(echo \"$input\" | jq -r '.tool_input.file_path // empty'); tool=$(echo \"$input\" | jq -r '.tool_name'); if { [[ \"$file\" == *.swift ]] && [[ \"$tool\" == \"Write\" ]]; } || [[ \"$file\" == *project.yml ]]; then cd /Users/ilia/Code/swift/FitnesApp && /opt/homebrew/bin/xcodegen generate 2>&1; fi",
+            "timeout": 60,
+            "statusMessage": "xcodegen generate..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/ilia/Code/swift/FitnesApp && output=$(/opt/homebrew/bin/swiftlint --strict --quiet 2>&1); [ -n \"$output\" ] && jq -Rn --arg o \"$output\" '{\"systemMessage\":(\"SwiftLint --strict violations:\\n\" + $o)}' || true",
+            "timeout": 30,
+            "statusMessage": "SwiftLint --strict check..."
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/ilia/Code/swift/FitnesApp && output=$(/opt/homebrew/bin/swiftlint --strict --quiet 2>&1); [ -n \"$output\" ] && jq -Rn --arg o \"$output\" '{\"systemMessage\":(\"SwiftLint --strict violations:\\n\" + $o)}' || true",
+            "timeout": 30,
+            "statusMessage": "SwiftLint --strict check..."
+          }
+        ]
+      }
+    ]
   }
 }
