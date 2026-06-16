@@ -36,8 +36,8 @@ final class ExerciseLibraryViewModel {
             totalCount = all.count
             muscleGroups = groups.map { group in
                 let count = all.reduce(into: 0) { acc, exercise in
-                    if exercise.primaryMuscleGroups.contains(where: { $0.id == group.id }) ||
-                        exercise.secondaryMuscleGroups.contains(where: { $0.id == group.id }) {
+                    if exercise.primaryMuscles.contains(where: { $0.id == group.id }) ||
+                        exercise.secondaryMuscles.contains(where: { $0.id == group.id }) {
                         acc += 1
                     }
                 }
