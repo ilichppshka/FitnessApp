@@ -5,8 +5,8 @@ extension WorkoutSet {
         WorkoutSetDTO(
             id: id,
             exerciseID: exercise?.id,
-            exerciseName: exercise.map {
-                NSLocalizedString("exercise.\($0.slug).name", comment: $0.slug)
+            exerciseName: exercise.map { ex in
+                NSLocalizedString("exercise.\(ex.slug).name", comment: ex.slug)
             } ?? "",
             setNumber: setNumber,
             weight: weight,
@@ -23,8 +23,8 @@ extension PersonalRecord {
         PersonalRecordDTO(
             id: id,
             exerciseID: exercise?.id,
-            exerciseName: exercise.map {
-                NSLocalizedString("exercise.\($0.slug).name", comment: $0.slug)
+            exerciseName: exercise.map { ex in
+                NSLocalizedString("exercise.\(ex.slug).name", comment: ex.slug)
             } ?? "",
             date: date,
             weight: weight,
@@ -70,8 +70,8 @@ extension PlanExercise {
         PlanExerciseDTO(
             id: id,
             exerciseID: exercise?.id,
-            exerciseName: exercise.map {
-                NSLocalizedString("exercise.\($0.slug).name", comment: $0.slug)
+            exerciseName: exercise.map { ex in
+                NSLocalizedString("exercise.\(ex.slug).name", comment: ex.slug)
             } ?? "",
             order: order,
             targetSets: targetSets,
