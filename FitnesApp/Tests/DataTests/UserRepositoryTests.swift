@@ -15,7 +15,7 @@ struct UserRepositoryTests {
 
         #expect(profile.name.isEmpty)
         #expect(profile.bodyWeight == 0)
-        #expect(profile.selectedMascotId == "default")
+        #expect(profile.selectedMascotId == "duck")
     }
 
     @Test

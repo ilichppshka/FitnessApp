@@ -33,11 +33,12 @@ final class MockSessionRepository: SessionRepository {
         return activeSessionResult
     }
 
-    func create(planID: UUID?) async throws -> WorkoutSessionDTO {
+    func create(planID: UUID?, title: String) async throws -> WorkoutSessionDTO {
         createCalls.append(planID)
         if let prepared = createResultByPlanID[planID] { return prepared }
         return WorkoutSessionDTO(
             id: UUID(),
+            title: title.isEmpty ? "Quick Workout" : title,
             planName: nil,
             startedAt: .now,
             finishedAt: nil,
@@ -64,6 +65,7 @@ final class MockSessionRepository: SessionRepository {
             weight: weight,
             reps: reps,
             tonnage: tonnage,
+            isPersonalRecord: false,
             loggedAt: .now
         )
     }
@@ -78,6 +80,7 @@ final class MockSessionRepository: SessionRepository {
         if let finishResult { return finishResult }
         return WorkoutSessionDTO(
             id: sessionID,
+            title: "Quick Workout",
             planName: nil,
             startedAt: date.addingTimeInterval(-3600),
             finishedAt: date,

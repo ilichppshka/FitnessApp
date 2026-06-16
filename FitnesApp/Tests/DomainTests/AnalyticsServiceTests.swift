@@ -26,6 +26,7 @@ struct AnalyticsServiceTests {
     ) -> WorkoutSessionDTO {
         WorkoutSessionDTO(
             id: UUID(),
+            title: "Test",
             planName: nil,
             startedAt: startedAt,
             finishedAt: finished ? startedAt.addingTimeInterval(3600) : nil,

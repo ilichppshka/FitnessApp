@@ -32,6 +32,7 @@ struct WorkoutServiceTests {
         let activeID = UUID()
         sessions.activeSessionResult = WorkoutSessionDTO(
             id: activeID,
+            title: "Active",
             planName: nil,
             startedAt: .now,
             finishedAt: nil,
@@ -51,6 +52,7 @@ struct WorkoutServiceTests {
         let id = UUID()
         sessions.activeSessionResult = WorkoutSessionDTO(
             id: id,
+            title: "Active",
             planName: nil,
             startedAt: .now,
             finishedAt: nil,

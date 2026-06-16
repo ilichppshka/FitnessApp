@@ -11,7 +11,7 @@ struct SessionRepositoryTests {
         let context = container.mainContext
         let repo = SwiftDataSessionRepository(context: context)
 
-        let session = try await repo.create(planID: nil)
+        let session = try await repo.create(planID: nil, title: "Test")
         let active = try await repo.activeSession()
 
         #expect(session.finishedAt == nil)
@@ -26,7 +26,7 @@ struct SessionRepositoryTests {
         let exerciseRepo = SwiftDataExerciseRepository(context: context)
         let sessionRepo = SwiftDataSessionRepository(context: context)
         let exercise = try #require(try await exerciseRepo.all().first)
-        let session = try await sessionRepo.create(planID: nil)
+        let session = try await sessionRepo.create(planID: nil, title: "")
 
         let set = try await sessionRepo.addSet(
             sessionID: session.id,
@@ -51,7 +51,7 @@ struct SessionRepositoryTests {
         let exerciseRepo = SwiftDataExerciseRepository(context: context)
         let sessionRepo = SwiftDataSessionRepository(context: context)
         let exercise = try #require(try await exerciseRepo.all().first)
-        let session = try await sessionRepo.create(planID: nil)
+        let session = try await sessionRepo.create(planID: nil, title: "")
 
         let first = try await sessionRepo.addSet(
             sessionID: session.id,
@@ -77,7 +77,7 @@ struct SessionRepositoryTests {
         let container = try InMemoryContainer.make()
         let context = container.mainContext
         let repo = SwiftDataSessionRepository(context: context)
-        let session = try await repo.create(planID: nil)
+        let session = try await repo.create(planID: nil, title: "")
 
         try await repo.bumpTotalTonnage(sessionID: session.id, by: 600)
         try await repo.bumpTotalTonnage(sessionID: session.id, by: 400)
@@ -91,7 +91,7 @@ struct SessionRepositoryTests {
         let container = try InMemoryContainer.make()
         let context = container.mainContext
         let repo = SwiftDataSessionRepository(context: context)
-        let session = try await repo.create(planID: nil)
+        let session = try await repo.create(planID: nil, title: "")
         let finishDate = Date()
 
         let finished = try await repo.finish(sessionID: session.id, at: finishDate)
@@ -106,7 +106,7 @@ struct SessionRepositoryTests {
         let container = try InMemoryContainer.make()
         let context = container.mainContext
         let repo = SwiftDataSessionRepository(context: context)
-        let session = try await repo.create(planID: nil)
+        let session = try await repo.create(planID: nil, title: "")
 
         try await repo.delete(sessionID: session.id)
 
@@ -119,13 +119,13 @@ struct SessionRepositoryTests {
         let context = container.mainContext
         let repo = SwiftDataSessionRepository(context: context)
         let now = Date()
-        let inRange = try await repo.create(planID: nil)
+        let inRange = try await repo.create(planID: nil, title: "")
         try await mutateSessionStartedAt(context: context, id: inRange.id, to: now.addingTimeInterval(-3600))
         _ = try await repo.finish(sessionID: inRange.id, at: now.addingTimeInterval(-1800))
-        let outOfRange = try await repo.create(planID: nil)
+        let outOfRange = try await repo.create(planID: nil, title: "")
         try await mutateSessionStartedAt(context: context, id: outOfRange.id, to: now.addingTimeInterval(-86_400 * 30))
         _ = try await repo.finish(sessionID: outOfRange.id, at: now.addingTimeInterval(-86_400 * 30))
-        _ = try await repo.create(planID: nil) // active, must be excluded
+        _ = try await repo.create(planID: nil, title: "") // active, must be excluded
 
         let range = now.addingTimeInterval(-86_400)...now
         let history = try await repo.history(range: range)
@@ -139,7 +139,7 @@ struct SessionRepositoryTests {
         let container = try InMemoryContainer.make()
         let context = container.mainContext
         let repo = SwiftDataSessionRepository(context: context)
-        let session = try await repo.create(planID: nil)
+        let session = try await repo.create(planID: nil, title: "")
 
         let found = try await repo.byID(session.id)
 

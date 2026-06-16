@@ -11,7 +11,7 @@ final class MockUserRepository: UserRepository {
 
     func current() async throws -> UserProfile {
         if let currentError { throw currentError }
-        return currentResult ?? UserProfile(name: "", bodyWeight: 0, selectedMascotId: "default")
+        return currentResult ?? UserProfile(name: "", bodyWeight: 0)
     }
 
     func update(_ profile: UserProfile) async throws {

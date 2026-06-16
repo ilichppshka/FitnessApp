@@ -37,7 +37,26 @@ struct WorkoutRepositoryTests {
         let stored = try #require(try await workoutRepo.find(id: plan.id))
         let ordered = stored.planExercises.sorted { $0.order < $1.order }
         #expect(ordered.map(\.order) == [0, 1, 2])
-        #expect(ordered.map { $0.exercise.id } == exercises.prefix(3).map(\.id))
+        #expect(ordered.compactMap { $0.exercise?.id } == exercises.prefix(3).map(\.id))
+    }
+
+    @Test
+    func addExerciseCreatesPlanSets() async throws {
+        let container = try InMemoryContainer.make()
+        let context = container.mainContext
+        try DataSeeder.seedIfNeeded(context)
+        let workoutRepo = SwiftDataWorkoutRepository(context: context)
+        let exerciseRepo = SwiftDataExerciseRepository(context: context)
+        let exercise = try #require(try await exerciseRepo.all().first)
+        let plan = WorkoutPlan(name: "Plan")
+        try await workoutRepo.upsert(plan)
+
+        try await workoutRepo.addExercise(exercise, to: plan, targetSets: 3, restDuration: 90)
+
+        let stored = try #require(try await workoutRepo.find(id: plan.id))
+        let pe = try #require(stored.planExercises.first)
+        #expect(pe.targetSets == 3)
+        #expect(pe.planSets.count == 3)
     }
 
     @Test
@@ -59,7 +78,7 @@ struct WorkoutRepositoryTests {
         let stored = try #require(try await workoutRepo.find(id: plan.id))
         let ordered = stored.planExercises.sorted { $0.order < $1.order }
         let expected = [exercises[1].id, exercises[2].id, exercises[0].id]
-        #expect(ordered.map { $0.exercise.id } == expected)
+        #expect(ordered.compactMap { $0.exercise?.id } == expected)
         #expect(ordered.map(\.order) == [0, 1, 2])
     }
 

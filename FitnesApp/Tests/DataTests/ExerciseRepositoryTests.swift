@@ -66,8 +66,8 @@ struct ExerciseRepositoryTests {
 
         #expect(!result.isEmpty)
         #expect(result.allSatisfy { exercise in
-            exercise.primaryMuscleGroups.contains { $0.id == chest.id } ||
-            exercise.secondaryMuscleGroups.contains { $0.id == chest.id }
+            exercise.primaryMuscles.contains { $0.id == chest.id } ||
+            exercise.secondaryMuscles.contains { $0.id == chest.id }
         })
     }
 
@@ -97,7 +97,7 @@ struct ExerciseRepositoryTests {
     }
 
     @Test
-    func allMuscleGroupsReturnsSeededGroupsSortedByLocalizedName() async throws {
+    func allMuscleGroupsReturnsSeededGroupsSortedByDisplayOrder() async throws {
         let container = try InMemoryContainer.make()
         let context = container.mainContext
         try DataSeeder.seedIfNeeded(context)
@@ -106,8 +106,8 @@ struct ExerciseRepositoryTests {
         let groups = try await repo.allMuscleGroups()
 
         #expect(groups.count == MuscleGroupSeed.all.count)
-        let localizedNames = groups.map { NSLocalizedString("muscle.\($0.slug)", comment: "") }
-        #expect(localizedNames == localizedNames.sorted())
+        let orders = groups.map(\.displayOrder)
+        #expect(orders == orders.sorted())
         #expect(Set(groups.map(\.slug)) == Set(MuscleGroupSeed.all))
     }
 
