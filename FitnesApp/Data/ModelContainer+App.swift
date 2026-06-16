@@ -16,6 +16,13 @@ extension ModelContainer {
         UserProfile.self
     ])
 
+    static func makeAppLaunch() throws -> ModelContainer {
+        if ProcessInfo.processInfo.isRunningUnitTests {
+            return try makePreview()
+        }
+        return try makeProduction()
+    }
+
     static func makeProduction() throws -> ModelContainer {
         let config = ModelConfiguration(
             "FitnesApp",
@@ -47,5 +54,11 @@ extension ModelContainer {
     static func makePreview() throws -> ModelContainer {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         return try ModelContainer(for: appSchema, configurations: [config])
+    }
+}
+
+extension ProcessInfo {
+    var isRunningUnitTests: Bool {
+        environment["XCTestConfigurationFilePath"] != nil
     }
 }
