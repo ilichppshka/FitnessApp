@@ -8,4 +8,5 @@ enum ExerciseEquipment: String, Codable, CaseIterable {
     case machine
     case kettlebell
     case band
+    case other
 }

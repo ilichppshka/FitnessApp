@@ -4,11 +4,13 @@ import SwiftData
 extension ModelContainer {
     static let appSchema = Schema([
         MuscleGroup.self,
+        ExerciseMuscle.self,
         Exercise.self,
         ExerciseExecutionStep.self,
         PersonalRecord.self,
         WorkoutPlan.self,
         PlanExercise.self,
+        PlanSet.self,
         WorkoutSession.self,
         WorkoutSet.self,
         UserProfile.self

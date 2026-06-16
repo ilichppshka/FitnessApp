@@ -31,7 +31,7 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
 
     func allMuscleGroups() async throws -> [MuscleGroup] {
         let groups = try context.fetch(FetchDescriptor<MuscleGroup>())
-        return groups.sorted { localizedMuscleName($0) < localizedMuscleName($1) }
+        return groups.sorted { $0.displayOrder < $1.displayOrder }
     }
 
     func search(query: String, muscleGroupIDs: [UUID]) async throws -> [Exercise] {
@@ -47,8 +47,10 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
         let sorted = nameFiltered.sorted { localizedExerciseName($0) < localizedExerciseName($1) }
         guard !muscleGroupIDs.isEmpty else { return sorted }
         return sorted.filter { exercise in
-            exercise.primaryMuscleGroups.contains { muscleGroupIDs.contains($0.id) } ||
-            exercise.secondaryMuscleGroups.contains { muscleGroupIDs.contains($0.id) }
+            exercise.muscleLinks.contains { link in
+                guard let groupID = link.muscleGroup?.id else { return false }
+                return muscleGroupIDs.contains(groupID)
+            }
         }
     }
 
@@ -102,9 +104,5 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
 
     private func localizedExerciseName(_ exercise: Exercise) -> String {
         NSLocalizedString("exercise.\(exercise.slug).name", comment: "")
-    }
-
-    private func localizedMuscleName(_ group: MuscleGroup) -> String {
-        NSLocalizedString("muscle.\(group.slug)", comment: "")
     }
 }

@@ -6,7 +6,14 @@ protocol WorkoutRepository {
     func find(id: UUID) async throws -> WorkoutPlan?
     func upsert(_ plan: WorkoutPlan) async throws
     func delete(_ plan: WorkoutPlan) async throws
-    func addExercise(_ exercise: Exercise, to plan: WorkoutPlan, targetSets: Int, restDuration: TimeInterval) async throws
+    func addExercise(
+        _ exercise: Exercise,
+        to plan: WorkoutPlan,
+        targetSets: Int,
+        restDuration: TimeInterval,
+        targetRepMin: Int,
+        targetRepMax: Int
+    ) async throws
     func remove(_ planExercise: PlanExercise) async throws
     func reorder(plan: WorkoutPlan, from source: IndexSet, to destination: Int) async throws
 }
@@ -37,6 +44,7 @@ final class SwiftDataWorkoutRepository: WorkoutRepository {
         if plan.modelContext == nil {
             context.insert(plan)
         }
+        plan.updatedAt = .now
         try context.save()
     }
 
@@ -49,17 +57,29 @@ final class SwiftDataWorkoutRepository: WorkoutRepository {
         _ exercise: Exercise,
         to plan: WorkoutPlan,
         targetSets: Int,
-        restDuration: TimeInterval
+        restDuration: TimeInterval,
+        targetRepMin: Int = 8,
+        targetRepMax: Int = 12
     ) async throws {
         let nextOrder = (plan.planExercises.map(\.order).max() ?? -1) + 1
         let planExercise = PlanExercise(
             plan: plan,
             exercise: exercise,
             order: nextOrder,
-            targetSets: targetSets,
-            restDuration: restDuration
+            restDuration: restDuration,
+            targetRepMin: targetRepMin,
+            targetRepMax: targetRepMax
         )
         context.insert(planExercise)
+        for setIndex in 0..<targetSets {
+            let planSet = PlanSet(
+                planExercise: planExercise,
+                order: setIndex,
+                targetReps: targetRepMin
+            )
+            context.insert(planSet)
+        }
+        plan.updatedAt = .now
         try context.save()
     }
 
