@@ -14,7 +14,7 @@ final class WorkoutService: WorkoutServicing {
         if let active = try await sessions.activeSession() {
             throw AppError.sessionAlreadyActive(id: active.id)
         }
-        return try await sessions.create(planID: planID)
+        return try await sessions.create(planID: planID, title: "")
     }
 
     func resumeActiveSession() async throws -> WorkoutSessionDTO? {

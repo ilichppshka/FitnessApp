@@ -6,10 +6,11 @@ enum PersonalRecordCalculator {
         setDTO: WorkoutSetDTO,
         exercises: ExerciseRepository
     ) async throws -> PersonalRecordDTO? {
-        let best = try await exercises.bestPersonalRecord(exerciseID: setDTO.exerciseID)
+        guard let exerciseID = setDTO.exerciseID else { return nil }
+        let best = try await exercises.bestPersonalRecord(exerciseID: exerciseID)
         guard setDTO.weight > (best?.weight ?? 0) else { return nil }
         return try await exercises.addPersonalRecord(
-            exerciseID: setDTO.exerciseID,
+            exerciseID: exerciseID,
             weight: setDTO.weight,
             reps: setDTO.reps,
             date: setDTO.loggedAt

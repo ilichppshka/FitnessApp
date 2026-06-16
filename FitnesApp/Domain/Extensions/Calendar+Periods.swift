@@ -9,11 +9,11 @@ extension Calendar {
     }()
 
     static func startOfDay(_ date: Date) -> Date {
-        Calendar.iso8601.startOfDay(for: date)
+        Self.iso8601.startOfDay(for: date)
     }
 
     static func iso8601WeekRange(reference: Date) -> ClosedRange<Date> {
-        let calendar = Calendar.iso8601
+        let calendar = Self.iso8601
         let weekday = calendar.component(.weekday, from: reference)
         let mondayOffset = ((weekday - calendar.firstWeekday) + 7) % 7
         let dayStart = calendar.startOfDay(for: reference)
@@ -25,7 +25,7 @@ extension Calendar {
     }
 
     static func iso8601MonthRange(reference: Date) -> ClosedRange<Date> {
-        let calendar = Calendar.iso8601
+        let calendar = Self.iso8601
         guard let monthInterval = calendar.dateInterval(of: .month, for: reference) else {
             let day = calendar.startOfDay(for: reference)
             return day...day
