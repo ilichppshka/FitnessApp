@@ -9,6 +9,7 @@ struct CSVExporterTests {
     ) -> WorkoutSessionDTO {
         WorkoutSessionDTO(
             id: id,
+            title: "Test",
             planName: nil,
             startedAt: Date(timeIntervalSince1970: 1_000_000),
             finishedAt: Date(timeIntervalSince1970: 1_003_600),
@@ -33,6 +34,7 @@ struct CSVExporterTests {
             weight: weight,
             reps: reps,
             tonnage: tonnage,
+            isPersonalRecord: false,
             loggedAt: loggedAt
         )
     }

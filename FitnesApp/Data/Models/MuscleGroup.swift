@@ -5,9 +5,14 @@ import SwiftData
 final class MuscleGroup {
     @Attribute(.unique) var id: UUID
     @Attribute(.unique) var slug: String
+    var displayOrder: Int
 
-    init(id: UUID = UUID(), slug: String) {
+    @Relationship(deleteRule: .cascade, inverse: \ExerciseMuscle.muscleGroup)
+    var exerciseLinks: [ExerciseMuscle] = []
+
+    init(id: UUID = UUID(), slug: String, displayOrder: Int = 0) {
         self.id = id
         self.slug = slug
+        self.displayOrder = displayOrder
     }
 }

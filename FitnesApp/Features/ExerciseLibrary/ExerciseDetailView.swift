@@ -21,8 +21,8 @@ struct ExerciseDetailView: View {
                     AnimationPlayerCard(animationAssetName: exercise.animationAssetName)
                         .padding(.horizontal, Spacing.md)
                     MuscleGroupChipsSection(
-                        primaryNames: exercise.primaryMuscleGroups.map { localizedMuscle($0.slug) },
-                        secondaryNames: exercise.secondaryMuscleGroups.map { localizedMuscle($0.slug) }
+                        primaryNames: exercise.primaryMuscles.map { localizedMuscle($0.slug) },
+                        secondaryNames: exercise.secondaryMuscles.map { localizedMuscle($0.slug) }
                     )
                     .padding(.horizontal, Spacing.md)
                     executionContent(exercise)
@@ -65,7 +65,7 @@ struct ExerciseDetailView: View {
 
     private var eyebrowText: some View {
         let base = String(localized: "library.detail.eyebrow")
-        let suffix = viewModel.exercise?.primaryMuscleGroups.first
+        let suffix = viewModel.exercise?.primaryMuscles.first
             .map { " · \(localizedMuscle($0.slug).uppercased())" } ?? ""
         return Text("\(base)\(suffix)")
             .font(Font.App.labelSm)
@@ -229,6 +229,7 @@ extension ExerciseEquipment {
         case .machine: String(localized: "exercise.equipment.machine")
         case .kettlebell: String(localized: "exercise.equipment.kettlebell")
         case .band: String(localized: "exercise.equipment.band")
+        case .other: String(localized: "exercise.equipment.other")
         }
     }
 }

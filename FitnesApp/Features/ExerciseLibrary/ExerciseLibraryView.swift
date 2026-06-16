@@ -118,7 +118,7 @@ struct ExerciseLibraryView: View {
                 ForEach(viewModel.exercises, id: \.id) { exercise in
                     ExerciseListItem(
                         title: NSLocalizedString("exercise.\(exercise.slug).name", tableName: "Exercises", comment: ""),
-                        subtitle: (exercise.primaryMuscleGroups + exercise.secondaryMuscleGroups)
+                        subtitle: (exercise.primaryMuscles + exercise.secondaryMuscles)
                             .map { NSLocalizedString("muscle.\($0.slug)", tableName: "Exercises", comment: "") }
                             .joined(separator: " · "),
                         onTap: { router.presentedExerciseDetailID = exercise.id }

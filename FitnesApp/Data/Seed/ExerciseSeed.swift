@@ -1,22 +1,31 @@
 import Foundation
 
 enum ExerciseSeed {
-    static func makeAll(groups: [MuscleGroup]) -> [Exercise] {
+    static func makeAll(groups: [MuscleGroup]) -> (exercises: [Exercise], muscleLinks: [ExerciseMuscle]) {
         let bySlug = Dictionary(uniqueKeysWithValues: groups.map { ($0.slug, $0) })
-        return seeds.map { seed in
+        var allLinks: [ExerciseMuscle] = []
+        let exercises = seeds.map { seed -> Exercise in
             let exercise = Exercise(
                 slug: seed.slug,
                 equipment: seed.equipment,
                 difficulty: seed.difficulty
             )
-            exercise.primaryMuscleGroups = seed.primarySlugs.compactMap { bySlug[$0] }
-            exercise.secondaryMuscleGroups = seed.secondarySlugs.compactMap { bySlug[$0] }
             exercise.mistakeKeys = seed.mistakeKeys
             exercise.executionSteps = seed.stepKeys.enumerated().map { index, key in
                 ExerciseExecutionStep(exercise: exercise, order: index + 1, key: key)
             }
+            let primaryLinks = seed.primarySlugs.compactMap { bySlug[$0] }.map { group in
+                ExerciseMuscle(role: .primary, exercise: exercise, muscleGroup: group)
+            }
+            let secondaryLinks = seed.secondarySlugs.compactMap { bySlug[$0] }.map { group in
+                ExerciseMuscle(role: .secondary, exercise: exercise, muscleGroup: group)
+            }
+            let links = primaryLinks + secondaryLinks
+            exercise.muscleLinks = links
+            allLinks.append(contentsOf: links)
             return exercise
         }
+        return (exercises, allLinks)
     }
 
     private struct Seed {
@@ -107,7 +116,6 @@ enum ExerciseSeed {
             stepKeys: ["setup", "push", "return"],
             mistakeKeys: ["elbow_flare", "forward_lean", "jerking"]
         ),
-
         // MARK: Quads
         Seed(
             slug: "squat",

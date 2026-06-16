@@ -22,7 +22,11 @@ final class SwiftDataUserRepository: UserRepository {
         let profile = UserProfile(
             name: "",
             bodyWeight: 0,
-            selectedMascotId: "default"
+            weightUnit: .kg,
+            selectedMascotId: "duck",
+            defaultRestDuration: 120,
+            autoStartRestTimer: true,
+            createdAt: .now
         )
         context.insert(profile)
         try context.save()

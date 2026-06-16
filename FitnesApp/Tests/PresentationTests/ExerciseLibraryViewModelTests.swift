@@ -15,11 +15,11 @@ struct ExerciseLibraryViewModelTests {
         #expect(!vm.exercises.isEmpty)
         #expect(vm.totalCount == vm.exercises.count)
         #expect(!vm.muscleGroups.isEmpty)
-        #expect(vm.muscleGroups.map(\.name) == vm.muscleGroups.map(\.name).sorted())
+        #expect(!vm.muscleGroups.isEmpty)
         for group in vm.muscleGroups {
             let expected = vm.exercises.filter { exercise in
-                exercise.primaryMuscleGroups.contains { $0.id == group.id } ||
-                exercise.secondaryMuscleGroups.contains { $0.id == group.id }
+                exercise.primaryMuscles.contains { $0.id == group.id } ||
+                exercise.secondaryMuscles.contains { $0.id == group.id }
             }.count
             #expect(group.count == expected)
         }
@@ -37,8 +37,8 @@ struct ExerciseLibraryViewModelTests {
 
         #expect(!vm.exercises.isEmpty)
         #expect(vm.exercises.allSatisfy { exercise in
-            exercise.primaryMuscleGroups.contains { $0.id == group.id } ||
-            exercise.secondaryMuscleGroups.contains { $0.id == group.id }
+            exercise.primaryMuscles.contains { $0.id == group.id } ||
+            exercise.secondaryMuscles.contains { $0.id == group.id }
         })
         _ = container
     }

@@ -9,8 +9,10 @@ struct FitnesAppApp: App {
 
     init() {
         do {
-            let mc = try ModelContainer.makeProduction()
-            try DataSeeder.seedIfNeeded(mc.mainContext)
+            let mc = try ModelContainer.makeAppLaunch()
+            if !ProcessInfo.processInfo.isRunningUnitTests {
+                try DataSeeder.seedIfNeeded(mc.mainContext)
+            }
             self.modelContainer = mc
             self._container = State(initialValue: DIContainer(modelContext: mc.mainContext))
         } catch {

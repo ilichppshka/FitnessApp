@@ -3,7 +3,7 @@ import SwiftData
 
 protocol SessionRepository {
     func activeSession() async throws -> WorkoutSessionDTO?
-    func create(planID: UUID?) async throws -> WorkoutSessionDTO
+    func create(planID: UUID?, title: String) async throws -> WorkoutSessionDTO
     func addSet(
         sessionID: UUID,
         exerciseID: UUID,
@@ -29,7 +29,7 @@ final class SwiftDataSessionRepository: SessionRepository {
         try fetchActiveSessionModel()?.toDTO()
     }
 
-    func create(planID: UUID?) async throws -> WorkoutSessionDTO {
+    func create(planID: UUID?, title: String) async throws -> WorkoutSessionDTO {
         let plan: WorkoutPlan?
         if let planID {
             var descriptor = FetchDescriptor<WorkoutPlan>(
@@ -40,7 +40,8 @@ final class SwiftDataSessionRepository: SessionRepository {
         } else {
             plan = nil
         }
-        let session = WorkoutSession(plan: plan, startedAt: Date())
+        let sessionTitle = title.isEmpty ? (plan?.name ?? "Quick Workout") : title
+        let session = WorkoutSession(title: sessionTitle, plan: plan, startedAt: Date())
         context.insert(session)
         try context.save()
         return session.toDTO()
@@ -60,7 +61,7 @@ final class SwiftDataSessionRepository: SessionRepository {
             throw AppError.exerciseNotFound(id: exerciseID)
         }
         let setNumber = session.sets
-            .filter { $0.exercise.id == exerciseID }
+            .filter { $0.exercise?.id == exerciseID }
             .count + 1
         let set = WorkoutSet(
             session: session,

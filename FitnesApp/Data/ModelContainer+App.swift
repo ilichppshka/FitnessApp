@@ -4,15 +4,24 @@ import SwiftData
 extension ModelContainer {
     static let appSchema = Schema([
         MuscleGroup.self,
+        ExerciseMuscle.self,
         Exercise.self,
         ExerciseExecutionStep.self,
         PersonalRecord.self,
         WorkoutPlan.self,
         PlanExercise.self,
+        PlanSet.self,
         WorkoutSession.self,
         WorkoutSet.self,
         UserProfile.self
     ])
+
+    static func makeAppLaunch() throws -> ModelContainer {
+        if ProcessInfo.processInfo.isRunningUnitTests {
+            return try makePreview()
+        }
+        return try makeProduction()
+    }
 
     static func makeProduction() throws -> ModelContainer {
         let config = ModelConfiguration(
@@ -45,5 +54,11 @@ extension ModelContainer {
     static func makePreview() throws -> ModelContainer {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         return try ModelContainer(for: appSchema, configurations: [config])
+    }
+}
+
+extension ProcessInfo {
+    var isRunningUnitTests: Bool {
+        environment["XCTestConfigurationFilePath"] != nil
     }
 }

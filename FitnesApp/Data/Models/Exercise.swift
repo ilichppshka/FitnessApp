@@ -9,16 +9,24 @@ final class Exercise {
     var difficulty: ExerciseDifficulty
     var animationAssetName: String?
     var isFavorite: Bool = false
-
-    var primaryMuscleGroups: [MuscleGroup] = []
-    var secondaryMuscleGroups: [MuscleGroup] = []
     var mistakeKeys: [String] = []
+
+    @Relationship(deleteRule: .cascade, inverse: \ExerciseMuscle.exercise)
+    var muscleLinks: [ExerciseMuscle] = []
 
     @Relationship(deleteRule: .cascade)
     var executionSteps: [ExerciseExecutionStep] = []
 
     @Relationship(deleteRule: .cascade, inverse: \PersonalRecord.exercise)
     var personalRecords: [PersonalRecord] = []
+
+    var primaryMuscles: [MuscleGroup] {
+        muscleLinks.filter { $0.role == .primary }.compactMap(\.muscleGroup)
+    }
+
+    var secondaryMuscles: [MuscleGroup] {
+        muscleLinks.filter { $0.role == .secondary }.compactMap(\.muscleGroup)
+    }
 
     init(
         id: UUID = UUID(),
