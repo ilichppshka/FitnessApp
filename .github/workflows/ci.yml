@@ -47,7 +47,7 @@ jobs:
           xcodebuild \
             -project FitnesApp.xcodeproj \
             -scheme FitnesApp \
-            -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
+            -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO \
             build \
@@ -79,7 +79,7 @@ jobs:
           xcodebuild \
             -project FitnesApp.xcodeproj \
             -scheme FitnesApp \
-            -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
+            -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" \
             CODE_SIGNING_ALLOWED=NO \
             test \
             | xcbeautify --renderer github-actions
