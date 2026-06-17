@@ -1,6 +1,8 @@
 import SwiftUI
 
+/// Spec §5: filled text field — surfaceContainerLow background, ghost border, optional label above.
 struct GhostInputField: View {
+    var label: String?
     let placeholder: String
     @Binding var text: String
     var suffix: String?
@@ -12,6 +14,12 @@ struct GhostInputField: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
+            if let label {
+                Text(label)
+                    .kineticText(.labelSm)
+                    .foregroundStyle(Color.App.onSurfaceMuted)
+            }
+
             HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                 TextField(placeholder, text: $text)
                     .font(font)
@@ -24,15 +32,19 @@ struct GhostInputField: View {
                 if let suffix {
                     Text(suffix)
                         .font(Font.App.bodyMd)
-                        .foregroundStyle(Color.App.onSurface.opacity(0.5))
+                        .foregroundStyle(Color.App.onSurfaceMuted)
                 }
             }
-            .padding(.vertical, Spacing.sm)
-
-            Rectangle()
-                .fill(isFocused ? Color.App.primary : Color.App.outlineVariant)
-                .frame(height: isFocused ? 2 : 1)
-                .animation(.easeInOut(duration: 0.2), value: isFocused)
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.sm + 2)
+            .background(Color.App.surfaceContainerLow)
+            .clipShape(RoundedRectangle(cornerRadius: Radii.sm))
+            .ghostBorder(
+                color: isFocused ? Color.App.primary : Color.App.outlineVariant,
+                opacity: isFocused ? 0.6 : 0.15,
+                cornerRadius: Radii.sm
+            )
+            .animation(.easeInOut(duration: 0.2), value: isFocused)
         }
     }
 }
@@ -44,12 +56,14 @@ struct GhostInputField: View {
 
     return VStack(spacing: Spacing.xl) {
         GhostInputField(
+            label: "YOUR NAME",
             placeholder: "Имя",
             text: $name
         )
 
         HStack(spacing: Spacing.lg) {
             GhostInputField(
+                label: "WEIGHT",
                 placeholder: "0",
                 text: $weight,
                 suffix: "кг",
@@ -58,6 +72,7 @@ struct GhostInputField: View {
             )
 
             GhostInputField(
+                label: "REPS",
                 placeholder: "0",
                 text: $reps,
                 suffix: "повт",

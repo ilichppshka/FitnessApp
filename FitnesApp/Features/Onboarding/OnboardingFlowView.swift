@@ -46,9 +46,8 @@ struct OnboardingFlowView: View {
             Spacer()
             Button(action: viewModel.skip) {
                 Text(LocalizedStringResource("onboarding.skip", table: "Onboarding"))
-                    .font(Font.App.labelSm)
+                    .kineticText(.labelSm)
                     .foregroundStyle(Color.App.onSurface.opacity(0.6))
-                    .tracking(0.8)
             }
             .buttonStyle(.plain)
         }

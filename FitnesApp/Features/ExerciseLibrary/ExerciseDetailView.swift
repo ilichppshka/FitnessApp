@@ -68,8 +68,7 @@ struct ExerciseDetailView: View {
         let suffix = viewModel.exercise?.primaryMuscles.first
             .map { " · \(localizedMuscle($0.slug).uppercased())" } ?? ""
         return Text("\(base)\(suffix)")
-            .font(Font.App.labelSm)
-            .tracking(0.8)
+            .kineticText(.labelSm)
             .foregroundStyle(Color.App.onSurface.opacity(0.4))
     }
 

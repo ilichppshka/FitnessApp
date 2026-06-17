@@ -77,10 +77,10 @@
 - [x] `KineticButton` (PrimaryButton: lime, `onPrimary`, glow, trailing-иконка)
 - [x] `SectionLabel` (UPPER eyebrow)
 - [x] `ProgressDots` (пейджер онбординга)
-- [ ] `IconButton`, чипсы (`FilterChip` / `MuscleTag` / `EquipmentTag` / `DeltaBadge` / `CounterChip` / `PRBadge`), `GlassPill`
-- [ ] `StatusDot`, `KineticToggle`, `StepperButton`, `ProgressRing`, `DifficultyBars`
-- [ ] `SearchField`, `SetField`, `GhostInputField`, `Avatar`, `StatNumber`, `MonoTag`, `FrameTag`, `ChevronRight`
-- [ ] `ComponentCatalog` (storybook под `#if DEBUG`) со всеми состояниями
+- [x] `IconButton`, чипсы (`FilterChip` / `MuscleTag` / `EquipmentTag` / `DeltaBadge` / `CounterChip` / `PRBadge`), `GlassPill`
+- [x] `StatusDot`, `KineticToggle`, `StepperButton`, `ProgressRing`, `DifficultyBars`
+- [x] `SearchField`, `SetField`, `GhostInputField`, `Avatar`, `StatNumber`, `MonoTag`, `FrameTag`, `ChevronRight`
+- [x] `ComponentCatalog` (storybook под `#if DEBUG`) со всеми состояниями
 
 **Критерий готовности:** примитивы покрыты `#Preview` со всеми состояниями и собраны в `ComponentCatalog`; соответствуют [ui-components.md](ui-components.md).
 

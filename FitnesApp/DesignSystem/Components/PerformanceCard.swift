@@ -24,10 +24,7 @@ struct PerformanceCard<Content: View>: View {
                 RoundedRectangle(cornerRadius: Radii.md)
                     .fill(Color.App.surfaceContainerHigh)
             )
-            .overlay(
-                RoundedRectangle(cornerRadius: Radii.md)
-                    .strokeBorder(Color.App.outlineVariant.opacity(0.4), lineWidth: 1)
-            )
+            .ghostBorder(cornerRadius: Radii.md)
     }
 }
 
@@ -45,8 +42,8 @@ private struct PerformanceCardPressStyle: ButtonStyle {
             PerformanceCard {
                 VStack(alignment: .leading, spacing: Spacing.sm) {
                     Text("ТОННАЖ ЗА НЕДЕЛЮ")
-                        .font(Font.App.labelSm)
-                        .foregroundStyle(Color.App.onSurface.opacity(0.6))
+                        .kineticText(.labelSm)
+                        .foregroundStyle(Color.App.onSurfaceMuted)
                     Text("12 480 кг")
                         .font(Font.App.displayLg)
                         .foregroundStyle(Color.App.primary)
@@ -61,7 +58,7 @@ private struct PerformanceCardPressStyle: ButtonStyle {
                             .foregroundStyle(Color.App.onSurface)
                         Text("4 упражнения · 45 мин")
                             .font(Font.App.bodyMd)
-                            .foregroundStyle(Color.App.onSurface.opacity(0.6))
+                            .foregroundStyle(Color.App.onSurfaceMuted)
                     }
                     Spacer()
                     Image(systemName: "chevron.right")
@@ -76,8 +73,8 @@ private struct PerformanceCardPressStyle: ButtonStyle {
                         .foregroundStyle(Color.App.primary)
                     VStack(alignment: .leading) {
                         Text("Streak")
-                            .font(Font.App.labelSm)
-                            .foregroundStyle(Color.App.onSurface.opacity(0.6))
+                            .kineticText(.labelSm)
+                            .foregroundStyle(Color.App.onSurfaceMuted)
                         Text("7 дней")
                             .font(Font.App.titleLg)
                             .foregroundStyle(Color.App.onSurface)
