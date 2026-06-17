@@ -13,10 +13,9 @@ struct ExecutionStepRow: View {
                     .foregroundStyle(Color.App.onPrimary)
                     .frame(width: 22, height: 22)
                     .background(RoundedRectangle(cornerRadius: Radii.sm).fill(Color.App.primary))
-                Text(title.uppercased())
-                    .font(Font.App.labelSm)
+                Text(title)
+                    .kineticText(.labelSm)
                     .foregroundStyle(Color.App.onSurface)
-                    .tracking(0.8)
             }
             Text(text)
                 .font(Font.App.bodyMd)

@@ -198,9 +198,8 @@ struct ProfileSetupView: View {
             Spacer()
             if let hint {
                 Text(hint)
-                    .font(Font.App.labelSm)
+                    .kineticText(.labelSm)
                     .foregroundStyle(Color.App.onSurface.opacity(0.4))
-                    .tracking(0.8)
             }
         }
     }

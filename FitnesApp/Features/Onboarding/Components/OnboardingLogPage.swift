@@ -50,9 +50,8 @@ struct OnboardingLogPage: View {
         HStack(spacing: Spacing.xs) {
             StatusDot(size: 6)
             Text(LocalizedStringResource("onboarding.log.demo.set", table: "Onboarding"))
-                .font(Font.App.labelSm)
+                .kineticText(.labelSm)
                 .foregroundStyle(Color.App.onSurface)
-                .tracking(0.8)
         }
         .padding(.horizontal, Spacing.md)
         .padding(.vertical, Spacing.sm)
