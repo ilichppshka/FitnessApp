@@ -14,15 +14,9 @@ struct FloatingNavPill<Tab: Hashable & CaseIterable>: View {
             }
         }
         .padding(Spacing.xs)
-        .background(
-            Capsule()
-                .fill(.ultraThinMaterial)
-        )
-        .overlay(
-            Capsule()
-                .strokeBorder(Color.App.outlineVariant.opacity(0.4), lineWidth: 1)
-        )
-        .shadow(color: .black.opacity(0.35), radius: 18, y: 10)
+        .glassBackground(cornerRadius: Radii.pill)
+        .ghostBorder(color: Color.App.primary, opacity: 0.10, cornerRadius: Radii.pill, lineWidth: 0.5)
+        .tintedShadow()
     }
 
     @ViewBuilder

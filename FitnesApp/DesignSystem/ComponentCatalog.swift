@@ -50,7 +50,7 @@ struct ComponentCatalog: View {
                     header
                     colorsSection
                     typographySection
-                    glowSection
+                    effectsSection
                     sectionLabelsSection
                     screenHeadersSection
                     buttonsSection
@@ -97,14 +97,23 @@ struct ComponentCatalog: View {
         section(title: "COLORS") {
             HStack(spacing: Spacing.sm) {
                 colorSwatch(Color.App.surface, name: "surface")
-                colorSwatch(Color.App.surfaceContainerLow, name: "container.low")
-                colorSwatch(Color.App.surfaceContainerHigh, name: "container.high")
+                colorSwatch(Color.App.surfaceContainerLow, name: "low")
+                colorSwatch(Color.App.surfaceContainerHigh, name: "high")
+                colorSwatch(Color.App.surfaceContainerHighest, name: "highest")
             }
             HStack(spacing: Spacing.sm) {
                 colorSwatch(Color.App.primary, name: "primary")
                 colorSwatch(Color.App.onPrimary, name: "onPrimary")
+                colorSwatch(Color.App.glow, name: "glow")
+            }
+            HStack(spacing: Spacing.sm) {
                 colorSwatch(Color.App.onSurface, name: "onSurface")
+                colorSwatch(Color.App.onSurfaceMuted, name: "muted")
                 colorSwatch(Color.App.outlineVariant, name: "outline")
+            }
+            HStack(spacing: Spacing.sm) {
+                colorSwatch(Color.App.danger, name: "danger")
+                colorSwatch(Color.App.live, name: "live")
             }
         }
     }
@@ -112,30 +121,67 @@ struct ComponentCatalog: View {
     private var typographySection: some View {
         section(title: "TYPOGRAPHY") {
             VStack(alignment: .leading, spacing: Spacing.sm) {
-                Text("12 480 кг").font(Font.App.displayLg)
-                Text("Push Day").font(Font.App.headlineLg)
-                Text("Жим штанги").font(Font.App.titleLg)
-                Text("Базовое движение для груди").font(Font.App.bodyMd)
-                Text("ТОННАЖ ЗА НЕДЕЛЮ").font(Font.App.labelSm)
+                Text("12 480 кг").kineticText(.displayLg)
+                Text("Push Day").kineticText(.headlineLg)
+                Text("Жим штанги").kineticText(.titleLg)
+                Text("Базовое движение для груди").kineticText(.bodyMd)
+                Text("тоннаж за неделю").kineticText(.labelSm).foregroundStyle(Color.App.onSurfaceMuted)
             }
+            .foregroundStyle(Color.App.onSurface)
         }
     }
 
-    private var glowSection: some View {
-        section(title: "NEON GLOW") {
-            HStack(spacing: Spacing.lg) {
-                Circle()
-                    .fill(Color.App.primary)
-                    .frame(width: 64, height: 64)
-                    .neonGlow(radius: 20)
-                Circle()
-                    .fill(Color.App.primary)
-                    .frame(width: 64, height: 64)
-                    .neonGlow(radius: 8, opacity: 0.4)
-                Circle()
-                    .fill(Color.App.primary.opacity(0.4))
-                    .frame(width: 64, height: 64)
-                    .neonGlow(isActive: false)
+    private var effectsSection: some View {
+        section(title: "EFFECTS") {
+            // Neon Glow
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                Text("Neon Glow — rest 0.45 / press 0.80")
+                    .kineticText(.labelSm)
+                    .foregroundStyle(Color.App.onSurfaceMuted)
+                HStack(spacing: Spacing.lg) {
+                    Circle()
+                        .fill(Color.App.primary)
+                        .frame(width: 48, height: 48)
+                        .neonGlow()
+                    Circle()
+                        .fill(Color.App.primary)
+                        .frame(width: 48, height: 48)
+                        .neonGlow(opacity: 0.80)
+                    Circle()
+                        .fill(Color.App.primary.opacity(0.3))
+                        .frame(width: 48, height: 48)
+                        .neonGlow(isActive: false)
+                }
+            }
+            // Ghost Border
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                Text("Ghost Border — 15% default / 10% rim-light")
+                    .kineticText(.labelSm)
+                    .foregroundStyle(Color.App.onSurfaceMuted)
+                HStack(spacing: Spacing.md) {
+                    RoundedRectangle(cornerRadius: Radii.md)
+                        .fill(Color.App.surfaceContainerHigh)
+                        .frame(height: 44)
+                        .ghostBorder(cornerRadius: Radii.md)
+                    RoundedRectangle(cornerRadius: Radii.pill)
+                        .fill(Color.App.surfaceContainerHighest.opacity(0.7))
+                        .frame(height: 44)
+                        .ghostBorder(color: Color.App.primary, opacity: 0.10, cornerRadius: Radii.pill, lineWidth: 0.5)
+                }
+            }
+            // Tinted Shadow + Glass
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                Text("Tinted Shadow + Glass (nav pill)")
+                    .kineticText(.labelSm)
+                    .foregroundStyle(Color.App.onSurfaceMuted)
+                Text("Glass pill")
+                    .font(Font.App.bodyMd)
+                    .foregroundStyle(Color.App.onSurface)
+                    .padding(.horizontal, Spacing.xl)
+                    .padding(.vertical, Spacing.sm)
+                    .glassBackground()
+                    .ghostBorder(color: Color.App.primary, opacity: 0.10, cornerRadius: Radii.pill, lineWidth: 0.5)
+                    .tintedShadow()
             }
         }
     }

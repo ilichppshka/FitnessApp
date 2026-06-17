@@ -43,15 +43,12 @@ private struct KineticPressStyle: ButtonStyle {
                 RoundedRectangle(cornerRadius: Radii.md)
                     .fill(background)
             )
-            .overlay(
-                RoundedRectangle(cornerRadius: Radii.md)
-                    .strokeBorder(borderColor, lineWidth: 1)
-            )
+            .ghostBorder(cornerRadius: Radii.md)
             .opacity(isEnabled ? 1.0 : 0.4)
             .scaleEffect(isPressed ? 0.97 : 1.0)
             .neonGlow(
                 radius: isPressed ? 6 : 14,
-                opacity: 0.55,
+                opacity: isPressed ? 0.80 : 0.45,
                 isActive: style == .primary && isEnabled
             )
             .animation(.spring(response: 0.25, dampingFraction: 0.7), value: isPressed)
@@ -68,13 +65,6 @@ private struct KineticPressStyle: ButtonStyle {
         switch style {
         case .primary: Color.App.primary
         case .secondary: .clear
-        }
-    }
-
-    private var borderColor: Color {
-        switch style {
-        case .primary: .clear
-        case .secondary: Color.App.outlineVariant
         }
     }
 }

@@ -5,10 +5,9 @@ struct SectionLabel: View {
     var opacity: Double = 0.5
 
     var body: some View {
-        Text(text.uppercased())
-            .font(Font.App.labelSm)
+        Text(text)
+            .kineticText(.labelSm)
             .foregroundStyle(Color.App.onSurface.opacity(opacity))
-            .tracking(0.8)
     }
 }
 

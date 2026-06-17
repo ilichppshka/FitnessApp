@@ -6,6 +6,7 @@ extension Color {
         static let surface = Color(hex: "#0e0f0c")
         static let surfaceContainerLow = Color(hex: "#131410")
         static let surfaceContainerHigh = Color(hex: "#1f201c")
+        static let surfaceContainerHighest = Color(hex: "#2a2b26")
 
         // Primary
         static let primary = Color(hex: "#d3f670")
@@ -13,6 +14,14 @@ extension Color {
 
         // Text
         static let onSurface = Color(hex: "#f5f4ee")
+        static let onSurfaceMuted = Color(hex: "#8a8a82")
+
+        // Effects — tint for neon glow & tinted shadows (distinct from primary)
+        static let glow = Color(hex: "#BADB59")
+
+        // Semantic
+        static let danger = Color(hex: "#ff6e6e")
+        static let live = Color(hex: "#ff5e5e")
 
         // Borders
         static let outlineVariant = Color(hex: "#484844")

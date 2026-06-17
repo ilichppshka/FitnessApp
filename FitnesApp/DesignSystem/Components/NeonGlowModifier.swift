@@ -1,9 +1,10 @@
 import SwiftUI
 
 struct NeonGlowModifier: ViewModifier {
-    var color: Color = Color.App.primary
+    var color: Color = Color.App.glow
     var radius: CGFloat = 12
-    var opacity: Double = 0.6
+    /// Base opacity. Spec §5: 0.45 at rest → 0.80 on press (callers set this via isPressed).
+    var opacity: Double = 0.45
     var isActive: Bool = true
 
     func body(content: Content) -> some View {
@@ -21,9 +22,9 @@ struct NeonGlowModifier: ViewModifier {
 
 extension View {
     func neonGlow(
-        color: Color = Color.App.primary,
+        color: Color = Color.App.glow,
         radius: CGFloat = 12,
-        opacity: Double = 0.6,
+        opacity: Double = 0.45,
         isActive: Bool = true
     ) -> some View {
         modifier(
@@ -50,18 +51,28 @@ extension View {
             .fill(Color.App.surfaceContainerHigh)
             .frame(width: previewCardWidth, height: previewCardHeight)
             .overlay(
-                Text("ACTIVE")
-                    .font(.App.labelSm)
+                Text("ACTIVE (0.45)")
+                    .kineticText(.labelSm)
                     .foregroundStyle(Color.App.primary)
             )
-            .neonGlow(radius: 16, opacity: 0.5)
+            .neonGlow(radius: 16)
+
+        RoundedRectangle(cornerRadius: Radii.md)
+            .fill(Color.App.surfaceContainerHigh)
+            .frame(width: previewCardWidth, height: previewCardHeight)
+            .overlay(
+                Text("ON PRESS (0.80)")
+                    .kineticText(.labelSm)
+                    .foregroundStyle(Color.App.primary)
+            )
+            .neonGlow(radius: 16, opacity: 0.80)
 
         RoundedRectangle(cornerRadius: Radii.md)
             .fill(Color.App.surfaceContainerHigh)
             .frame(width: previewCardWidth, height: previewCardHeight)
             .overlay(
                 Text("INACTIVE")
-                    .font(.App.labelSm)
+                    .kineticText(.labelSm)
                     .foregroundStyle(Color.App.onSurface)
             )
             .neonGlow(isActive: false)
