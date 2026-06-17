@@ -3,79 +3,58 @@ import Foundation
 
 @MainActor
 final class MockSessionRepository: SessionRepository {
-    var activeSessionResult: WorkoutSessionDTO?
-    var createResultByPlanID: [UUID?: WorkoutSessionDTO] = [:]
-    var addSetResult: WorkoutSetDTO?
+    var activeSessionResult: WorkoutSession?
+    var appendSetResult: WorkoutSet?
     var finishResult: WorkoutSessionDTO?
+    var lastSetResult: WorkoutSetDTO?
+    var historyResult: [WorkoutSessionDTO] = []
 
-    private(set) var activeSessionCalls = 0
     private(set) var createCalls: [UUID?] = []
-    struct AddSetCall {
+    struct AppendSetCall {
+        let draft: WorkoutSetDraft
         let sessionID: UUID
-        let exerciseID: UUID
-        let weight: Double
-        let reps: Int
-        let tonnage: Double
     }
 
-    private(set) var addSetCalls: [AddSetCall] = []
-    private(set) var bumpCalls: [(sessionID: UUID, delta: Double)] = []
+    private(set) var appendSetCalls: [AppendSetCall] = []
     private(set) var finishCalls: [(sessionID: UUID, date: Date)] = []
-    private(set) var deleteCalls: [UUID] = []
+    private(set) var discardCalls: [UUID] = []
     private(set) var historyCalls: [ClosedRange<Date>] = []
-    private(set) var byIDCalls: [UUID] = []
+    private(set) var lastSetCalls: [UUID] = []
+    private(set) var clearHistoryCalled = false
 
-    var addSetError: Error?
-    var bumpError: Error?
+    var appendSetError: Error?
 
-    func activeSession() async throws -> WorkoutSessionDTO? {
-        activeSessionCalls += 1
-        return activeSessionResult
+    func activeSession() async throws -> WorkoutSession? {
+        activeSessionResult
     }
 
-    func create(planID: UUID?, title: String) async throws -> WorkoutSessionDTO {
+    func create(planID: UUID?, title: String) async throws -> WorkoutSession {
         createCalls.append(planID)
-        if let prepared = createResultByPlanID[planID] { return prepared }
-        return WorkoutSessionDTO(
-            id: UUID(),
-            title: title.isEmpty ? "Quick Workout" : title,
-            planName: nil,
-            startedAt: .now,
-            finishedAt: nil,
-            totalTonnage: 0,
-            sets: []
-        )
+        return WorkoutSession(title: title.isEmpty ? "Quick Workout" : title, startedAt: .now)
     }
 
-    func addSet(
-        sessionID: UUID,
-        exerciseID: UUID,
-        weight: Double,
-        reps: Int,
-        tonnage: Double
-    ) async throws -> WorkoutSetDTO {
-        addSetCalls.append(AddSetCall(sessionID: sessionID, exerciseID: exerciseID, weight: weight, reps: reps, tonnage: tonnage))
-        if let addSetError { throw addSetError }
-        if let addSetResult { return addSetResult }
-        return WorkoutSetDTO(
-            id: UUID(),
-            exerciseID: exerciseID,
-            exerciseName: "mock",
-            setNumber: addSetCalls.count,
-            weight: weight,
-            reps: reps,
-            tonnage: tonnage,
-            isPersonalRecord: false,
+    func appendSet(_ draft: WorkoutSetDraft, to sessionID: UUID) async throws -> WorkoutSet {
+        appendSetCalls.append(AppendSetCall(draft: draft, sessionID: sessionID))
+        if let appendSetError { throw appendSetError }
+        if let appendSetResult { return appendSetResult }
+        let mockExercise = Exercise(
+            id: draft.exerciseID,
+            slug: "mock-exercise",
+            equipment: .barbell,
+            difficulty: .beginner
+        )
+        let set = WorkoutSet(
+            setNumber: appendSetCalls.count,
+            weight: draft.weight,
+            reps: draft.reps,
             loggedAt: .now
         )
+        set.exercise = mockExercise
+        set.tonnage = draft.tonnage
+        return set
     }
 
-    func bumpTotalTonnage(sessionID: UUID, by delta: Double) async throws {
-        bumpCalls.append((sessionID, delta))
-        if let bumpError { throw bumpError }
-    }
-
-    func finish(sessionID: UUID, at date: Date) async throws -> WorkoutSessionDTO {
+    func finish(_ sessionID: UUID, at date: Date) async throws -> WorkoutSessionDTO {
         finishCalls.append((sessionID, date))
         if let finishResult { return finishResult }
         return WorkoutSessionDTO(
@@ -89,23 +68,25 @@ final class MockSessionRepository: SessionRepository {
         )
     }
 
-    func delete(sessionID: UUID) async throws {
-        deleteCalls.append(sessionID)
+    func discard(_ sessionID: UUID) async throws {
+        discardCalls.append(sessionID)
     }
-
-    var historyResult: [WorkoutSessionDTO] = []
-    var historyFilter: (@Sendable (WorkoutSessionDTO, ClosedRange<Date>) -> Bool)?
 
     func history(range: ClosedRange<Date>) async throws -> [WorkoutSessionDTO] {
         historyCalls.append(range)
-        if let historyFilter {
-            return historyResult.filter { historyFilter($0, range) }
-        }
         return historyResult.filter { range.contains($0.startedAt) }
     }
 
-    func byID(_ id: UUID) async throws -> WorkoutSessionDTO? {
-        byIDCalls.append(id)
-        return nil
+    func find(id: UUID) async throws -> WorkoutSessionDTO? {
+        nil
+    }
+
+    func lastSet(exerciseID: UUID) async throws -> WorkoutSetDTO? {
+        lastSetCalls.append(exerciseID)
+        return lastSetResult
+    }
+
+    func clearHistory() async throws {
+        clearHistoryCalled = true
     }
 }

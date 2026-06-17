@@ -2,20 +2,17 @@ import Foundation
 import SwiftData
 
 protocol SessionRepository {
-    func activeSession() async throws -> WorkoutSessionDTO?
-    func create(planID: UUID?, title: String) async throws -> WorkoutSessionDTO
-    func addSet(
-        sessionID: UUID,
-        exerciseID: UUID,
-        weight: Double,
-        reps: Int,
-        tonnage: Double
-    ) async throws -> WorkoutSetDTO
-    func bumpTotalTonnage(sessionID: UUID, by delta: Double) async throws
-    func finish(sessionID: UUID, at date: Date) async throws -> WorkoutSessionDTO
-    func delete(sessionID: UUID) async throws
+    func activeSession() async throws -> WorkoutSession?
+    func create(planID: UUID?, title: String) async throws -> WorkoutSession
+    @discardableResult
+    func appendSet(_ draft: WorkoutSetDraft, to sessionID: UUID) async throws -> WorkoutSet
+    func finish(_ sessionID: UUID, at date: Date) async throws -> WorkoutSessionDTO
+    func discard(_ sessionID: UUID) async throws
+
     func history(range: ClosedRange<Date>) async throws -> [WorkoutSessionDTO]
-    func byID(_ id: UUID) async throws -> WorkoutSessionDTO?
+    func find(id: UUID) async throws -> WorkoutSessionDTO?
+    func lastSet(exerciseID: UUID) async throws -> WorkoutSetDTO?
+    func clearHistory() async throws
 }
 
 final class SwiftDataSessionRepository: SessionRepository {
@@ -25,11 +22,11 @@ final class SwiftDataSessionRepository: SessionRepository {
         self.context = context
     }
 
-    func activeSession() async throws -> WorkoutSessionDTO? {
-        try fetchActiveSessionModel()?.toDTO()
+    func activeSession() async throws -> WorkoutSession? {
+        try fetchActiveSessionModel()
     }
 
-    func create(planID: UUID?, title: String) async throws -> WorkoutSessionDTO {
+    func create(planID: UUID?, title: String) async throws -> WorkoutSession {
         let plan: WorkoutPlan?
         if let planID {
             var descriptor = FetchDescriptor<WorkoutPlan>(
@@ -44,60 +41,45 @@ final class SwiftDataSessionRepository: SessionRepository {
         let session = WorkoutSession(title: sessionTitle, plan: plan, startedAt: Date())
         context.insert(session)
         try context.save()
-        return session.toDTO()
+        return session
     }
 
-    func addSet(
-        sessionID: UUID,
-        exerciseID: UUID,
-        weight: Double,
-        reps: Int,
-        tonnage: Double
-    ) async throws -> WorkoutSetDTO {
+    func appendSet(_ draft: WorkoutSetDraft, to sessionID: UUID) async throws -> WorkoutSet {
         guard let session = try fetchSessionModel(id: sessionID) else {
-            throw AppError.sessionNotFound(id: sessionID)
+            throw WorkoutError.sessionNotFound(id: sessionID)
         }
-        guard let exercise = try fetchExerciseModel(id: exerciseID) else {
-            throw AppError.exerciseNotFound(id: exerciseID)
+        guard let exercise = try fetchExerciseModel(id: draft.exerciseID) else {
+            throw DataError.exerciseNotFound(id: draft.exerciseID)
         }
         let setNumber = session.sets
-            .filter { $0.exercise?.id == exerciseID }
+            .filter { $0.exercise?.id == draft.exerciseID }
             .count + 1
         let set = WorkoutSet(
             session: session,
             exercise: exercise,
             setNumber: setNumber,
-            weight: weight,
-            reps: reps,
+            weight: draft.weight,
+            reps: draft.reps,
             loggedAt: Date()
         )
-        set.tonnage = tonnage
+        set.tonnage = draft.tonnage
         context.insert(set)
+        session.totalTonnage += draft.tonnage
         try context.save()
-        return set.toDTO()
+        return set
     }
 
-    func bumpTotalTonnage(sessionID: UUID, by delta: Double) async throws {
+    func finish(_ sessionID: UUID, at date: Date) async throws -> WorkoutSessionDTO {
         guard let session = try fetchSessionModel(id: sessionID) else {
-            throw AppError.sessionNotFound(id: sessionID)
-        }
-        session.totalTonnage += delta
-        try context.save()
-    }
-
-    func finish(sessionID: UUID, at date: Date) async throws -> WorkoutSessionDTO {
-        guard let session = try fetchSessionModel(id: sessionID) else {
-            throw AppError.sessionNotFound(id: sessionID)
+            throw WorkoutError.sessionNotFound(id: sessionID)
         }
         session.finishedAt = date
         try context.save()
         return session.toDTO()
     }
 
-    func delete(sessionID: UUID) async throws {
-        guard let session = try fetchSessionModel(id: sessionID) else {
-            throw AppError.sessionNotFound(id: sessionID)
-        }
+    func discard(_ sessionID: UUID) async throws {
+        guard let session = try fetchSessionModel(id: sessionID) else { return }
         context.delete(session)
         try context.save()
     }
@@ -116,8 +98,28 @@ final class SwiftDataSessionRepository: SessionRepository {
         return try context.fetch(descriptor).map { $0.toDTO() }
     }
 
-    func byID(_ id: UUID) async throws -> WorkoutSessionDTO? {
+    func find(id: UUID) async throws -> WorkoutSessionDTO? {
         try fetchSessionModel(id: id)?.toDTO()
+    }
+
+    func lastSet(exerciseID: UUID) async throws -> WorkoutSetDTO? {
+        let descriptor = FetchDescriptor<WorkoutSet>(
+            predicate: #Predicate { $0.exercise != nil },
+            sortBy: [SortDescriptor(\.loggedAt, order: .reverse)]
+        )
+        let sets = try context.fetch(descriptor)
+        return sets.first(where: { $0.exercise?.id == exerciseID })?.toDTO()
+    }
+
+    func clearHistory() async throws {
+        let descriptor = FetchDescriptor<WorkoutSession>(
+            predicate: #Predicate { $0.finishedAt != nil }
+        )
+        let finished = try context.fetch(descriptor)
+        for session in finished {
+            context.delete(session)
+        }
+        try context.save()
     }
 
     // MARK: - Internal helpers

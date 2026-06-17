@@ -33,6 +33,50 @@ extension Calendar {
         let endInclusive = monthInterval.end.addingTimeInterval(-1)
         return monthInterval.start...endInclusive
     }
+
+    // MARK: - DateRange → ClosedRange
+
+    static func range(for dateRange: DateRange, now: Date = .now) -> ClosedRange<Date> {
+        let calendar = Self.iso8601
+        switch dateRange {
+        case .week:
+            return iso8601WeekRange(reference: now)
+        case .month:
+            return iso8601MonthRange(reference: now)
+        case .threeMonths:
+            let start = calendar.date(byAdding: .month, value: -3, to: startOfDay(now)) ?? now
+            return start...now
+        case .year:
+            let start = calendar.date(byAdding: .year, value: -1, to: startOfDay(now)) ?? now
+            return start...now
+        case .all:
+            return Date.distantPast...now
+        }
+    }
+
+    static func previousRange(for dateRange: DateRange, now: Date = .now) -> ClosedRange<Date>? {
+        let calendar = Self.iso8601
+        switch dateRange {
+        case .week:
+            guard let prevRef = calendar.date(byAdding: .weekOfYear, value: -1, to: now) else { return nil }
+            return iso8601WeekRange(reference: prevRef)
+        case .month:
+            guard let prevRef = calendar.date(byAdding: .month, value: -1, to: now) else { return nil }
+            return iso8601MonthRange(reference: prevRef)
+        case .threeMonths:
+            let current = range(for: .threeMonths, now: now)
+            let prevEnd = current.lowerBound.addingTimeInterval(-1)
+            guard let prevStart = calendar.date(byAdding: .month, value: -3, to: current.lowerBound) else { return nil }
+            return prevStart...prevEnd
+        case .year:
+            let current = range(for: .year, now: now)
+            let prevEnd = current.lowerBound.addingTimeInterval(-1)
+            guard let prevStart = calendar.date(byAdding: .year, value: -1, to: current.lowerBound) else { return nil }
+            return prevStart...prevEnd
+        case .all:
+            return nil
+        }
+    }
 }
 
 extension ClosedRange where Bound == Date {

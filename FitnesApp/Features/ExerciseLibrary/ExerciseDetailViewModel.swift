@@ -31,7 +31,7 @@ final class ExerciseDetailViewModel {
     func toggleFavorite() async {
         guard let exercise else { return }
         do {
-            try await repository.setFavorite(id: exercise.id, isFavorite: !exercise.isFavorite)
+            try await repository.setFavorite(exercise.id, !exercise.isFavorite)
         } catch {
             errorMessage = error.localizedDescription
         }

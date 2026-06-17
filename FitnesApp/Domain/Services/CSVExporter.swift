@@ -17,7 +17,7 @@ actor CSVExporter {
         let url = fileManager.temporaryDirectory
             .appendingPathComponent(filename(at: now()))
         guard let data = csv.data(using: .utf8) else {
-            throw AppError.persistence("CSV encoding failed")
+            throw DataError.persistence("CSV encoding failed")
         }
         try data.write(to: url, options: .atomic)
         return url

@@ -12,31 +12,28 @@ final class WorkoutService: WorkoutServicing {
 
     func startSession(planID: UUID?) async throws -> WorkoutSessionDTO {
         if let active = try await sessions.activeSession() {
-            throw AppError.sessionAlreadyActive(id: active.id)
+            throw WorkoutError.sessionAlreadyActive(id: active.id)
         }
-        return try await sessions.create(planID: planID, title: "")
+        let session = try await sessions.create(planID: planID, title: "")
+        return session.toDTO()
     }
 
     func resumeActiveSession() async throws -> WorkoutSessionDTO? {
-        try await sessions.activeSession()
+        try await sessions.activeSession()?.toDTO()
     }
 
+    @discardableResult
     func logSet(
         sessionID: UUID,
         exerciseID: UUID,
         weight: Double,
         reps: Int
     ) async throws -> WorkoutSetDTO {
-        guard weight >= 0, reps > 0 else { throw AppError.invalidSetInput }
+        guard weight >= 0, reps > 0 else { throw WorkoutError.invalidSetInput }
         let tonnage = TonnageCalculator.compute(weight: weight, reps: reps)
-        let setDTO = try await sessions.addSet(
-            sessionID: sessionID,
-            exerciseID: exerciseID,
-            weight: weight,
-            reps: reps,
-            tonnage: tonnage
-        )
-        try await sessions.bumpTotalTonnage(sessionID: sessionID, by: tonnage)
+        let draft = WorkoutSetDraft(exerciseID: exerciseID, weight: weight, reps: reps, tonnage: tonnage)
+        let set = try await sessions.appendSet(draft, to: sessionID)
+        let setDTO = set.toDTO()
         try await PersonalRecordCalculator.evaluateAndStoreIfNeeded(
             setDTO: setDTO,
             exercises: exercises
@@ -45,10 +42,10 @@ final class WorkoutService: WorkoutServicing {
     }
 
     func finishSession(_ sessionID: UUID) async throws -> WorkoutSessionDTO {
-        try await sessions.finish(sessionID: sessionID, at: .now)
+        try await sessions.finish(sessionID, at: .now)
     }
 
-    func cancelSession(_ sessionID: UUID) async throws {
-        try await sessions.delete(sessionID: sessionID)
+    func discardSession(_ sessionID: UUID) async throws {
+        try await sessions.discard(sessionID)
     }
 }

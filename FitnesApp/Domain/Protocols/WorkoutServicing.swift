@@ -10,5 +10,5 @@ protocol WorkoutServicing: Sendable {
         reps: Int
     ) async throws -> WorkoutSetDTO
     func finishSession(_ sessionID: UUID) async throws -> WorkoutSessionDTO
-    func cancelSession(_ sessionID: UUID) async throws
+    func discardSession(_ sessionID: UUID) async throws
 }

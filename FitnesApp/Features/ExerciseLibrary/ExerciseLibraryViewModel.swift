@@ -32,7 +32,7 @@ final class ExerciseLibraryViewModel {
         errorMessage = nil
         do {
             let all = try await repository.all()
-            let groups = try await repository.allMuscleGroups()
+            let groups = try await repository.muscleGroups()
             totalCount = all.count
             muscleGroups = groups.map { group in
                 let count = all.reduce(into: 0) { acc, exercise in

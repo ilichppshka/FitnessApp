@@ -3,7 +3,8 @@ import SwiftData
 
 protocol UserRepository {
     func current() async throws -> UserProfile
-    func update(_ profile: UserProfile) async throws
+    func update(_ mutate: @MainActor (UserProfile) -> Void) async throws
+    func exists() async throws -> Bool
 }
 
 final class SwiftDataUserRepository: UserRepository {
@@ -33,10 +34,15 @@ final class SwiftDataUserRepository: UserRepository {
         return profile
     }
 
-    func update(_ profile: UserProfile) async throws {
-        if profile.modelContext == nil {
-            context.insert(profile)
-        }
+    func update(_ mutate: @MainActor (UserProfile) -> Void) async throws {
+        let profile = try await current()
+        mutate(profile)
         try context.save()
+    }
+
+    func exists() async throws -> Bool {
+        var descriptor = FetchDescriptor<UserProfile>()
+        descriptor.fetchLimit = 1
+        return try !context.fetch(descriptor).isEmpty
     }
 }

@@ -3,24 +3,25 @@ import Foundation
 
 final class MockNotificationScheduling: NotificationScheduling, @unchecked Sendable {
     var authorizationResult: Bool = true
-    var authorizationError: Error?
     private(set) var requestAuthorizationCallCount = 0
-    private(set) var scheduledRequests: [(seconds: TimeInterval, sessionID: UUID)] = []
-    private(set) var cancelledSessionIDs: [UUID] = []
+    struct ScheduledRequest: Sendable {
+        let seconds: TimeInterval
+        let soundEnabled: Bool
+    }
 
-    func requestAuthorizationIfNeeded() async throws -> Bool {
+    private(set) var scheduledRequests: [ScheduledRequest] = []
+    private(set) var cancelCallCount = 0
+
+    func requestAuthorization() async -> Bool {
         requestAuthorizationCallCount += 1
-        if let authorizationError {
-            throw authorizationError
-        }
         return authorizationResult
     }
 
-    func scheduleRestEnd(after seconds: TimeInterval, sessionID: UUID) async throws {
-        scheduledRequests.append((seconds, sessionID))
+    func scheduleRestEnd(after seconds: TimeInterval, soundEnabled: Bool) async throws {
+        scheduledRequests.append(ScheduledRequest(seconds: seconds, soundEnabled: soundEnabled))
     }
 
-    func cancelRestEnd(sessionID: UUID) async {
-        cancelledSessionIDs.append(sessionID)
+    func cancelRestEnd() async {
+        cancelCallCount += 1
     }
 }

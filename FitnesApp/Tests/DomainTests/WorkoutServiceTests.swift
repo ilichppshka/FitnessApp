@@ -30,17 +30,13 @@ struct WorkoutServiceTests {
     func startSessionThrowsWhenAlreadyActive() async throws {
         let (service, sessions, _) = makeService()
         let activeID = UUID()
-        sessions.activeSessionResult = WorkoutSessionDTO(
+        sessions.activeSessionResult = WorkoutSession(
             id: activeID,
             title: "Active",
-            planName: nil,
-            startedAt: .now,
-            finishedAt: nil,
-            totalTonnage: 0,
-            sets: []
+            startedAt: .now
         )
 
-        await #expect(throws: AppError.sessionAlreadyActive(id: activeID)) {
+        await #expect(throws: WorkoutError.sessionAlreadyActive(id: activeID)) {
             _ = try await service.startSession(planID: nil)
         }
         #expect(sessions.createCalls.isEmpty)
@@ -50,14 +46,10 @@ struct WorkoutServiceTests {
     func resumeActiveSessionReturnsActive() async throws {
         let (service, sessions, _) = makeService()
         let id = UUID()
-        sessions.activeSessionResult = WorkoutSessionDTO(
+        sessions.activeSessionResult = WorkoutSession(
             id: id,
             title: "Active",
-            planName: nil,
-            startedAt: .now,
-            finishedAt: nil,
-            totalTonnage: 0,
-            sets: []
+            startedAt: .now
         )
 
         let resumed = try await service.resumeActiveSession()
@@ -69,7 +61,7 @@ struct WorkoutServiceTests {
     func logSetThrowsOnNegativeWeight() async throws {
         let (service, sessions, _) = makeService()
 
-        await #expect(throws: AppError.invalidSetInput) {
+        await #expect(throws: WorkoutError.invalidSetInput) {
             _ = try await service.logSet(
                 sessionID: UUID(),
                 exerciseID: UUID(),
@@ -77,14 +69,14 @@ struct WorkoutServiceTests {
                 reps: 10
             )
         }
-        #expect(sessions.addSetCalls.isEmpty)
+        #expect(sessions.appendSetCalls.isEmpty)
     }
 
     @Test
     func logSetThrowsOnZeroReps() async throws {
         let (service, _, _) = makeService()
 
-        await #expect(throws: AppError.invalidSetInput) {
+        await #expect(throws: WorkoutError.invalidSetInput) {
             _ = try await service.logSet(
                 sessionID: UUID(),
                 exerciseID: UUID(),
@@ -110,11 +102,11 @@ struct WorkoutServiceTests {
         #expect(set.weight == 0)
         #expect(set.reps == 12)
         #expect(set.tonnage == 0)
-        #expect(sessions.addSetCalls.count == 1)
+        #expect(sessions.appendSetCalls.count == 1)
     }
 
     @Test
-    func logSetComputesTonnageAndBumpsTotal() async throws {
+    func logSetComputesTonnageInDraft() async throws {
         let (service, sessions, _) = makeService()
         let sessionID = UUID()
         let exerciseID = UUID()
@@ -127,17 +119,17 @@ struct WorkoutServiceTests {
         )
 
         #expect(set.tonnage == 600)
-        let addCall = try #require(sessions.addSetCalls.first)
-        #expect(addCall.tonnage == 600)
-        let bumpCall = try #require(sessions.bumpCalls.first)
-        #expect(bumpCall.sessionID == sessionID)
-        #expect(bumpCall.delta == 600)
+        let call = try #require(sessions.appendSetCalls.first)
+        #expect(call.draft.tonnage == 600)
+        #expect(call.sessionID == sessionID)
     }
 
+    // PR detection tests now use Epley 1RM logic
     @Test
-    func logSetRecordsPRWhenWeightExceedsBest() async throws {
+    func logSetRecordsPRWhenEpleyExceedsBest() async throws {
         let (service, _, exercises) = makeService()
         let exerciseID = UUID()
+        // Best: 80kg × 5 → Epley = 80 * (1 + 5/30) ≈ 93.3
         exercises.bestPRResult = PersonalRecordDTO(
             id: UUID(),
             exerciseID: exerciseID,
@@ -148,21 +140,22 @@ struct WorkoutServiceTests {
             tonnage: 400
         )
 
+        // New: 75kg × 12 → Epley = 75 * (1 + 12/30) = 105 → beats 93.3
         _ = try await service.logSet(
             sessionID: UUID(),
             exerciseID: exerciseID,
-            weight: 90,
-            reps: 5
+            weight: 75,
+            reps: 12
         )
 
         #expect(exercises.addPRCalls.count == 1)
-        #expect(exercises.addPRCalls.first?.weight == 90)
     }
 
     @Test
-    func logSetSkipsPRWhenWeightNotBetter() async throws {
+    func logSetSkipsPRWhenEpleyNotBetter() async throws {
         let (service, _, exercises) = makeService()
         let exerciseID = UUID()
+        // Best: 100kg × 5 → Epley = 100 * (1 + 5/30) ≈ 116.7
         exercises.bestPRResult = PersonalRecordDTO(
             id: UUID(),
             exerciseID: exerciseID,
@@ -173,6 +166,7 @@ struct WorkoutServiceTests {
             tonnage: 500
         )
 
+        // New: 90kg × 5 → Epley = 90 * (1 + 5/30) = 105 → doesn't beat 116.7
         _ = try await service.logSet(
             sessionID: UUID(),
             exerciseID: exerciseID,
@@ -181,6 +175,32 @@ struct WorkoutServiceTests {
         )
 
         #expect(exercises.addPRCalls.isEmpty)
+    }
+
+    @Test
+    func logSetEpleyAllowsHigherRepsToBeakHigherWeight() async throws {
+        let (service, _, exercises) = makeService()
+        let exerciseID = UUID()
+        // Best: 105kg × 1 → Epley = 105 * (1 + 1/30) ≈ 108.5
+        exercises.bestPRResult = PersonalRecordDTO(
+            id: UUID(),
+            exerciseID: exerciseID,
+            exerciseName: "mock",
+            date: .now.addingTimeInterval(-86_400),
+            weight: 105,
+            reps: 1,
+            tonnage: 105
+        )
+
+        // New: 100kg × 8 → Epley = 100 * (1 + 8/30) ≈ 126.7 → beats 108.5
+        _ = try await service.logSet(
+            sessionID: UUID(),
+            exerciseID: exerciseID,
+            weight: 100,
+            reps: 8
+        )
+
+        #expect(exercises.addPRCalls.count == 1)
     }
 
     @Test
@@ -211,12 +231,12 @@ struct WorkoutServiceTests {
     }
 
     @Test
-    func cancelSessionDeletes() async throws {
+    func discardSessionDeletes() async throws {
         let (service, sessions, _) = makeService()
         let sessionID = UUID()
 
-        try await service.cancelSession(sessionID)
+        try await service.discardSession(sessionID)
 
-        #expect(sessions.deleteCalls == [sessionID])
+        #expect(sessions.discardCalls == [sessionID])
     }
 }

@@ -1,10 +1,14 @@
 import Foundation
 
-enum AppError: Error, Sendable, Equatable {
+enum WorkoutError: Error, Sendable, Equatable {
     case sessionAlreadyActive(id: UUID)
     case sessionNotFound(id: UUID)
-    case exerciseNotFound(id: UUID)
+    case noActiveSession
     case invalidSetInput
+}
+
+enum DataError: Error, Sendable, Equatable {
+    case exerciseNotFound(id: UUID)
     case persistence(String)
     case notificationsDenied
 }

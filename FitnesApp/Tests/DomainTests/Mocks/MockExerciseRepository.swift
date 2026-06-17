@@ -6,6 +6,7 @@ final class MockExerciseRepository: ExerciseRepository {
     var bestPRResult: PersonalRecordDTO?
     var addPRResult: PersonalRecordDTO?
     var addPRError: Error?
+    var lastSetExercise: Exercise?
 
     private(set) var bestPRCalls: [UUID] = []
     struct AddPRCall {
@@ -16,26 +17,35 @@ final class MockExerciseRepository: ExerciseRepository {
     }
 
     private(set) var addPRCalls: [AddPRCall] = []
+    private(set) var setFavoriteCalls: [(exerciseID: UUID, value: Bool)] = []
+    private(set) var findCalls: [UUID] = []
 
     func all() async throws -> [Exercise] { [] }
 
+    func muscleGroups() async throws -> [MuscleGroup] { [] }
+
     func search(query: String, muscleGroupIDs: [UUID]) async throws -> [Exercise] { [] }
 
-    func find(id: UUID) async throws -> Exercise? { nil }
+    func find(id: UUID) async throws -> Exercise? {
+        findCalls.append(id)
+        return lastSetExercise
+    }
 
-    func allMuscleGroups() async throws -> [MuscleGroup] { [] }
+    func exerciseOfTheDay() async throws -> Exercise? { nil }
+
+    func recent(limit: Int) async throws -> [Exercise] { [] }
+
+    func favorites() async throws -> [Exercise] { [] }
+
+    func setFavorite(_ exerciseID: UUID, _ value: Bool) async throws {
+        setFavoriteCalls.append((exerciseID, value))
+    }
+
+    func personalRecords(exerciseID: UUID) async throws -> [PersonalRecord] { [] }
 
     func bestPersonalRecord(exerciseID: UUID) async throws -> PersonalRecordDTO? {
         bestPRCalls.append(exerciseID)
         return bestPRResult
-    }
-
-    func personalRecordHistory(exerciseID: UUID) async throws -> [PersonalRecordDTO] { [] }
-
-    private(set) var setFavoriteCalls: [(id: UUID, isFavorite: Bool)] = []
-
-    func setFavorite(id: UUID, isFavorite: Bool) async throws {
-        setFavoriteCalls.append((id, isFavorite))
     }
 
     func addPersonalRecord(
