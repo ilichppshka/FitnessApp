@@ -256,9 +256,9 @@ private struct OutlinedTextField: View {
 
 #if DEBUG
 private final class PreviewNotificationScheduling: NotificationScheduling, @unchecked Sendable {
-    func requestAuthorizationIfNeeded() async throws -> Bool { true }
-    func scheduleRestEnd(after seconds: TimeInterval, sessionID: UUID) async throws {}
-    func cancelRestEnd(sessionID: UUID) async {}
+    func requestAuthorization() async -> Bool { true }
+    func scheduleRestEnd(after seconds: TimeInterval, soundEnabled: Bool) async throws {}
+    func cancelRestEnd() async {}
 }
 
 #Preview("Profile Setup") {

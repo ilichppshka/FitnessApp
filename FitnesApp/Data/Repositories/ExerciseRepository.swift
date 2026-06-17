@@ -3,18 +3,24 @@ import SwiftData
 
 protocol ExerciseRepository {
     func all() async throws -> [Exercise]
-    func allMuscleGroups() async throws -> [MuscleGroup]
+    func muscleGroups() async throws -> [MuscleGroup]
     func search(query: String, muscleGroupIDs: [UUID]) async throws -> [Exercise]
     func find(id: UUID) async throws -> Exercise?
+
+    func exerciseOfTheDay() async throws -> Exercise?
+    func recent(limit: Int) async throws -> [Exercise]
+
+    func favorites() async throws -> [Exercise]
+    func setFavorite(_ exerciseID: UUID, _ value: Bool) async throws
+
+    func personalRecords(exerciseID: UUID) async throws -> [PersonalRecord]
     func bestPersonalRecord(exerciseID: UUID) async throws -> PersonalRecordDTO?
-    func personalRecordHistory(exerciseID: UUID) async throws -> [PersonalRecordDTO]
     func addPersonalRecord(
         exerciseID: UUID,
         weight: Double,
         reps: Int,
         date: Date
     ) async throws -> PersonalRecordDTO
-    func setFavorite(id: UUID, isFavorite: Bool) async throws
 }
 
 final class SwiftDataExerciseRepository: ExerciseRepository {
@@ -29,7 +35,7 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
         return exercises.sorted { localizedExerciseName($0) < localizedExerciseName($1) }
     }
 
-    func allMuscleGroups() async throws -> [MuscleGroup] {
+    func muscleGroups() async throws -> [MuscleGroup] {
         let groups = try context.fetch(FetchDescriptor<MuscleGroup>())
         return groups.sorted { $0.displayOrder < $1.displayOrder }
     }
@@ -62,16 +68,55 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
         return try context.fetch(descriptor).first
     }
 
-    func bestPersonalRecord(exerciseID: UUID) async throws -> PersonalRecordDTO? {
-        guard let exercise = try await find(id: exerciseID) else { return nil }
-        return exercise.personalRecords.max(by: { $0.weight < $1.weight })?.toDTO()
+    func exerciseOfTheDay() async throws -> Exercise? {
+        let exercises = try await all()
+        guard !exercises.isEmpty else { return nil }
+        let dayOfYear = Calendar.current.ordinality(of: .day, in: .year, for: .now) ?? 1
+        return exercises[dayOfYear % exercises.count]
     }
 
-    func personalRecordHistory(exerciseID: UUID) async throws -> [PersonalRecordDTO] {
+    func recent(limit: Int) async throws -> [Exercise] {
+        guard limit > 0 else { return [] }
+        let sets = try context.fetch(
+            FetchDescriptor<WorkoutSet>(sortBy: [SortDescriptor(\.loggedAt, order: .reverse)])
+        )
+        var seen = Set<UUID>()
+        var result: [Exercise] = []
+        for set in sets {
+            guard let exercise = set.exercise, !seen.contains(exercise.id) else { continue }
+            seen.insert(exercise.id)
+            result.append(exercise)
+            if result.count >= limit { break }
+        }
+        return result
+    }
+
+    func favorites() async throws -> [Exercise] {
+        let all = try context.fetch(FetchDescriptor<Exercise>())
+        return all.filter(\.isFavorite).sorted { localizedExerciseName($0) < localizedExerciseName($1) }
+    }
+
+    func setFavorite(_ exerciseID: UUID, _ value: Bool) async throws {
+        guard let exercise = try await find(id: exerciseID) else {
+            throw DataError.exerciseNotFound(id: exerciseID)
+        }
+        exercise.isFavorite = value
+        try context.save()
+    }
+
+    func personalRecords(exerciseID: UUID) async throws -> [PersonalRecord] {
         guard let exercise = try await find(id: exerciseID) else { return [] }
+        return exercise.personalRecords.sorted { $0.date > $1.date }
+    }
+
+    func bestPersonalRecord(exerciseID: UUID) async throws -> PersonalRecordDTO? {
+        guard let exercise = try await find(id: exerciseID) else { return nil }
         return exercise.personalRecords
-            .sorted { $0.date > $1.date }
-            .map { $0.toDTO() }
+            .max(by: { lhs, rhs in
+                OneRepMaxCalculator.epley(weight: lhs.weight, reps: lhs.reps) <
+                OneRepMaxCalculator.epley(weight: rhs.weight, reps: rhs.reps)
+            })?
+            .toDTO()
     }
 
     func addPersonalRecord(
@@ -81,7 +126,7 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
         date: Date
     ) async throws -> PersonalRecordDTO {
         guard let exercise = try await find(id: exerciseID) else {
-            throw AppError.exerciseNotFound(id: exerciseID)
+            throw DataError.exerciseNotFound(id: exerciseID)
         }
         let record = PersonalRecord(
             exercise: exercise,
@@ -94,12 +139,14 @@ final class SwiftDataExerciseRepository: ExerciseRepository {
         return record.toDTO()
     }
 
+    // MARK: - Deprecated aliases kept for test compatibility during migration
+
+    func allMuscleGroups() async throws -> [MuscleGroup] {
+        try await muscleGroups()
+    }
+
     func setFavorite(id: UUID, isFavorite: Bool) async throws {
-        guard let exercise = try await find(id: id) else {
-            throw AppError.exerciseNotFound(id: id)
-        }
-        exercise.isFavorite = isFavorite
-        try context.save()
+        try await setFavorite(id, isFavorite)
     }
 
     private func localizedExerciseName(_ exercise: Exercise) -> String {

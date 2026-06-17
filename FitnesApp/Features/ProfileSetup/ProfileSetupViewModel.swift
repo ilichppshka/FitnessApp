@@ -51,7 +51,7 @@ final class ProfileSetupViewModel {
     }
 
     func requestNotificationAuthorization() async {
-        _ = try? await notifications.requestAuthorizationIfNeeded()
+        _ = await notifications.requestAuthorization()
     }
 
     func save() async {
@@ -60,11 +60,14 @@ final class ProfileSetupViewModel {
         errorMessage = nil
 
         do {
-            let profile = try await users.current()
-            profile.name = trimmedName
-            profile.bodyWeight = bodyWeightKg
-            profile.selectedMascotId = selectedMascot.rawValue
-            try await users.update(profile)
+            let savedName = trimmedName
+            let savedWeight = bodyWeightKg
+            let savedMascot = selectedMascot.rawValue
+            try await users.update { profile in
+                profile.name = savedName
+                profile.bodyWeight = savedWeight
+                profile.selectedMascotId = savedMascot
+            }
             isSaving = false
             onComplete()
         } catch {

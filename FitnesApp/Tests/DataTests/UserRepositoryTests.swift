@@ -8,8 +8,7 @@ struct UserRepositoryTests {
     @Test
     func currentCreatesDefaultProfileIfMissing() async throws {
         let container = try InMemoryContainer.make()
-        let context = container.mainContext
-        let repo = SwiftDataUserRepository(context: context)
+        let repo = SwiftDataUserRepository(context: container.mainContext)
 
         let profile = try await repo.current()
 
@@ -21,8 +20,7 @@ struct UserRepositoryTests {
     @Test
     func currentReturnsSameProfileOnSecondCall() async throws {
         let container = try InMemoryContainer.make()
-        let context = container.mainContext
-        let repo = SwiftDataUserRepository(context: context)
+        let repo = SwiftDataUserRepository(context: container.mainContext)
 
         let first = try await repo.current()
         let second = try await repo.current()
@@ -33,16 +31,36 @@ struct UserRepositoryTests {
     @Test
     func updatePersistsChanges() async throws {
         let container = try InMemoryContainer.make()
-        let context = container.mainContext
-        let repo = SwiftDataUserRepository(context: context)
-        let profile = try await repo.current()
+        let repo = SwiftDataUserRepository(context: container.mainContext)
 
-        profile.name = "Илья"
-        profile.bodyWeight = 75.5
-        try await repo.update(profile)
+        try await repo.update { profile in
+            profile.name = "Илья"
+            profile.bodyWeight = 75.5
+        }
 
         let reloaded = try await repo.current()
         #expect(reloaded.name == "Илья")
         #expect(reloaded.bodyWeight == 75.5)
+    }
+
+    @Test
+    func existsReturnsFalseWhenNoProfile() async throws {
+        let container = try InMemoryContainer.make()
+        let repo = SwiftDataUserRepository(context: container.mainContext)
+
+        let result = try await repo.exists()
+
+        #expect(!result)
+    }
+
+    @Test
+    func existsReturnsTrueAfterCreating() async throws {
+        let container = try InMemoryContainer.make()
+        let repo = SwiftDataUserRepository(context: container.mainContext)
+
+        _ = try await repo.current() // triggers default profile creation
+        let result = try await repo.exists()
+
+        #expect(result)
     }
 }

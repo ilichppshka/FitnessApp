@@ -4,147 +4,261 @@ import Testing
 
 @MainActor
 struct AnalyticsServiceTests {
+    // Wednesday 2026-05-13 12:00 UTC; ISO week Mon 2026-05-11 … Sun 2026-05-17
+    private let reference = Date(timeIntervalSince1970: 1_778_932_800)
+
     // swiftlint:disable:next large_tuple
-    private func makeService() -> (
-        AnalyticsService,
-        MockSessionRepository,
-        MockExerciseRepository
-    ) {
+    private func makeService(now: Date? = nil) -> (AnalyticsService, MockSessionRepository, MockExerciseRepository, MockWorkoutRepository) {
         let sessions = MockSessionRepository()
         let exercises = MockExerciseRepository()
-        let service = AnalyticsService(sessions: sessions, exercises: exercises)
-        return (service, sessions, exercises)
+        let plans = MockWorkoutRepository()
+        let fixedNow = now ?? Date(timeIntervalSince1970: 1_778_932_800)
+        let service = AnalyticsService(
+            sessions: sessions,
+            exercises: exercises,
+            plans: plans,
+            now: { fixedNow }
+        )
+        return (service, sessions, exercises, plans)
     }
-
-    // Wednesday 2026-05-13 12:00 UTC; ISO week = Mon 2026-05-11 ... Sun 2026-05-17.
-    private let reference = Date(timeIntervalSince1970: 1_778_932_800)
 
     private func session(
         startedAt: Date,
         tonnage: Double,
-        finished: Bool = true
+        sets: [WorkoutSetDTO] = [],
+        finishedAt: Date? = nil
     ) -> WorkoutSessionDTO {
         WorkoutSessionDTO(
             id: UUID(),
             title: "Test",
             planName: nil,
             startedAt: startedAt,
-            finishedAt: finished ? startedAt.addingTimeInterval(3600) : nil,
+            finishedAt: finishedAt ?? startedAt.addingTimeInterval(3600),
             totalTonnage: tonnage,
-            sets: []
+            sets: sets
         )
     }
 
-    @Test
-    func weeklyTonnageReturnsSevenDays() async throws {
-        let (service, _, _) = makeService()
-
-        let result = try await service.weeklyTonnage(reference: reference)
-
-        #expect(result.count == 7)
-        #expect(result.allSatisfy { $0.tonnage == 0 })
-    }
-
-    @Test
-    func weeklyTonnageBucketsByDay() async throws {
-        let (service, sessions, _) = makeService()
-        let week = Calendar.iso8601WeekRange(reference: reference)
-        let monday = week.lowerBound
-        let wednesday = monday.addingTimeInterval(2 * 86_400)
-        sessions.historyResult = [
-            session(startedAt: monday.addingTimeInterval(3600), tonnage: 500),
-            session(startedAt: monday.addingTimeInterval(7200), tonnage: 250),
-            session(startedAt: wednesday, tonnage: 1000)
-        ]
-
-        let result = try await service.weeklyTonnage(reference: reference)
-
-        #expect(result.count == 7)
-        #expect(result[0].tonnage == 750)
-        #expect(result[2].tonnage == 1000)
-        #expect(result[1].tonnage == 0)
-    }
-
-    @Test
-    func weeklyTonnageQueriesRepoWithIsoWeekRange() async throws {
-        let (service, sessions, _) = makeService()
-
-        _ = try await service.weeklyTonnage(reference: reference)
-
-        let call = try #require(sessions.historyCalls.first)
-        let expected = Calendar.iso8601WeekRange(reference: reference)
-        #expect(call.lowerBound == expected.lowerBound)
-        #expect(call.upperBound == expected.upperBound)
-    }
-
-    @Test
-    func monthlyTonnageGroupsByWeek() async throws {
-        let (service, sessions, _) = makeService()
-        let monthRange = Calendar.iso8601MonthRange(reference: reference)
-        let weekA = Calendar.iso8601WeekRange(reference: monthRange.lowerBound).lowerBound
-        let weekAStart = max(weekA, monthRange.lowerBound).addingTimeInterval(3600)
-        let weekB = Calendar.iso8601WeekRange(reference: reference).lowerBound.addingTimeInterval(3600)
-        sessions.historyResult = [
-            session(startedAt: weekAStart, tonnage: 200),
-            session(startedAt: weekAStart.addingTimeInterval(86_400), tonnage: 300),
-            session(startedAt: weekB, tonnage: 1000)
-        ]
-
-        let result = try await service.monthlyTonnage(reference: reference)
-
-        #expect(result.count == 2)
-        #expect(result[0].tonnage == 500)
-        #expect(result[0].sessionsCount == 2)
-        #expect(result[1].tonnage == 1000)
-        #expect(result[1].sessionsCount == 1)
-        #expect(result[0].id < result[1].id)
-    }
-
-    @Test
-    func sessionHistoryRespectsLimit() async throws {
-        let (service, sessions, _) = makeService()
-        let anchor = Date.now.addingTimeInterval(-86_400)
-        sessions.historyResult = (0..<5).map { offset in
-            session(
-                startedAt: anchor.addingTimeInterval(-Double(offset) * 86_400),
-                tonnage: Double(offset * 100)
-            )
-        }
-
-        let result = try await service.sessionHistory(limit: 3)
-
-        #expect(result.count == 3)
-    }
-
-    @Test
-    func sessionHistoryWithZeroLimitReturnsEmpty() async throws {
-        let (service, sessions, _) = makeService()
-        sessions.historyResult = [session(startedAt: reference, tonnage: 100)]
-
-        let result = try await service.sessionHistory(limit: 0)
-
-        #expect(result.isEmpty)
-        #expect(sessions.historyCalls.isEmpty)
-    }
-
-    @Test
-    func personalRecordDelegatesToExercises() async throws {
-        let (service, _, exercises) = makeService()
-        let exerciseID = UUID()
-        let expected = PersonalRecordDTO(
+    private func makeSet(exerciseID: UUID = UUID(), isPR: Bool = false) -> WorkoutSetDTO {
+        WorkoutSetDTO(
             id: UUID(),
             exerciseID: exerciseID,
             exerciseName: "mock",
-            date: reference,
-            weight: 120,
-            reps: 3,
-            tonnage: 360
+            setNumber: 1,
+            weight: 100,
+            reps: 5,
+            tonnage: 500,
+            isPersonalRecord: isPR,
+            loggedAt: .now
         )
-        exercises.bestPRResult = expected
+    }
 
-        let result = try await service.personalRecord(exerciseID: exerciseID)
+    // MARK: - totalTonnage
 
+    @Test
+    func totalTonnageSumsCurrentRange() async throws {
+        let (service, sessions, _, _) = makeService(now: reference)
+        let week = Calendar.iso8601WeekRange(reference: reference)
+        sessions.historyResult = [
+            session(startedAt: week.lowerBound.addingTimeInterval(3600), tonnage: 1000),
+            session(startedAt: week.lowerBound.addingTimeInterval(7200), tonnage: 500)
+        ]
+
+        let metric = try await service.totalTonnage(range: .week)
+
+        #expect(metric.value == 1500)
+    }
+
+    @Test
+    func totalTonnageComputesDeltaVsPreviousWeek() async throws {
+        let (service, sessions, _, _) = makeService(now: reference)
+        let thisWeek = Calendar.iso8601WeekRange(reference: reference)
+        let prevRef = Calendar.iso8601.date(byAdding: .weekOfYear, value: -1, to: reference)!
+        let prevWeek = Calendar.iso8601WeekRange(reference: prevRef)
+        sessions.historyResult = [
+            session(startedAt: thisWeek.lowerBound.addingTimeInterval(3600), tonnage: 1200),
+            session(startedAt: prevWeek.lowerBound.addingTimeInterval(3600), tonnage: 1000)
+        ]
+
+        let metric = try await service.totalTonnage(range: .week)
+
+        #expect(metric.value == 1200)
+        #expect(metric.deltaAbsolute == 200)
+    }
+
+    // MARK: - tonnageSeries
+
+    @Test
+    func tonnageSeriesReturnsOnePointPerDay() async throws {
+        let (service, _, _, _) = makeService(now: reference)
+
+        let points = try await service.tonnageSeries(range: .week)
+
+        #expect(points.count == 7)
+        #expect(points.allSatisfy { $0.tonnage == 0 })
+    }
+
+    @Test
+    func tonnageSeriesBucketsByDay() async throws {
+        let (service, sessions, _, _) = makeService(now: reference)
+        let week = Calendar.iso8601WeekRange(reference: reference)
+        let monday = week.lowerBound
+        sessions.historyResult = [
+            session(startedAt: monday.addingTimeInterval(3600), tonnage: 800),
+            session(startedAt: monday.addingTimeInterval(7200), tonnage: 200),
+            session(startedAt: monday.addingTimeInterval(2 * 86_400 + 3600), tonnage: 500)
+        ]
+
+        let points = try await service.tonnageSeries(range: .week)
+
+        #expect(points[0].tonnage == 1000)
+        #expect(points[2].tonnage == 500)
+        #expect(points[1].tonnage == 0)
+    }
+
+    // MARK: - sessionsCount
+
+    @Test
+    func sessionsCountReturnsCountAndDelta() async throws {
+        let (service, sessions, _, _) = makeService(now: reference)
+        let thisWeek = Calendar.iso8601WeekRange(reference: reference)
+        let prevRef = Calendar.iso8601.date(byAdding: .weekOfYear, value: -1, to: reference)!
+        let prevWeek = Calendar.iso8601WeekRange(reference: prevRef)
+        sessions.historyResult = [
+            session(startedAt: thisWeek.lowerBound.addingTimeInterval(3600), tonnage: 100),
+            session(startedAt: thisWeek.lowerBound.addingTimeInterval(7200), tonnage: 100),
+            session(startedAt: prevWeek.lowerBound.addingTimeInterval(3600), tonnage: 100)
+        ]
+
+        let metric = try await service.sessionsCount(range: .week)
+
+        #expect(metric.value == 2)
+        #expect(metric.deltaAbsolute == 1)
+    }
+
+    // MARK: - newPRsCount
+
+    @Test
+    func newPRsCountFiltersIsPersonalRecordFlag() async throws {
+        let (service, sessions, _, _) = makeService(now: reference)
+        let week = Calendar.iso8601WeekRange(reference: reference)
+        sessions.historyResult = [
+            session(
+                startedAt: week.lowerBound.addingTimeInterval(3600),
+                tonnage: 0,
+                sets: [makeSet(isPR: true), makeSet(isPR: false), makeSet(isPR: true)]
+            )
+        ]
+
+        let metric = try await service.newPRsCount(range: .week)
+
+        #expect(metric.value == 2)
+    }
+
+    // MARK: - currentStreak
+
+    @Test
+    func currentStreakIsZeroWithNoHistory() async throws {
+        let (service, _, _, _) = makeService(now: reference)
+
+        let streak = try await service.currentStreak()
+
+        #expect(streak == 0)
+    }
+
+    @Test
+    func currentStreakCountsConsecutiveDaysUpToToday() async throws {
+        let (service, sessions, _, _) = makeService(now: reference)
+        let today = Calendar.iso8601.startOfDay(for: reference)
+        let yesterday = today.addingTimeInterval(-86_400)
+        let dayBefore = today.addingTimeInterval(-2 * 86_400)
+        sessions.historyResult = [
+            session(startedAt: today.addingTimeInterval(3600), tonnage: 0),
+            session(startedAt: yesterday.addingTimeInterval(3600), tonnage: 0),
+            session(startedAt: dayBefore.addingTimeInterval(3600), tonnage: 0)
+        ]
+
+        let streak = try await service.currentStreak()
+
+        #expect(streak == 3)
+    }
+
+    @Test
+    func currentStreakBreaksOnGap() async throws {
+        let (service, sessions, _, _) = makeService(now: reference)
+        let today = Calendar.iso8601.startOfDay(for: reference)
+        let twoDaysAgo = today.addingTimeInterval(-2 * 86_400)
+        sessions.historyResult = [
+            session(startedAt: today.addingTimeInterval(3600), tonnage: 0),
+            session(startedAt: twoDaysAgo.addingTimeInterval(3600), tonnage: 0)
+        ]
+
+        let streak = try await service.currentStreak()
+
+        #expect(streak == 1)
+    }
+
+    // MARK: - estimatedOneRepMax
+
+    @Test
+    func estimatedOneRepMaxReturnsNilWhenNoPR() async throws {
+        let (service, _, exercises, _) = makeService()
+        exercises.bestPRResult = nil
+
+        let result = try await service.estimatedOneRepMax(exerciseID: UUID())
+
+        #expect(result == nil)
+    }
+
+    @Test
+    func estimatedOneRepMaxUsesEpleyFormula() async throws {
+        let (service, _, exercises, _) = makeService()
+        let exerciseID = UUID()
+        exercises.bestPRResult = PersonalRecordDTO(
+            id: UUID(),
+            exerciseID: exerciseID,
+            exerciseName: "mock",
+            date: .now,
+            weight: 100,
+            reps: 10,
+            tonnage: 1000
+        )
+
+        let result = try await service.estimatedOneRepMax(exerciseID: exerciseID)
+
+        let expected = OneRepMaxCalculator.epley(weight: 100, reps: 10)
         #expect(result == expected)
-        #expect(exercises.bestPRCalls == [exerciseID])
+    }
+
+    // MARK: - attempts
+
+    @Test
+    func attemptsCountsSetsForExercise() async throws {
+        let (service, sessions, _, _) = makeService(now: reference)
+        let exerciseID = UUID()
+        let otherID = UUID()
+        sessions.historyResult = [
+            session(
+                startedAt: Date.distantPast.addingTimeInterval(1),
+                tonnage: 0,
+                sets: [makeSet(exerciseID: exerciseID), makeSet(exerciseID: otherID), makeSet(exerciseID: exerciseID)]
+            )
+        ]
+
+        let count = try await service.attempts(exerciseID: exerciseID)
+
+        #expect(count == 2)
+    }
+
+    // MARK: - estimatedDuration
+
+    @Test
+    func estimatedDurationIsZeroForUnknownPlan() async throws {
+        let (service, _, _, plans) = makeService()
+        plans.findResult = nil
+
+        let duration = try await service.estimatedDuration(planID: UUID())
+
+        #expect(duration == 0)
     }
 }

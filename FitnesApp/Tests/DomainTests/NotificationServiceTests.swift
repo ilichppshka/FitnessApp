@@ -5,39 +5,37 @@ import UserNotifications
 
 struct NotificationServiceTests {
     @Test
-    func requestAuthorizationPassesAlertAndSound() async throws {
+    func requestAuthorizationPassesAlertAndSound() async {
         let center = MockUserNotificationScheduler()
         let service = NotificationService(center: center)
 
-        let granted = try await service.requestAuthorizationIfNeeded()
+        let granted = await service.requestAuthorization()
 
         #expect(granted == true)
-        let options = try #require(center.requestedAuthorizationOptions.first)
-        #expect(options.contains(.alert))
-        #expect(options.contains(.sound))
+        let options = try? #require(center.requestedAuthorizationOptions.first)
+        #expect(options?.contains(.alert) == true)
+        #expect(options?.contains(.sound) == true)
     }
 
     @Test
-    func requestAuthorizationPropagatesDeniedResult() async throws {
+    func requestAuthorizationReturnsFalseWhenDenied() async {
         let center = MockUserNotificationScheduler()
         center.authorizationResult = false
         let service = NotificationService(center: center)
 
-        let granted = try await service.requestAuthorizationIfNeeded()
+        let granted = await service.requestAuthorization()
 
         #expect(granted == false)
     }
 
     @Test
-    func scheduleRestEndCreatesRequestWithSessionScopedIdentifier() async throws {
+    func scheduleRestEndCreatesRequestWithFixedIdentifier() async throws {
         let center = MockUserNotificationScheduler()
         let service = NotificationService(center: center)
-        let sessionID = UUID()
 
-        try await service.scheduleRestEnd(after: 90, sessionID: sessionID)
+        try await service.scheduleRestEnd(after: 90, soundEnabled: true)
 
         let request = try #require(center.addedRequests.first)
-        #expect(request.identifier == NotificationService.identifier(for: sessionID))
         #expect(request.content.title == "Отдых окончен")
         #expect(request.content.sound == .default)
         let trigger = try #require(request.trigger as? UNTimeIntervalNotificationTrigger)
@@ -46,14 +44,23 @@ struct NotificationServiceTests {
     }
 
     @Test
-    func cancelRestEndRemovesSessionScopedIdentifier() async throws {
+    func scheduleRestEndWithSoundDisabledOmitsSound() async throws {
         let center = MockUserNotificationScheduler()
         let service = NotificationService(center: center)
-        let sessionID = UUID()
 
-        await service.cancelRestEnd(sessionID: sessionID)
+        try await service.scheduleRestEnd(after: 60, soundEnabled: false)
 
-        let removed = try #require(center.removedIdentifiers.first)
-        #expect(removed == [NotificationService.identifier(for: sessionID)])
+        let request = try #require(center.addedRequests.first)
+        #expect(request.content.sound == nil)
+    }
+
+    @Test
+    func cancelRestEndRemovesFixedIdentifier() async {
+        let center = MockUserNotificationScheduler()
+        let service = NotificationService(center: center)
+
+        await service.cancelRestEnd()
+
+        #expect(center.removedIdentifiers.count == 1)
     }
 }

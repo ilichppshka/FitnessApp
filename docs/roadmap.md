@@ -25,17 +25,17 @@
 
 > Схема пересмотрена относительно первоначального наброска из 8 моделей: добавлены join `ExerciseMuscle` (роль мышцы), `PlanSet` (план по сетам), enum'ы и новые поля. Канон — [models.md](models.md).
 
-- [ ] 4 enum (`Codable`): `WeightUnit`, `Difficulty`, `Equipment`, `MuscleRole`
-- [ ] 10 `@Model`-классов из [models.md · §2](models.md#2-модели): `UserProfile`, `MuscleGroup`, `ExerciseMuscle`, `Exercise`, `PersonalRecord`, `WorkoutPlan`, `PlanExercise`, `PlanSet`, `WorkoutSession`, `WorkoutSet`
-- [ ] Связи и delete-rules по таблице из [models.md · §3](models.md#3-связи-и-правила-удаления): cascade-владение, nullify-ссылки, явные `inverse`
-- [ ] Derived-свойства: `Exercise.primary/secondaryMuscles`, `WorkoutPlan.totalSets/targetMuscleGroups`, `PlanExercise.targetSets`, `WorkoutSession.isActive/duration/containsPR`
-- [ ] `ModelContainer.makeProduction()` + `makePreview()` (in-memory), `Schema` из 10 моделей
-- [ ] `SchemaV1` (10 моделей) + пустой `AppMigrationPlan`
-- [ ] DTO (`Sendable`): `ExerciseDTO` (+`difficulty`/`equipment`/`isFavorite`/мышцы), `WorkoutPlanDTO`/`PlanExerciseDTO`/`PlanSetDTO`, `WorkoutSessionDTO` (+`title`/`containsPR`), `WorkoutSetDTO` (+`isPersonalRecord`)
-- [ ] 4 репозитория: `ExerciseRepository` (search по `muscleLinks`, favorites-тоггл), `WorkoutRepository` (CRUD планов, `reorder`, `planSets`, draft), `SessionRepository` (active/create/addSet/finish/history), `UserRepository` (current/update)
-- [ ] `DataSeeder` + `MuscleGroupSeed` (Chest/Back/Legs/Shoulders/Arms/Core) + `ExerciseSeed.all` — 30+ упражнений с `ExerciseMuscle` (primary/secondary), `difficulty`, `equipment`
-- [ ] Дефолтный `UserProfile` при первом запуске (`weightUnit = .kg`, маскот `"duck"`)
-- [ ] Юнит-тесты репозиториев и сидинга на in-memory контейнере
+- [x] 4 enum (`Codable`): `WeightUnit`, `Difficulty`, `Equipment`, `MuscleRole`
+- [x] 10 `@Model`-классов из [models.md · §2](models.md#2-модели): `UserProfile`, `MuscleGroup`, `ExerciseMuscle`, `Exercise`, `PersonalRecord`, `WorkoutPlan`, `PlanExercise`, `PlanSet`, `WorkoutSession`, `WorkoutSet`
+- [x] Связи и delete-rules по таблице из [models.md · §3](models.md#3-связи-и-правила-удаления): cascade-владение, nullify-ссылки, явные `inverse`
+- [x] Derived-свойства: `Exercise.primary/secondaryMuscles`, `WorkoutPlan.totalSets/targetMuscleGroups`, `PlanExercise.targetSets`, `WorkoutSession.isActive/duration/containsPR`
+- [x] `ModelContainer.makeProduction()` + `makePreview()` (in-memory), `Schema` из 10 моделей
+- [x] `SchemaV1` (10 моделей) + пустой `AppMigrationPlan`
+- [x] DTO (`Sendable`): `ExerciseDTO` (+`difficulty`/`equipment`/`isFavorite`/мышцы), `WorkoutPlanDTO`/`PlanExerciseDTO`/`PlanSetDTO`, `WorkoutSessionDTO` (+`title`/`containsPR`), `WorkoutSetDTO` (+`isPersonalRecord`)
+- [x] 4 репозитория: `ExerciseRepository` (search по `muscleLinks`, favorites-тоггл), `WorkoutRepository` (CRUD планов, `reorder`, `planSets`, draft), `SessionRepository` (active/create/addSet/finish/history), `UserRepository` (current/update)
+- [x] `DataSeeder` + `MuscleGroupSeed` (Chest/Back/Legs/Shoulders/Arms/Core) + `ExerciseSeed.all` — 30+ упражнений с `ExerciseMuscle` (primary/secondary), `difficulty`, `equipment`
+- [x] Дефолтный `UserProfile` при первом запуске (`weightUnit = .kg`, маскот `"duck"`)
+- [x] Юнит-тесты репозиториев и сидинга на in-memory контейнере
 
 **Критерий готовности:** при первом запуске БД заполняется упражнениями с мышечными связями, сложностью и оборудованием; репозитории фильтруют по группе мышц и отдают favorites; план с `PlanSet` сохраняется и переупорядочивается; сессия создаётся/финализируется с корректным `totalTonnage`; тесты зелёные; нет warnings Swift 6 Concurrency.
 
@@ -47,17 +47,17 @@
 
 > Сервисы оркеструют, репозитории хранят (см. [services-and-repository.md · §0](services-and-repository.md#0-принципы-доменного-слоя)). Репозитории заведены в Фазе 1; здесь — доменная логика и недостающие query-методы под сервисы.
 
-- [ ] Расширить репозитории методами под сервисы ([§2](services-and-repository.md#2-репозитории)): `ExerciseRepository` (`muscleGroups`, `exerciseOfTheDay`, `recent`, `personalRecords`), `WorkoutRepository` (`scheduled(weekday:)`, `publish`), `SessionRepository` (`lastSet`, `clearHistory`)
-- [ ] `WorkoutService` ([§3.1](services-and-repository.md#31-workoutservice--жизненный-цикл-сессии)): `startSession(planID:)`, `resumeActiveSession`, `logSet` (tonnage + детект PR по Epley → `isPersonalRecord` + `PersonalRecord`), `finishSession`, `discardSession`
-- [ ] `ProgressionService` ([§3.2](services-and-repository.md#32-progressionservice--рекомендация-следующего-подхода)): `suggestion(exerciseID:planExercise:)` → рекомендация веса + `lastSet`
-- [ ] `RestTimerService` ([§3.3](services-and-repository.md#33-resttimerservice--таймер-отдыха)): `@Observable @MainActor`, `start`/`adjust(±15)`/`skip`/`pause`/`resume`, авто-старт по `autoStartRestTimer` (таймер сессии `startedAt → now` — на уровне `ActiveWorkoutVM`)
-- [ ] `NotificationService` ([§3.4](services-and-repository.md#34-notificationservice--локальные-уведомления)): `requestAuthorization`, `scheduleRestEnd`, `cancelRestEnd` (без Live Activities)
-- [ ] `HapticsService` ([§3.5](services-and-repository.md#35-hapticsservice--тактильный-фидбек)): `play(.setLogged/.restDone/.personalRecord)` с учётом `restHapticEnabled`
-- [ ] `AnalyticsService` ([§3.6](services-and-repository.md#36-analyticsservice--метрики-и-агрегаты)): `DateRange`/`Metric`, `totalTonnage`/`tonnageSeries`/`sessionsCount`/`totalTime`/`newPRsCount`/`currentStreak` (Progress), `estimatedOneRepMax`/`attempts` (Detail), `weekStates`/`weeklyVolume`/`sessionRing`/`latestPR` (Dashboard), `estimatedDuration` (Plan)
-- [ ] `CSVExporter` ([§3.7](services-and-repository.md#37-csvexporter--экспорт-истории)): `exportHistory()` на фоновом контексте → `URL`
-- [ ] `AppServices` ([§4](services-and-repository.md#4-сквозные-вопросы)): сборка графа (репозитории из `ModelContext`, сервисы из репозиториев), инжект через `Environment`
-- [ ] Доменные ошибки: `WorkoutError`, `DataError`
-- [ ] Юнит-тесты сервисов с мок-репозиториями: детект PR (`WorkoutService`), дельты/streak (`AnalyticsService`), эвристика (`ProgressionService`)
+- [x] Расширить репозитории методами под сервисы ([§2](services-and-repository.md#2-репозитории)): `ExerciseRepository` (`muscleGroups`, `exerciseOfTheDay`, `recent`, `personalRecords`), `WorkoutRepository` (`scheduled(weekday:)`, `publish`), `SessionRepository` (`lastSet`, `clearHistory`)
+- [x] `WorkoutService` ([§3.1](services-and-repository.md#31-workoutservice--жизненный-цикл-сессии)): `startSession(planID:)`, `resumeActiveSession`, `logSet` (tonnage + детект PR по Epley → `isPersonalRecord` + `PersonalRecord`), `finishSession`, `discardSession`
+- [x] `ProgressionService` ([§3.2](services-and-repository.md#32-progressionservice--рекомендация-следующего-подхода)): `suggestion(exerciseID:planExercise:)` → рекомендация веса + `lastSet`
+- [x] `RestTimerService` ([§3.3](services-and-repository.md#33-resttimerservice--таймер-отдыха)): `@Observable @MainActor`, `start`/`adjust(±15)`/`skip`/`pause`/`resume`, авто-старт по `autoStartRestTimer` (таймер сессии `startedAt → now` — на уровне `ActiveWorkoutVM`)
+- [x] `NotificationService` ([§3.4](services-and-repository.md#34-notificationservice--локальные-уведомления)): `requestAuthorization`, `scheduleRestEnd`, `cancelRestEnd` (без Live Activities)
+- [x] `HapticsService` ([§3.5](services-and-repository.md#35-hapticsservice--тактильный-фидбек)): `play(.setLogged/.restDone/.personalRecord)` с учётом `restHapticEnabled`
+- [x] `AnalyticsService` ([§3.6](services-and-repository.md#36-analyticsservice--метрики-и-агрегаты)): `DateRange`/`Metric`, `totalTonnage`/`tonnageSeries`/`sessionsCount`/`totalTime`/`newPRsCount`/`currentStreak` (Progress), `estimatedOneRepMax`/`attempts` (Detail), `weekStates`/`weeklyVolume`/`sessionRing`/`latestPR` (Dashboard), `estimatedDuration` (Plan)
+- [x] `CSVExporter` ([§3.7](services-and-repository.md#37-csvexporter--экспорт-истории)): `exportHistory()` на фоновом контексте → `URL`
+- [x] `AppServices` ([§4](services-and-repository.md#4-сквозные-вопросы)): сборка графа (репозитории из `ModelContext`, сервисы из репозиториев), инжект через `Environment`
+- [x] Доменные ошибки: `WorkoutError`, `DataError`
+- [x] Юнит-тесты сервисов с мок-репозиториями: детект PR (`WorkoutService`), дельты/streak (`AnalyticsService`), эвристика (`ProgressionService`)
 
 **Критерий готовности:** `logSet` считает tonnage и поднимает PR-флаг/`PersonalRecord`; `AnalyticsService` отдаёт метрики с дельтами и streak по диапазонам; `RestTimerService` корректно отрабатывает `±15/Skip` и шлёт локальное уведомление; все сервисы покрыты тестами; нет warnings Swift 6 Concurrency.
 

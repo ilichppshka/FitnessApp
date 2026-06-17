@@ -97,13 +97,13 @@ struct ExerciseRepositoryTests {
     }
 
     @Test
-    func allMuscleGroupsReturnsSeededGroupsSortedByDisplayOrder() async throws {
+    func muscleGroupsReturnsSeededGroupsSortedByDisplayOrder() async throws {
         let container = try InMemoryContainer.make()
         let context = container.mainContext
         try DataSeeder.seedIfNeeded(context)
         let repo = SwiftDataExerciseRepository(context: context)
 
-        let groups = try await repo.allMuscleGroups()
+        let groups = try await repo.muscleGroups()
 
         #expect(groups.count == MuscleGroupSeed.all.count)
         let orders = groups.map(\.displayOrder)
@@ -120,11 +120,11 @@ struct ExerciseRepositoryTests {
         let exercise = try #require(try await repo.all().first)
         let id = exercise.id
 
-        try await repo.setFavorite(id: id, isFavorite: true)
+        try await repo.setFavorite(id, true)
         let after = try #require(try await repo.find(id: id))
         #expect(after.isFavorite == true)
 
-        try await repo.setFavorite(id: id, isFavorite: false)
+        try await repo.setFavorite(id, false)
         let reverted = try #require(try await repo.find(id: id))
         #expect(reverted.isFavorite == false)
     }
@@ -137,8 +137,8 @@ struct ExerciseRepositoryTests {
         let repo = SwiftDataExerciseRepository(context: context)
         let unknownID = UUID()
 
-        await #expect(throws: AppError.exerciseNotFound(id: unknownID)) {
-            try await repo.setFavorite(id: unknownID, isFavorite: true)
+        await #expect(throws: DataError.exerciseNotFound(id: unknownID)) {
+            try await repo.setFavorite(unknownID, true)
         }
     }
 
